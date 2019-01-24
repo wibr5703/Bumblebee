@@ -1,20 +1,40 @@
 ---
-title: "Bumblebees Lab 2"
-author: "Brady Kiesling, William Brickowski, Rachael Robinson, Manasi Raol"
-date: "24/01/2019"
-output: pdf_document
+title: "Lab2_Bumblebee"
+author: "William Brickowski, Rachael Robinson, Manasi Raol, Brady Kiesling"
+date: "1/24/2019"
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-TEAM SECTION
+## GROUP SECTION
 
-Team Name: Bumblebee 
+Group Name: Bumblebee
 
-Team’s main goal: To learn how to use R, apply data science techniques, and learn how to cohesively utilize GitHub
+Group Goals: Learning to use R, applying statistics to real world problems, and learning how to use GitHub
 
-![Group Photo](group_pic.JPG){width=250px}
+![](group_pic.PNG){width=350px}
+
+
+## INDIVIDUAL SECTION -
+
+## William Brickowski
+
+![](self.PNG){width=350px}
+
+Question I would analyze data to answer: I am currently pursuing a certificate in quantitative finance through the Leeds School of Business. I am quite interested in the financial markets and am interested in analyzing data on various portoflios with respect to market conditions in order to analyze how various factors affect portfolio returns.
+
+Six months after graduation: I would like to begin my career as a trader working for a firm that employs quantitative and algorithmic strategies. 
+
+Five years after graduation: I would like to be in the place where I can be own my own business, perhaps start my own fund.
+
+Greatest career accompishment: I interned with Franklin Templeton Investments last summer which was a major stepping stone in the progression of my career.
+
+In this course: In this course I hope to learn how to use GitHub efficiently, learning how to work with my team, and apply interesting data analysis methods.
+
+Fun fact: I grew up in Doha, Qatar!
+
 
 
