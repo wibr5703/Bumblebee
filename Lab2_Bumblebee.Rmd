@@ -1,35 +1,40 @@
 ---
-title: "Bumblebee Lab 1"
-author: "Brady Kiesling"
-date: "23/01/2019"
-output: pdf_document
+title: "Lab2_Bumblebee"
+author: "William Brickowski, Rachael Robinson, Manasi Raol, Brady Kiesling"
+date: "1/24/2019"
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## GROUP SECTION
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Group Name: Bumblebee
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+Group Goals: Learning to use R, applying statistics to real world problems, and learning how to use GitHub
 
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+![](group_pic.PNG){width=350px}
 
 
-TEAM SECTION
-Team Name: Bumblebee 
-Team’s main goal: To learn how to use R, apply data science techniques, and learn how to cohesively utilize GitHub
+## INDIVIDUAL SECTION -
+
+## William Brickowski
+
+![](self.PNG){width=350px}
+
+Question I would analyze data to answer: I am currently pursuing a certificate in quantitative finance through the Leeds School of Business. I am quite interested in the financial markets and am interested in analyzing data on various portoflios with respect to market conditions in order to analyze how various factors affect portfolio returns.
+
+Six months after graduation: I would like to begin my career as a trader working for a firm that employs quantitative and algorithmic strategies. 
+
+Five years after graduation: I would like to be in the place where I can be own my own business, perhaps start my own fund.
+
+Greatest career accompishment: I interned with Franklin Templeton Investments last summer which was a major stepping stone in the progression of my career.
+
+In this course: In this course I hope to learn how to use GitHub efficiently, learning how to work with my team, and apply interesting data analysis methods.
+
+Fun fact: I grew up in Doha, Qatar!
+
+
+
