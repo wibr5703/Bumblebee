@@ -28,3 +28,8 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+TEAM SECTION
+Team Name: Bumblebee 
+Team’s main goal: To learn how to use R, apply data science techniques, and learn how to cohesively utilize GitHub
