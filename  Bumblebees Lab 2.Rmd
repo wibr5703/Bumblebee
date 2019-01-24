@@ -1,0 +1,22 @@
+---
+title: "Bumblebees Lab 1"
+author: "Brady Kiesling"
+date: "23/01/2019"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+
+
+library(tidyverse)
+
+
+```
+
+
+

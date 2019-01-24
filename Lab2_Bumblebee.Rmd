@@ -36,20 +36,11 @@ In this course: In this course I hope to learn how to use GitHub efficiently, le
 
 Fun fact: I grew up in Doha, Qatar!
 
-## Rachael Robinson
+## Brady Kiesling
 
-![](picture.png)
+![](Brady.PNG){width=350px}
+
+My name is Brady Kiesling and I am from the Bay Area. One question I would want to answer by analyzing is a theory that punting in football is never a good idea. Some high-school coaches have theorized that always going for it on 4th down is the better option, but I want to know if this is true and at what levels of football. Six months after graduation, I would like to see myself starting grad school after taking some time off to do some traveling. 5 years after I graduate I would ideally like have a stable job, so I can pay back loans and afford to do the things I love, like skiing and playing golf. My greatest career accomplishment would be to build up enough trust in a company, where I can work remotely the majority of the time. In this course, I would like to learn how to properly format and interpret data using R and I would like to learn good teamwork skills. One thing you may not know about me is that I am really into improv theater and try to go to shows as much as possible. Unfortunately I was unable to continue Improv in college due to time constraints. 
 
 
-Question I would analyze data to answer: I am interested to know how closely standardized test scores like the ACT correspond to graduating GPA in college.
-
-Six months after graduation: Six months after graduating, I hope to have a job in industry. Ideally, I am using statistical reasoning and modeling to answer questions at my job.
-
-Five years after graduation: Five years after graduation, I would like to be integrating the disciplines of writing and mathematics. Five years after graduation, I would like to be writing about statistical methodology and how it affects our perception of numbers.
-
-Greatest career accomplishment: My biggest career goal is to have my scientific writing appear in a major journal or publication.
-
-In this course: In order to reach my larger goals, I hope I learn how to code in R effectively and cogently in this course. This will allow me to create statistical models and answer questions I am likely to encounter on the job. Learning how to code cleanly will allow me to collaborate with other data scientists.
-
-Fun fact: I have an unusually large cat named Salad.
 
