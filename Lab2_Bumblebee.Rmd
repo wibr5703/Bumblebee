@@ -36,5 +36,20 @@ In this course: In this course I hope to learn how to use GitHub efficiently, le
 
 Fun fact: I grew up in Doha, Qatar!
 
+## Rachael Robinson
 
+![](picture.png)
+
+
+Question I would analyze data to answer: I am interested to know how closely standardized test scores like the ACT correspond to graduating GPA in college.
+
+Six months after graduation: Six months after graduating, I hope to have a job in industry. Ideally, I am using statistical reasoning and modeling to answer questions at my job.
+
+Five years after graduation: Five years after graduation, I would like to be integrating the disciplines of writing and mathematics. Five years after graduation, I would like to be writing about statistical methodology and how it affects our perception of numbers.
+
+Greatest career accomplishment: My biggest career goal is to have my scientific writing appear in a major journal or publication.
+
+In this course: In order to reach my larger goals, I hope I learn how to code in R effectively and cogently in this course. This will allow me to create statistical models and answer questions I am likely to encounter on the job. Learning how to code cleanly will allow me to collaborate with other data scientists.
+
+Fun fact: I have an unusually large cat named Salad.
 
