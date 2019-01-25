@@ -51,7 +51,7 @@ Question I would analyze data to answer: I am interested to know how closely sta
 
 Six months after graduation: Six months after graduating, I hope to have a job in industry. Ideally, I am using statistical reasoning and modeling to answer questions at my job.
 
-Five years after graduation: Five years after graduation, I would like to be integrating the disciplines of writing and mathematics. Five years after graduation, I would like to be writing about statistical methodology and how it affects our perception of numbers.
+Five years after graduation: I would like to be integrating the disciplines of writing and mathematics. Five years after graduation, I would like to be writing about statistical methodology and how it affects our perception of numbers.
 
 Greatest career accomplishment: My biggest career goal is to have my scientific writing appear in a major journal or publication.
 
