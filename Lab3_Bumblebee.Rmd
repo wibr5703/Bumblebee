@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Bumblebee Lab 3
+# Bumblebee Lab 3
 
 Research Question:
 
@@ -19,3 +19,22 @@ Team plot:
 
 Individual plots:
   -explanations of effort
+  
+Rachael - 
+```{r}
+library(tidyverse)
+source("http://www.openintro.org/stat/data/cdc.R")
+cdc <- as_tibble(cdc)
+
+ggplot(data=cdc, aes(x=gender, y=factor(hlthplan))) +
+  geom_count(mapping = aes(size = stat(prop), group = gender, color = gender)) +
+  scale_radius(range=c(6,15)) +
+  scale_y_discrete(name = "Percentage", labels = c("0" = "No Coverage", "1" = "Coverage")) +
+  ggtitle("Healthcare coverage percentages by gender") +
+  theme_minimal()
+
+```
+Findings: The above plot demonstrates the proportion of males in the data set with healthcare coverage and the proportion of females in the data with healthcare coverage. As the circles are roughly the same size across gender for both coverage statuses, it appears as if there is no significant difference in healthcare coverage between males and females. We would not expect this health behavior to contribute to significant health differences between males and females.
+
+
+
