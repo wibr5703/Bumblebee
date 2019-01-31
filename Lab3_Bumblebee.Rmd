@@ -36,5 +36,46 @@ ggplot(data=cdc, aes(x=gender, y=factor(hlthplan))) +
 ```
 Findings: The above plot demonstrates the proportion of males in the data set with healthcare coverage and the proportion of females in the data with healthcare coverage. As the circles are roughly the same size across gender for both coverage statuses, it appears as if there is no significant difference in healthcare coverage between males and females. We would not expect this health behavior to contribute to significant health differences between males and females.
 
+William - 
+```{r}
+library(tidyverse)
+source("http://www.openintro.org/stat/data/cdc.R")
+cdc <- as_tibble(cdc)
+cdc$genhlth <- as.numeric(cdc$genhlth)
 
+# Health verses height
+ggplot(data = cdc, aes(x = height, y = genhlth, color = gender)) +  # Build a graph
+  geom_point() +                                                     # Add a scatter plot
+  ggtitle('General Health verses Height by Gender') +                         # Plot title
+  xlab('Height') +                                              # x-label title
+  ylab('General Health') +                                              # y-lable title
+  scale_color_discrete(name = 'Gender',                              # Edit legend
+                       labels = c('Male', 'Female')) +
+  geom_smooth()                                                   #smooth curve
 
+# Bar chart for male and female heights 
+ggplot(data = cdc) + 
+  geom_bar(mapping = aes(x = height, fill = gender))+
+  geom_vline(xintercept=70.2516459400146,color="red")+
+  geom_vline(xintercept=64.367749976033,color="blue")+
+  xlab('Height')+
+  ylab('Count')+
+  ggtitle('Height for Males and Females (vertical lines denote respective means)')
+
+height_female=cdc$height[cdc$gender == "f"]
+print("Mean female height: ")
+mean(height_female)
+
+height_male=cdc$height[cdc$gender == "m"]
+print("Mean male height: ")
+mean(height_male)
+
+genhlth_female=cdc$genhlth[cdc$gender == "f"]
+print("Mean female genhlth: ")
+mean(genhlth_female)
+
+genhlth_male=cdc$genhlth[cdc$gender == "m"]
+print("Mean male genhlth: ")
+mean(genhlth_male)
+```
+Findings: Based on the bar chart titled "Height for Males and Females", it is clear that males on average are taller than females. The mean height for males is 70.25 inches while the mean height for females is 65.37 inches. These mean heights can visually be seen as vertical lines on the bar chart. I then went on to create a scatter plot of general health verses height seperated by gender. In order to do this, I had to change the genhlth column of the data frame from a factor to a numeric value between 1 and 5. The results of this graph show a negative relationship between height and health. I then went on to look at the mean general health of males and females which I found to be 2.32 and 2.39, respectively. These results made sense given the results of my research. Females are shorter on average and there is a negative relationship between height and health. Females happen to be healthier, and while correlation is not causation, height may be an attribute that deserves further research as a potential factor for why women are healthier on average.
