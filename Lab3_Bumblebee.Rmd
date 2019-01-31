@@ -1,0 +1,21 @@
+---
+title: "Lab3_Bumblebee"
+author: "Rachael Robinson, William Brickowski, Manasi Raol, Brady Kiesling"
+date: "1/31/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Bumblebee Lab 3
+
+Research Question:
+
+Why it's important:
+
+Team plot:
+
+Individual plots:
+  -explanations of effort
