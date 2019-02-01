@@ -38,6 +38,7 @@ ggplot(data=cdc, aes(x=gender, y=factor(hlthplan))) +
 
 ```
 Findings: The above plot demonstrates the proportion of males in the data set with healthcare coverage and the proportion of females in the data with healthcare coverage. As the circles are roughly the same size across gender for both coverage statuses, it appears as if there is no significant difference in healthcare coverage between males and females. We would not expect this health behavior to contribute to significant health differences between males and females.
+Rachael- For this project I created my individual plot, contributed to the research question, and wrote the conclusion and recommendation for our write-up.
 
 William - 
 ```{r}
