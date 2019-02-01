@@ -97,3 +97,20 @@ ggplot(data = cdc, aes(x=genhlth, y=exerany, fill = gender)) +
 ```
 Findings: The stacked bar chart shows that there isn't much discrepancy between the number of males in comparison to females that have exercised in the last month. The number of females that have exercised in the last month is about the same as the number of males for each category of general health. The most amount of people that exercised were in the very good health category.
 Manasi : For this project, I created my own idividual plot, contributed to the development of the overarching research question, and helped come with ways to take action.
+
+Brady-
+
+```{r}
+
+labels <- c("0" = "Non smoker", "1"= "Smoker")
+ggplot(data=cdc)+
+  geom_bar(mapping= aes(x=genhlth, fill=gender), position="dodge")+
+  labs(x="General Health", y="Number of people", title="Health in smokers vs Non smokers")+
+facet_wrap(~smoke100, labeller=labeller(smoke100 = labels))
+  
+
+```
+
+Findings: This plot demonstrates that there males are more likely to be smokers than females. There are more surveyed females then males, so it is clear that further the point that men smoke more. You can also see that for both males and females, the graph is less skewed to the right for smokers, meaning that there might be a relationship between smoking and general health. You cannot tell by the graph whether the average female is healthier, becuase this is not a proportional graph and there are a different number of males and females surveyed. 
+Brady: For this project I created my own individual plot, helped come up with the research question and tried to help my teammates if they were stuck on their own code.
+
