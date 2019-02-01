@@ -79,3 +79,16 @@ print("Mean male genhlth: ")
 mean(genhlth_male)
 ```
 Findings: Based on the bar chart titled "Height for Males and Females", it is clear that males on average are taller than females. The mean height for males is 70.25 inches while the mean height for females is 65.37 inches. These mean heights can visually be seen as vertical lines on the bar chart. I then went on to create a scatter plot of general health verses height seperated by gender. In order to do this, I had to change the genhlth column of the data frame from a factor to a numeric value between 1 and 5. The results of this graph show a negative relationship between height and health. I then went on to look at the mean general health of males and females which I found to be 2.32 and 2.39, respectively. These results made sense given the results of my research. Females are shorter on average and there is a negative relationship between height and health. Females happen to be healthier, and while correlation is not causation, height may be an attribute that deserves further research as a potential factor for why women are healthier on average.
+
+Manasi - 
+```{r}
+library(tidyverse)
+source("http://www.openintro.org/stat/data/cdc.R")
+cdc <- as_tibble(cdc)
+
+ggplot(data = cdc, aes(x=genhlth, y=exerany, fill = gender)) +
+  geom_bar(stat="identity", position="stack") +
+  ggtitle("Exercise Among Males VS Females Based on General Health")
+```
+
+Findings: The stacked bar chart shows that there isn't much discrepancy between the number of males in comparison to females that have exercised in the last month. The number of females that have exercised in the last month is about the same as the number of males for each category of general health. The most amount of people that exercised were in the very good health category. 
