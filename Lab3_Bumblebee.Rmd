@@ -17,6 +17,17 @@ Why it's important:
 
 Team plot:
 
+```{r}
+library(tidyverse)
+source("http://www.openintro.org/stat/data/cdc.R")
+cdc <- as_tibble(cdc)
+ggplot(data = cdc) + 
+  geom_bar(mapping = aes(x = genhlth, fill = gender), position="dodge")+
+  xlab('General Health')+
+  ylab('Count')+
+  ggtitle('General Health for Males and Females')
+```
+
 Individual plots:
   -explanations of effort
   
@@ -55,7 +66,7 @@ ggplot(data = cdc, aes(x = height, y = genhlth, color = gender)) +  # Build a gr
 
 # Bar chart for male and female heights 
 ggplot(data = cdc) + 
-  geom_bar(mapping = aes(x = height, fill = gender))+
+  geom_bar(mapping = aes(x = height, fill = gender),position="dodge")+
   geom_vline(xintercept=70.2516459400146,color="red")+
   geom_vline(xintercept=64.367749976033,color="blue")+
   xlab('Height')+
