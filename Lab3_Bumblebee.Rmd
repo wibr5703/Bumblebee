@@ -13,13 +13,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Research Question: Is there are relationship between general health and gender, controlling for health behaviors?
 
-Why it's important: This question is important because 
+Why it's important: This question is important because if a fundamental difference exists between the health of men and women that can lead more research into the physiological differences between men and women to learn more about what characteristics lead to a healthier individuals. Additionally, if one sex is more healthy on average than the other, doctors can use this information to schedule more check ups for the patience of the less healthy sex.
 
 Team plot:
 
 Conclusion: We observe no significant difference between male and females regarding their general health status. We created several individual plots showing that males and females also show no significant difference with their engagement in health behaviors (exercise, smoking, health care coverage, height/weight). This means that the observed homogeny between male and females is congruent with the homogeny in health behaviors.
 
-Recommendation:
+Recommendation: Based our research, while we didn't find a significant difference in health between men and women, there was a small difference in health. By converting the health attribute to a numeric value (1 for poor and 5 for excellent) and taking means for men and women, we found men to have an average health of 2.32 and women an average health of 2.39. This small difference may be attributed to particular attributes that are significantly different between men and women, like height for example. In our research on the relationship between height and health, we found a negative relationship. Given that women are on average less tall and that they have a higher general health, this could be a reason to do more reasearch on whether or not this factor causes women to be more healthy than men.
+
 Individual plots:
   
 Rachael - 
