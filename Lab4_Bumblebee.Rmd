@@ -1,0 +1,58 @@
+---
+title: "Lab4_Bumblebee"
+author: "Rachael Robinson, William Brickowski, Manasi Raol, Brady Kiesling"
+date: "2/6/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lab 4
+
+## Team Questions:
+  * Does smoking lead to babies born prematurely?
+  * Does smoking lead to low birth weight? 
+
+## Why are these questions important?
+Reason:
+  * why this reason is important
+
+## Team Plots:
+
+
+## Conclusions:
+  * Answer to first question
+  * Answer to second question
+  
+## Recommendations:
+
+## Preliminary Team Questions:
+  * Which variables are similar between smokers and nonsmokers? Which are different?
+  
+## Team Plots for Prelimary Questions:
+
+
+## Conclusions for Prelimary Questions:
+
+## Individual Plots
+
+### William
+
+### Brady
+
+### Manasi
+
+### Rachael
+
+
+## Individual contribution and non-defaults for plot generation
+
+### William
+
+### Brady
+
+### Manasi
+
+### Rachael
