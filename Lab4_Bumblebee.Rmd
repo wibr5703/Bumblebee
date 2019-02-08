@@ -34,15 +34,41 @@ The boxplot represents days of gestation, and the line across represents 270 day
   
 ### Question 2
 
+```{r}
+ggplot(data = babies) +
+  geom_jitter(outlier.shape = NA, mapping = aes(x=gestation, y=bwtoz, color = as.factor(smoke)), alpha = .4) +
+  geom_smooth(na.rm = T, method = "lm", se = F, mapping = aes(x=gestation, y=bwtoz, color = as.factor(smoke))) +
+   xlim(270,350) +
+  theme_classic() +
+  xlab("Gestation (days)") +
+  ylab("Birth weight (oz)") +
+  ggtitle("Observation of smoking and it's impact on birth weight across gestational ages") +
+  scale_colour_discrete(name = "Smoking status", breaks = c("0", "1"), labels = c("Non-smoking", "Smoking"))
+
+ggplot(data = babies) +
+  geom_jitter(outlier.shape = NA, mapping = aes(x=gestation, y=bwtoz, color = as.factor(smoke)), alpha = .4) +
+  geom_smooth(na.rm = T, method = "lm", se = F, mapping = aes(x=gestation, y=bwtoz, color = as.factor(smoke))) +
+   xlim(100,350) +
+  theme_classic() +
+  xlab("Gestation (days)") +
+  ylab("Birth weight (oz)") +
+  ggtitle("Observation of smoking and it's impact on birth weight across gestational ages") +
+  scale_colour_discrete(name = "Smoking status", breaks = c("0", "1"), labels = c("Non-smoking", "Smoking"))
+```
+This first plot is a scatterplot showing the birth weights across different gestational ages in our data. Then, a linear model was fitted to the points of the nonsmokers and the smokers. In question 1, we determined no significant relationship between smoking and premature birth, and a premature baby is much more likely to have a lower than average birth weight. To control for the effect that a premature birth would have on gestational birth weight, the gestational scale was set at a minimum of 270 days, the cutoff determining a mature baby. Both points follow a weakly linear pattern. The second plot represents the entire range of gestational values, and again shows a weakly linear relationship.
+
 ## Conclusions:
+
   * Answer to first question
-  * Answer to second question
+  * Based on our graph and our conclusion to the first question, we conclude that there is a minimal relationship between smoking and birth weights. Our first conclusion states that there is no significant relationship between smoking and premature births. When controlling for premature birth, our plot shows that the non-smoking mothers had a slightly higher average of birth weight across mature gestational ages. However, these relations are weakly linear, and the signficance of the difference is only truly present from gestational ages 270 to 290. Looking at the second plot, where premature birth was not controlled for, the relationship seems much stronger between smoking and birth weight across gestational ages. However, several outliers are visible in the non-smoking group, making the control for premature birth a valid control. Ultimately, due to the ambiguity in premature birth and the outliers present in the data, we find a minimal relationship between smoking and birth weight.
   
 ## Recommendations:
 
 ### Recommendation for Q1
 
 ### Recommendation for Q2
+
+Given our data, we recommend that women generally avoid smoking while pregnant, as we identified a weakly linear relationship between smoking and birth weight. We also recommend that the relationship between gestation and birth weight is further investigated in order to account for a possibly nonlinear relationship. Based on our data, we recommend that the Surgeon General adapts their 1989 report to reflect that the data only supports the affect of smoking at gestational ages considered mature (>270).
 
 ## Preliminary Team Questions:
   * Which variables are similar between smokers and nonsmokers? Which are different?
