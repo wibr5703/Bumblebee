@@ -21,6 +21,7 @@ Reason: These questions are important because health behaviors during pregnancy 
 
 ## Team Plots:
 
+
 ### Question 1
 ```{r}
 ggplot(data=babies)+
@@ -47,6 +48,99 @@ The boxplot represents days of gestation, and the line across represents 270 day
 ## Preliminary Team Questions:
   * Which variables are similar between smokers and nonsmokers? Which are different?
   
+```{r}
+ggplot(data=babies,aes(x=smoke,y=gestation,fill=smoke)) +
+  geom_bar(aes(y=..count../sum(..count..),fill=smoke),position="dodge")+
+  xlab('Smoke: 0 "never" and 1"smokes now"')+
+  ylab('Normalized Count')+
+  ggtitle('Length of gestation by smokers and non-smokers')
+
+ggplot(data=babies,aes(x=smoke,y=bwtoz,fill=smoke)) +
+  geom_bar(aes(y=..count../sum(..count..),fill=smoke),position="dodge")+
+  xlab('Smoke: 0 "never" and 1"smokes now"')+
+  ylab('Normalized Count')+
+  ggtitle('Birth weight of baby by smokers and non-smokers')
+
+ggplot(data=babies,aes(x=smoke,y=parity,fill=smoke)) +
+  geom_bar(aes(y=..count../sum(..count..),fill=smoke),position="dodge")+
+  xlab('Smoke: 0 "never" and 1"smokes now"')+
+  ylab('Normalized Count')+
+  ggtitle('Total number of previous pregnancies by smokers and non-smokers')
+
+ggplot(data=babies,aes(x=smoke,y=mage,fill=smoke)) +
+  geom_bar(aes(y=..count../sum(..count..),fill=smoke),position="dodge")+
+  xlab('Smoke: 0 "never" and 1"smokes now"')+
+  ylab('Normalized Count')+
+  ggtitle('Mother age by smokers and non-smokers')
+
+ggplot(data=babies,aes(x=smoke,y=med,fill=smoke)) +
+  geom_bar(aes(y=..count../sum(..count..),fill=smoke),position="dodge")+
+  xlab('Smoke: 0 "never" and 1"smokes now"')+
+  ylab('Normalized Count')+
+  ggtitle('Mother educaiton by smokers and non-smokers')
+
+ggplot(data=babies,aes(x=smoke,y=mht,fill=smoke)) +
+  geom_bar(aes(y=..count../sum(..count..),fill=smoke),position="dodge")+
+  xlab('Smoke: 0 "never" and 1"smokes now"')+
+  ylab('Normalized Count')+
+  ggtitle('Mother height by smokers and non-smokers')
+
+ggplot(data=babies,aes(x=smoke,y=mpregwt,fill=smoke)) +
+  geom_bar(aes(y=..count../sum(..count..),fill=smoke),position="dodge")+
+  xlab('Smoke: 0 "never" and 1"smokes now"')+
+  ylab('Normalized Count')+
+  ggtitle('Mother weight by smokers and non-smokers')
+
+ggplot(data=babies,aes(x=smoke,y=dage,fill=smoke)) +
+  geom_bar(aes(y=..count../sum(..count..),fill=smoke),position="dodge")+
+  xlab('Smoke: 0 "never" and 1"smokes now"')+
+  ylab('Normalized Count')+
+  ggtitle('Father age by smokers and non-smokers')
+
+ggplot(data=babies,aes(x=smoke,y=ded,fill=smoke)) +
+  geom_bar(aes(y=..count../sum(..count..),fill=smoke),position="dodge")+
+  xlab('Smoke: 0 "never" and 1"smokes now"')+
+  ylab('Normalized Count')+
+  ggtitle('Father education by smokers and non-smokers')
+
+ggplot(data=babies,aes(x=smoke,y=dht,fill=smoke)) +
+  geom_bar(aes(y=..count../sum(..count..),fill=smoke),position="dodge")+
+  xlab('Smoke: 0 "never" and 1"smokes now"')+
+  ylab('Normalized Count')+
+  ggtitle('Father height by smokers and non-smokers')
+
+ggplot(data=babies,aes(x=smoke,y=dwt,fill=smoke)) +
+  geom_bar(aes(y=..count../sum(..count..),fill=smoke),position="dodge")+
+  xlab('Smoke: 0 "never" and 1"smokes now"')+
+  ylab('Normalized Count')+
+  ggtitle('Father weight by smokers and non-smokers')
+
+ggplot(data=babies,aes(x=smoke,y=marital,fill=smoke)) +
+  geom_bar(aes(y=..count../sum(..count..),fill=smoke),position="dodge")+
+  xlab('Smoke: 0 "never" and 1"smokes now"')+
+  ylab('Normalized Count')+
+  ggtitle('Marital status of mother by smokers and non-smokers')
+
+ggplot(data=babies,aes(x=smoke,y=inc,fill=smoke)) +
+  geom_bar(aes(y=..count../sum(..count..),fill=smoke),position="dodge")+
+  xlab('Smoke: 0 "never" and 1"smokes now"')+
+  ylab('Normalized Count')+
+  ggtitle('Family yearly income by smokers and non-smokers')
+
+ggplot(data=babies,aes(x=smoke,y=time,fill=smoke)) +
+  geom_bar(aes(y=..count../sum(..count..),fill=smoke),position="dodge")+
+  xlab('Smoke: 0 "never" and 1"smokes now"')+
+  ylab('Normalized Count')+
+  ggtitle('Time since quiting by smokers and non-smokers')
+
+ggplot(data=babies,aes(x=smoke,y=Premature,fill=smoke)) +
+  geom_bar(aes(y=..count../sum(..count..),fill=smoke),position="dodge")+
+  xlab('Smoke: 0 "never" and 1"smokes now"')+
+  ylab('Normalized Count')+
+  ggtitle('Percent of premature child birth by smokers and non-smokers')
+```
+Based on these prelimnary graphs which exam the difference among the majority of the variables in the dataframe between smokers and none smokers, there have been several differences identified. For mothers who do not smoke, their length of gestation is longer. The birth weight of babies born to a mother who does not smoke is larger than for babies born to a mother who does. Mothers who do not smoke tend to be younger and more education, the same goes for the father. Additionally, for both mothers and fathers, on average, those who do not smoke are taller and heavier.
+
 ## Team Plots for Prelimary Questions:
 
 
