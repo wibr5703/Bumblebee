@@ -50,6 +50,12 @@ The boxplot represents days of gestation, and the line across represents 270 day
 
 ## Team Plots for Prelimary Questions:
 ```{r}
+library(tidyverse)
+babies <- read_csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
+babies <- rename(babies, bwtoz = `bwt/oz`) 
+babies = na.omit(babies)
+babies$smoke <- as.factor(babies$smoke)
+
 ggplot(data=babies,aes(x=smoke,y=gestation,fill=smoke)) +
   geom_bar(aes(y=..count../sum(..count..),fill=smoke),position="dodge")+
   xlab('Smoke: 0 "never" and 1"smokes now"')+
@@ -149,6 +155,12 @@ Based on these prelimnary graphs which exam the difference among the majority of
 
 ### William
 ```{r}
+library(tidyverse)
+babies <- read_csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
+babies <- rename(babies, bwtoz = `bwt/oz`) 
+babies = na.omit(babies)
+babies$smoke <- as.factor(babies$smoke)
+  
   ggplot(data = babies, aes(x = mpregwt, y = gestation, color = smoke)) +  
   geom_point() +                                                     
   ggtitle('Length of gestation in days verses the pre-pregnancy weight of the mother') +                         
