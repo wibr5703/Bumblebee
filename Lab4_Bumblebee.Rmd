@@ -22,6 +22,15 @@ Reason: These questions are important because health behaviors during pregnancy 
 ## Team Plots:
 
 ### Question 1
+```{r}
+ggplot(data=babies)+
+  geom_boxplot(aes(y=gestation, x=as.factor(smoke)),outlier.shape = NA)+
+  geom_hline(yintercept=270)+
+  ylim(250,320)+
+  labs(x="Non-smoking vs smoking", y="days of gestation", title="Distibution of gestation days")
+```  
+The boxplot represents days of gestation, and the line across represents 270 days. Babies born under that line are considered premature. Even though the median birth day for smokers is slightly lower, the lengh of the line under the 270 mark is roughly the same for both smoking mothers and non-smoking mothers. This means that there is no significant difference in the proportion of smoking and non-smoking mothers giving birth prematurely. This plot seems to refute the 1989 claim that mothers smoking causes premature births.
+  
 
 ### Question 2
 
