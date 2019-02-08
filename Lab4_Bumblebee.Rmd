@@ -148,6 +148,17 @@ Based on these prelimnary graphs which exam the difference among the majority of
 ## Individual Plots
 
 ### William
+```{r}
+  ggplot(data = babies, aes(x = mpregwt, y = gestation, color = smoke)) +  
+  geom_point() +                                                     
+  ggtitle('Length of gestation in days verses the pre-pregnancy weight of the mother') +                         
+  xlab('Pre-pregnancy weight') +                                              
+  ylab('Gestation') +                                              
+  scale_color_discrete(name = 'Smoke:',                              
+                       labels = c('Never Smokes', 'Smokes Now')) +
+  geom_smooth()
+```
+This is a scatter plot whose x variable is the gestation period in days and whose y value is the pre-pregnancy weight of the  mother. The graph shows data for mothers who have never smoked and those who smoke. For both smokers and non-smokers, their is a quite clear linear trend in which mothers with a larger pre-preganancy weight have a longer gestation period. This is true up until a certain weight, and at this point the trend becomes the opposite. This could describe the part of the sample that is overweight and unhealthy. The distinction between smokers and non-smokers is that the line of best fit for smokers appears to be the same from non-smokers, however, it is shifted down slightly. This means that for the same pre-pregnancy weight, non-smokers have longer gestation periods. Additionally, based on the preliminary graphs which show that mothers who smoke tend to weigh less, this could explain why smokers in general have shorter gestation periods. Again, due to the presence of confounding variables, correlation cannot be confused with causation and further testing would be required to generate a more definite conclusion.
 
 ### Brady
 
@@ -159,6 +170,7 @@ Based on these prelimnary graphs which exam the difference among the majority of
 ## Individual contribution and non-defaults for plot generation
 
 ### William
+Within this lab, I generated the preliminary graphs as well as wrote the conclusion that corresponds to them. We say several interesting relationships between whether the mother smokes with respect to other variables. The one that sparked my individual exploration was that mothers with a smaller pre-pregnancy weight tended to be smokers and mothers who did not smoke weighed more. Another graph that further led to my individual research was one that showed that smokers had shorted gestation periods and non-smokers had longer ones. From these two graphs, I was interest in perhaps determining if weight was a confounding variable. For this reason, I graphed a scatter plot relating pre-pregnancy weight and gestation period for both smokers and non-smokers. The results confirmed my intuition, mothers who weighed more, up until a certain point, had longer gestation periods. With regards to the non-defaults for plot generation, on the plots that I generated within the preliminary section, I normlaized the data through a parameter within the geom_bar function. This had to be done because there were not an equal number of mothers who smoked and who did not smoke. I also added x labels and y labels to these preliminary plots as well as a title. Furthermore, I used the position parameter with the geom_bar function to dodge the bar charts so that smokers and non-smokers could be compared side by side. With respect to my individual plot titled "Length of gestation in days verses the pre-pregnancy weight of the mother", I added the color parameter to the ggplot function so that I could get a scatter plot seperated by color based on smokers and non-smokers. I then added a title and x/y labels. I added a scale title and changed the label names. Additionally, I made use of the geom_smooth function so that lines up best fit could easily be compared to make conclusion upon the data.
 
 ### Brady
 
