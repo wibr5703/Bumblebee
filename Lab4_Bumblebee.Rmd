@@ -1,7 +1,7 @@
 ---
 title: "Lab4_Bumblebee"
 author: "Rachael Robinson, William Brickowski, Manasi Raol, Brady Kiesling"
-date: "2/6/2019"
+date: "2/8/2019"
 output: html_document
 ---
 
@@ -32,7 +32,6 @@ ggplot(data=babies)+
 ```  
 The boxplot represents days of gestation, and the line across represents 270 days. Babies born under that line are considered premature. Even though the median birth day for smokers is slightly lower, the lengh of the line under the 270 mark is roughly the same for both smoking mothers and non-smoking mothers. This means that there is no significant difference in the proportion of smoking and non-smoking mothers giving birth prematurely. This plot seems to refute the 1989 claim that mothers smoking causes premature births.
   
-
 ### Question 2
 
 ## Conclusions:
@@ -190,6 +189,22 @@ This is a dotplot that shows the ratio of premature verus non premature babies i
 
 ### Rachael
 
+```{r}
+library(tidyverse)
+babies <- read_csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
+babies <- rename(babies, bwtoz = `bwt/oz`) #renaming `bwt/oz` because the "/" sign requires special care
+no_unknown_babies <- subset(babies, med != 9)
+ggplot(data = no_unknown_babies) +
+  geom_boxplot(mapping = aes(x=factor(med), y=bwtoz, group = med, fill = factor(med)), outlier.shape = NA) +
+  geom_hline(yintercept = mean(babies$bwtoz), linetype = "dashed", color = "red", size = 1) +
+  theme_minimal()+
+  xlab("Education status of mother") +
+  ylab("Birth weight (oz)") +
+  ggtitle("Education status of mother versus birth weight") +
+  scale_fill_discrete(name="Education status",breaks=c("0", "1", "2", "3", "4", "5", "7"),
+                         labels=c("less than 8th grade", "8th to 12th grade. did not graduate high school", "high school graduate, no other schooling", "high school graduate + trade school", "high school graduate + some college", "college graduate", "trade school"))
+```
+This is a boxplot showing the spread of birth weights under the lens of the education status of the mother. As seen in the boxplot, there isn't a glaringly obvious difference between the birth weights given the varying education levels. The red line on the graph indicates the average birth weight across all the data, and most of the education levels are close to this average. However, it is slightly noticeable that some of the lower education levels (in quantity of years) show a lower than average median birth weights. Overall, I can reasonably report that there is no significant relationship present in this data between the mothers education level and birthweights. An extension of this finding is that education and it's relationship to smoking should not confound the relationship between smoking and birth weight.
 
 ## Individual contribution and non-defaults for plot generation
 
