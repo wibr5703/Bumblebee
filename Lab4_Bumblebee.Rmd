@@ -47,7 +47,8 @@ The boxplot represents days of gestation, and the line across represents 270 day
 
 ## Preliminary Team Questions:
   * Which variables are similar between smokers and nonsmokers? Which are different?
-  
+
+## Team Plots for Prelimary Questions:
 ```{r}
 ggplot(data=babies,aes(x=smoke,y=gestation,fill=smoke)) +
   geom_bar(aes(y=..count../sum(..count..),fill=smoke),position="dodge")+
@@ -139,12 +140,10 @@ ggplot(data=babies,aes(x=smoke,y=Premature,fill=smoke)) +
   ylab('Normalized Count')+
   ggtitle('Percent of premature child birth by smokers and non-smokers')
 ```
-Based on these prelimnary graphs which exam the difference among the majority of the variables in the dataframe between smokers and none smokers, there have been several differences identified. For mothers who do not smoke, their length of gestation is longer. The birth weight of babies born to a mother who does not smoke is larger than for babies born to a mother who does. Mothers who do not smoke tend to be younger and more education, the same goes for the father. Additionally, for both mothers and fathers, on average, those who do not smoke are taller and heavier.
-
-## Team Plots for Prelimary Questions:
-
 
 ## Conclusions for Prelimary Questions:
+Based on these prelimnary graphs which exam the difference among the majority of the variables in the dataframe between smokers and none smokers, there have been several differences identified. For mothers who do not smoke, their length of gestation is longer. The birth weight of babies born to a mother who does not smoke is larger than for babies born to a mother who does. Mothers who do not smoke tend to be younger and more education, the same goes for the father. Additionally, for both mothers and fathers, on average, those who do not smoke are taller and heavier.
+
 
 ## Individual Plots
 
