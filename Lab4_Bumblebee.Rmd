@@ -23,11 +23,14 @@ Reason: These questions are important because health behaviors during pregnancy 
 
 
 ### Question 1
-```{r}
+```{r include=FALSE}
 library(tidyverse)
 babies <- read_csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
 babies <- rename(babies, bwtoz = `bwt/oz`) 
 babies = na.omit(babies)
+```
+
+```{r}
 ggplot(data=babies)+
   geom_boxplot(aes(y=gestation, x=as.factor(smoke)),outlier.shape = NA)+
   geom_hline(yintercept=270)+
@@ -212,6 +215,7 @@ ggplot(data=babies,aes(x=mage, y=bwtoz, color=as.factor(smoke)))+
   labs(x="Mothers age", y="Birth weight", title="Mothers age and birthweight", color="Smoke")
 ```
 This scatterplot shows the relationship between mothers age and birth weight and mothers age. Becuase bothe lines for smoking and non smoking have a slope of around 0, there is no relationship between birthweight and age. This does however reafirm that the average birth weitght for smokers is lower that that for non smokers at all ages, however it is not significant, because the margins of error intersect for most of the graph. 
+
 ### Manasi
 ```{r}
 library(tidyverse)
