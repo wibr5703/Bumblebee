@@ -175,6 +175,18 @@ This is a scatter plot whose x variable is the gestation period in days and whos
 ### Brady
 
 ### Manasi
+```{r}
+library(tidyverse)
+babies <- read_csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
+babies <- rename(babies, bwtoz = `bwt/oz`)
+babies <- na.omit(babies) #removes NAs from list of values 
+
+
+ggplot(data = babies, aes(x = inc, fill = factor(Premature))) +
+  geom_dotplot(binwidth = 0.1) +
+  ggtitle("Premature vs Non-premature babies For Each Level of Income")
+```
+This is a dotplot that shows the ratio of premature verus non premature babies in every income level. Overall the middle income levels show about the same ratio. However the lowest income level shows about half of its babies as premature and the two highest income level shows almost no babies as premature.
 
 ### Rachael
 
@@ -187,5 +199,6 @@ Within this lab, I generated the preliminary graphs as well as wrote the conclus
 ### Brady
 
 ### Manasi
+In this lab, I helped create the prelilmnary graphs to find any trends they may have produced. Additionally I contributed my own indivudal plot as well as findings.
 
 ### Rachael
