@@ -23,6 +23,13 @@ Reason: These questions are important because health behaviors during pregnancy 
 
 
 ### Question 1
+```{r include=FALSE}
+library(tidyverse)
+babies <- read_csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
+babies <- rename(babies, bwtoz = `bwt/oz`) 
+babies = na.omit(babies)
+```
+
 ```{r}
 ggplot(data=babies)+
   geom_boxplot(aes(y=gestation, x=as.factor(smoke)),outlier.shape = NA)+
@@ -59,12 +66,14 @@ This first plot is a scatterplot showing the birth weights across different gest
 
 ## Conclusions:
 
-  * Answer to first question
+  * Bases on the first graph, we can conclude that there is no significant relationship between whether the mother smokes and premature births. Judging by boxplots, the distibution is roughly the same, even though the median gestational time for smokers is lower, the values for the first and 3rd quartiles are roughly the same. The area of the boxplot that is below the 270 mark is also roughly the same. In conclusion, even though there might be a difference in median birthweights, the difference is not enough to definitavly say whether smoking causes premature births. 
   * Based on our graph and our conclusion to the first question, we conclude that there is a minimal relationship between smoking and birth weights. Our first conclusion states that there is no significant relationship between smoking and premature births. When controlling for premature birth, our plot shows that the non-smoking mothers had a slightly higher average of birth weight across mature gestational ages. However, these relations are weakly linear, and the signficance of the difference is only truly present from gestational ages 270 to 290. Looking at the second plot, where premature birth was not controlled for, the relationship seems much stronger between smoking and birth weight across gestational ages. However, several outliers are visible in the non-smoking group, making the control for premature birth a valid control. Ultimately, due to the ambiguity in premature birth and the outliers present in the data, we find a minimal relationship between smoking and birth weight.
   
 ## Recommendations:
 
 ### Recommendation for Q1
+
+Even though our data says there is no significant relationship between smoking and premature births, we would still advise not to smoke while pregnant, becuase there could be other adverse affects to smoking. We would recomend  that more current studies to be conducted, because the makeup of cigarretes has changed since 1989 and may have more pronounced effects. 
 
 ### Recommendation for Q2
 
@@ -199,6 +208,14 @@ This is a scatter plot whose x variable is the gestation period in days and whos
 
 ### Brady
 
+```{r}
+ggplot(data=babies,aes(x=mage, y=bwtoz, color=as.factor(smoke)))+
+  geom_jitter()+
+  geom_smooth()+
+  labs(x="Mothers age", y="Birth weight", title="Mothers age and birthweight", color="Smoke")
+```
+This scatterplot shows the relationship between mothers age and birth weight and mothers age. Becuase bothe lines for smoking and non smoking have a slope of around 0, there is no relationship between birthweight and age. This does however reafirm that the average birth weitght for smokers is lower that that for non smokers at all ages, however it is not significant, because the margins of error intersect for most of the graph. 
+
 ### Manasi
 ```{r}
 library(tidyverse)
@@ -238,6 +255,8 @@ This is a boxplot showing the spread of birth weights under the lens of the educ
 Within this lab, I generated the preliminary graphs as well as wrote the conclusion that corresponds to them. We say several interesting relationships between whether the mother smokes with respect to other variables. The one that sparked my individual exploration was that mothers with a smaller pre-pregnancy weight tended to be smokers and mothers who did not smoke weighed more. Another graph that further led to my individual research was one that showed that smokers had shorted gestation periods and non-smokers had longer ones. From these two graphs, I was interest in perhaps determining if weight was a confounding variable. For this reason, I graphed a scatter plot relating pre-pregnancy weight and gestation period for both smokers and non-smokers. The results confirmed my intuition, mothers who weighed more, up until a certain point, had longer gestation periods. With regards to the non-defaults for plot generation, on the plots that I generated within the preliminary section, I normlaized the data through a parameter within the geom_bar function. This had to be done because there were not an equal number of mothers who smoked and who did not smoke. I also added x labels and y labels to these preliminary plots as well as a title. Furthermore, I used the position parameter with the geom_bar function to dodge the bar charts so that smokers and non-smokers could be compared side by side. With respect to my individual plot titled "Length of gestation in days verses the pre-pregnancy weight of the mother", I added the color parameter to the ggplot function so that I could get a scatter plot seperated by color based on smokers and non-smokers. I then added a title and x/y labels. I added a scale title and changed the label names. Additionally, I made use of the geom_smooth function so that lines up best fit could easily be compared to make conclusion upon the data.
 
 ### Brady
+
+For this lab, I was resonisble for the graph and explanation of the first group question, I answered both the conclusion and reccomendation for that section. For the first question I did 2 boxplots that showed the distibution of days of gestation. I used geom_hline to mark what is considered a premature birth. I also did my individal graph, in which I complared age of the mother and birthweight, using color to sepeate smokers from non-smokers. 
 
 ### Manasi
 In this lab, I helped create the prelilmnary graphs to find any trends they may have produced. Additionally I contributed my own indivudal plot as well as findings.
