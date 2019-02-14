@@ -1,7 +1,7 @@
 ---
 title: "Lab4_Bumblebee"
 author: "Rachael Robinson, William Brickowski, Manasi Raol, Brady Kiesling"
-date: "2/6/2019"
+date: "2/8/2019"
 output: html_document
 ---
 
@@ -23,6 +23,13 @@ Reason: These questions are important because health behaviors during pregnancy 
 
 
 ### Question 1
+```{r include=FALSE}
+library(tidyverse)
+babies <- read_csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
+babies <- rename(babies, bwtoz = `bwt/oz`) 
+babies = na.omit(babies)
+```
+
 ```{r}
 ggplot(data=babies)+
   geom_boxplot(aes(y=gestation, x=as.factor(smoke)),outlier.shape = NA)+
@@ -32,18 +39,45 @@ ggplot(data=babies)+
 ```  
 The boxplot represents days of gestation, and the line across represents 270 days. Babies born under that line are considered premature. Even though the median birth day for smokers is slightly lower, the lengh of the line under the 270 mark is roughly the same for both smoking mothers and non-smoking mothers. This means that there is no significant difference in the proportion of smoking and non-smoking mothers giving birth prematurely. This plot seems to refute the 1989 claim that mothers smoking causes premature births.
   
-
 ### Question 2
 
+```{r}
+ggplot(data = babies) +
+  geom_jitter(outlier.shape = NA, mapping = aes(x=gestation, y=bwtoz, color = as.factor(smoke)), alpha = .4) +
+  geom_smooth(na.rm = T, method = "lm", se = F, mapping = aes(x=gestation, y=bwtoz, color = as.factor(smoke))) +
+   xlim(270,350) +
+  theme_classic() +
+  xlab("Gestation (days)") +
+  ylab("Birth weight (oz)") +
+  ggtitle("Observation of smoking and it's impact on birth weight across gestational ages") +
+  scale_colour_discrete(name = "Smoking status", breaks = c("0", "1"), labels = c("Non-smoking", "Smoking"))
+
+ggplot(data = babies) +
+  geom_jitter(outlier.shape = NA, mapping = aes(x=gestation, y=bwtoz, color = as.factor(smoke)), alpha = .4) +
+  geom_smooth(na.rm = T, method = "lm", se = F, mapping = aes(x=gestation, y=bwtoz, color = as.factor(smoke))) +
+   xlim(100,350) +
+  theme_classic() +
+  xlab("Gestation (days)") +
+  ylab("Birth weight (oz)") +
+  ggtitle("Observation of smoking and it's impact on birth weight across gestational ages") +
+  scale_colour_discrete(name = "Smoking status", breaks = c("0", "1"), labels = c("Non-smoking", "Smoking"))
+```
+This first plot is a scatterplot showing the birth weights across different gestational ages in our data. Then, a linear model was fitted to the points of the nonsmokers and the smokers. In question 1, we determined no significant relationship between smoking and premature birth, and a premature baby is much more likely to have a lower than average birth weight. To control for the effect that a premature birth would have on gestational birth weight, the gestational scale was set at a minimum of 270 days, the cutoff determining a mature baby. Both points follow a weakly linear pattern. The second plot represents the entire range of gestational values, and again shows a weakly linear relationship.
+
 ## Conclusions:
-  * Answer to first question
-  * Answer to second question
+
+  * Bases on the first graph, we can conclude that there is no significant relationship between whether the mother smokes and premature births. Judging by boxplots, the distibution is roughly the same, even though the median gestational time for smokers is lower, the values for the first and 3rd quartiles are roughly the same. The area of the boxplot that is below the 270 mark is also roughly the same. In conclusion, even though there might be a difference in median birthweights, the difference is not enough to definitavly say whether smoking causes premature births. 
+  * Based on our graph and our conclusion to the first question, we conclude that there is a minimal relationship between smoking and birth weights. Our first conclusion states that there is no significant relationship between smoking and premature births. When controlling for premature birth, our plot shows that the non-smoking mothers had a slightly higher average of birth weight across mature gestational ages. However, these relations are weakly linear, and the signficance of the difference is only truly present from gestational ages 270 to 290. Looking at the second plot, where premature birth was not controlled for, the relationship seems much stronger between smoking and birth weight across gestational ages. However, several outliers are visible in the non-smoking group, making the control for premature birth a valid control. Ultimately, due to the ambiguity in premature birth and the outliers present in the data, we find a minimal relationship between smoking and birth weight.
   
 ## Recommendations:
 
 ### Recommendation for Q1
 
+Even though our data says there is no significant relationship between smoking and premature births, we would still advise not to smoke while pregnant, becuase there could be other adverse affects to smoking. We would recomend  that more current studies to be conducted, because the makeup of cigarretes has changed since 1989 and may have more pronounced effects. 
+
 ### Recommendation for Q2
+
+Given our data, we recommend that women generally avoid smoking while pregnant, as we identified a weakly linear relationship between smoking and birth weight. We also recommend that the relationship between gestation and birth weight is further investigated in order to account for a possibly nonlinear relationship. Based on our data, we recommend that the Surgeon General adapts their 1989 report to reflect that the data only supports the affect of smoking at gestational ages considered mature (>270).
 
 ## Preliminary Team Questions:
   * Which variables are similar between smokers and nonsmokers? Which are different?
@@ -174,10 +208,46 @@ This is a scatter plot whose x variable is the gestation period in days and whos
 
 ### Brady
 
+```{r}
+ggplot(data=babies,aes(x=mage, y=bwtoz, color=as.factor(smoke)))+
+  geom_jitter()+
+  geom_smooth()+
+  labs(x="Mothers age", y="Birth weight", title="Mothers age and birthweight", color="Smoke")
+```
+This scatterplot shows the relationship between mothers age and birth weight and mothers age. Becuase bothe lines for smoking and non smoking have a slope of around 0, there is no relationship between birthweight and age. This does however reafirm that the average birth weitght for smokers is lower that that for non smokers at all ages, however it is not significant, because the margins of error intersect for most of the graph. 
+
 ### Manasi
+```{r}
+library(tidyverse)
+babies <- read_csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
+babies <- rename(babies, bwtoz = `bwt/oz`)
+babies <- na.omit(babies) #removes NAs from list of values 
+
+
+ggplot(data = babies, aes(x = inc, fill = factor(Premature))) +
+  geom_dotplot(binwidth = 0.1) +
+  ggtitle("Premature vs Non-premature babies For Each Level of Income")
+```
+This is a dotplot that shows the ratio of premature verus non premature babies in every income level. Overall the middle income levels show about the same ratio. However the lowest income level shows about half of its babies as premature and the two highest income level shows almost no babies as premature.
 
 ### Rachael
 
+```{r}
+library(tidyverse)
+babies <- read_csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
+babies <- rename(babies, bwtoz = `bwt/oz`) #renaming `bwt/oz` because the "/" sign requires special care
+no_unknown_babies <- subset(babies, med != 9)
+ggplot(data = no_unknown_babies) +
+  geom_boxplot(mapping = aes(x=factor(med), y=bwtoz, group = med, fill = factor(med)), outlier.shape = NA) +
+  geom_hline(yintercept = mean(babies$bwtoz), linetype = "dashed", color = "red", size = 1) +
+  theme_minimal()+
+  xlab("Education status of mother") +
+  ylab("Birth weight (oz)") +
+  ggtitle("Education status of mother versus birth weight") +
+  scale_fill_discrete(name="Education status",breaks=c("0", "1", "2", "3", "4", "5", "7"),
+                         labels=c("less than 8th grade", "8th to 12th grade. did not graduate high school", "high school graduate, no other schooling", "high school graduate + trade school", "high school graduate + some college", "college graduate", "trade school"))
+```
+This is a boxplot showing the spread of birth weights under the lens of the education status of the mother. As seen in the boxplot, there isn't a glaringly obvious difference between the birth weights given the varying education levels. The red line on the graph indicates the average birth weight across all the data, and most of the education levels are close to this average. However, it is slightly noticeable that some of the lower education levels (in quantity of years) show a lower than average median birth weights. Overall, I can reasonably report that there is no significant relationship present in this data between the mothers education level and birthweights. An extension of this finding is that education and it's relationship to smoking should not confound the relationship between smoking and birth weight.
 
 ## Individual contribution and non-defaults for plot generation
 
@@ -186,6 +256,11 @@ Within this lab, I generated the preliminary graphs as well as wrote the conclus
 
 ### Brady
 
+For this lab, I was resonisble for the graph and explanation of the first group question, I answered both the conclusion and reccomendation for that section. For the first question I did 2 boxplots that showed the distibution of days of gestation. I used geom_hline to mark what is considered a premature birth. I also did my individal graph, in which I complared age of the mother and birthweight, using color to sepeate smokers from non-smokers. 
+
 ### Manasi
+In this lab, I helped create the prelilmnary graphs to find any trends they may have produced. Additionally I contributed my own indivudal plot as well as findings.
 
 ### Rachael
+
+For this lab, I created the team plot for Question 2, as long as assisting with the analysis of Question 1 and the preliminary data. I also wrote the conclusion and recommendation for team question 2. For the report, I assembled and organized the notebook, and wrote about the importance of these research questions. In addition, I created my own individual plot and reported my findings from that plot. For that plot, I restructured the data frame to get rid of extraneous data. I then mapped the education of the mother to a discrete variable in order to make a boxplot. I colored the boxplots based on the mother's education level, and eliminated the outliers to help the presentation of my boxplots. I then created a line to represent the mean birth weight, and manually changed the aesthetics to change the line style, color, and size. Additionally, I used themes, scales, and labels to represent my data clearly.
