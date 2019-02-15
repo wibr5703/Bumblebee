@@ -1,0 +1,23 @@
+---
+title: "lab5mypart"
+author: "Manasi Raol"
+date: "2/14/2019"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+
+# Load and view the data
+milk <- read.csv('tidytuesday/data/2019/2019-01-29/state_milk_production.csv')
+head(milk)
+
+# Add a column for millions of milk pounds
+milk <- milk %>%
+  mutate(milk_million = milk_produced/1000000)
+
+# Extract the data for 2000 only
+milk1970 <- milk %>%
+  filter(year == 2000)
+```
+

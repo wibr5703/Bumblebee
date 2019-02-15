@@ -235,5 +235,39 @@ least[1,]
 Above I have summarized the data about milk production in the year 1999, the density plot shows that the milk production had a big right skew, meaning a lot of the milk was produced in a few states. This is backed up by the mean value being much higher than the median value. Not suprizingly, alaska produced the least milk, because the climate does not favor dairy production, and California had the most milk production, probably due to the big population and the hospitable climate.
 
 ### Manasi
+```{r}
+library(tidyverse)
+
+milk <- read.csv('state_milk_production.csv')
+head(milk)
+
+milk <- milk %>%
+  mutate(milk_million = milk_produced/1000000)
+
+milk2000 <- milk %>%
+  filter(year == 2000)
+milk2000
+
+ggplot(data = milk2000, aes(x = milk_million)) +
+  geom_density() + 
+  ggtitle('Distribution estimate of milk produced in 2000 by state')
+
+milkdata<-milk2000$milk_million
+
+mean(milkdata)
+median(milkdata)
+
+most<-milk2000%>%
+  arrange(desc(milk_million))
+most[1,]
+
+least<-milk2000%>%
+  arrange(milk_million)
+least[1,]
+
+
+```
+
+The plot above shows a density plot of the distribution of milk produced in 2000. The average milk produced was 3347.84 million pounds whereas the median amount of milk produced was 1453.5 million pounds. California produced the most milk in 2000 with about 32,000 million pounds whereas Alaska produced the least with about 13 million pounds. According to my teammates' data this seems to be a trend across many years which makes sense because California has such a large population and Alaska doesn't have a favorable climate when it comes to producing milk.
 
 
