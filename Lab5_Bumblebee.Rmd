@@ -23,6 +23,7 @@ knitr::kable
 ### Yearly time series for the milk production (in millions of pounds) by selected States
 
 ```{r, echo = FALSE}
+library(tidyverse)
 milkavg <- milk %>%
   select(state,year,milk_million) %>%
   group_by(year) %>%
