@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::kable
 ```
 
 # Lab 5
@@ -130,11 +131,9 @@ Above is a density plot of the distribution of milk produced in 1997. The averag
 
 ### Rachael
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-knitr::kable
+```{r, include=FALSE}
+
 # Load tidyverse
-library(tidyverse)
 library(tidyverse)
 library(knitr)
 # Load and view the data
