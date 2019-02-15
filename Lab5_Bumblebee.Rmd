@@ -24,6 +24,9 @@ knitr::kable
 
 ```{r, echo = FALSE}
 library(tidyverse)
+milk <- read.csv('state_milk_production.csv')
+milk <- milk %>%
+  mutate(milk_million = milk_produced/1000000)
 milkavg <- milk %>%
   select(state,year,milk_million) %>%
   group_by(year) %>%
