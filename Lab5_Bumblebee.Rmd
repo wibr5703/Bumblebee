@@ -81,6 +81,8 @@ What I found most usefull in learning about the State Milk Production data set w
 
 ### Brady
 
+What I found the most helpful in this activity was really leaning how to use the dplyr funtions in order to format data more effectivly in order to analyze the data more thoroughly. For my section, I created a new data set: milk1999 which only contained the data from that year. I make a simple density chart, graphing the disibuion of how much milk each state produced in a year. Using the milk1999 data set, i could use the mean and median fuctions to find the mean and median. In order to find the min and max, I created new variables with the data in 1999 in both ascending and descending order by milk production. I then only listed the first entry in the data set to get both the min and the max production value.
+
 ### Manasi
 
 ## Individual Section:
@@ -122,6 +124,36 @@ Above is a density plot of the distribution of milk produced in 1997. The averag
 
 ### Brady
 
+```{r echo = TRUE, message = F, warning = F}
+milk <- read.csv('state_milk_production.csv')
+head(milk)
+
+milk <- milk %>%
+  mutate(milk_million = milk_produced/1000000) 
+
+milk1999 <- milk %>%
+  filter(year==1999)
+milk1999
+
+milkdata<-milk1999$milk_million
+
+ggplot(data=milk1999)+
+  geom_density(aes(x=milk_million))
+
+
+
+mean(milkdata)
+median(milkdata)
+
+most<-milk1999%>%
+  arrange(desc(milk_million))
+most[1,]
+
+least<-milk1999%>%
+  arrange(milk_million)
+least[1,]
+```
+Above I have summarized the data about milk production in the year 1999, the density plot shows that the milk production had a big right skew, meaning a lot of the milk was produced in a few states. This is backed up by the mean value being much higher than the median value. Not suprizingly, alaska produced the least milk, because the climate does not favor dairy production, and California had the most milk production, probably due to the big population and the hospitable climate.
 ### Manasi
 
 
