@@ -20,9 +20,25 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Team Section:
 
 ### Yearly time series for the milk production (in millions of pounds) by selected States
-```{r}
 
+```{r, echo = FALSE}
+milkavg <- milk %>%
+  select(state,year,milk_million) %>%
+  group_by(year) %>%
+  mutate(mavg = mean(milk_million))
+milkstate <- milk %>%
+  filter(state %in% c('Colorado', 'California', 'Oregon', 'Arizona', 'Pennsylvania')) %>%
+  select(state, year, milk_million)
+ggplot() +
+  geom_point(data = milkstate, aes(x=year, y=milk_million, color = state)) +
+  ggtitle("Changes in milk production by state") +
+  xlab("Year") +
+  ylab("Milk production (millions of pounds)") +
+  theme_classic() +
+  geom_smooth(data = milkavg, mapping = aes(x=year, y=mavg))
 ```
+
+This plot indicates that of the 5 states chosen, California has the highest milk production across all years. It can also be noted that while relative increases were seen in the milk production of all the states across the years, California's milk production looks to have increased exponentially over the years. Pennsylvania shows the next largest milk production, with all the other states (Colorado, Oregon, and Arizona) falling to the bottom of the graph. The solid blue line indicates the average milk production for all states over the years. While Arizona, Colorado, and Oregon follow national milk production averages, Pennsylvania and California have historic milk production levels significantly above average. These results seem consistent with a basic assumption that larger states will produce more milk.
 
 ### The year when the most milk was produced in the United States
 ```{r}
@@ -72,18 +88,10 @@ l_states[1:5,c(2,3,5)]
 ```
 In 2017, Alaska produced 3 million pounds, Rhode Island produced 13 million pounds, Hawaii produced 39 million pounds, Arkansas produced 79 million pounds, and Alabama produced 89 million pounds.
 
-## What we found to be the most helpful in learning about this data:
+### What we found to be the most helpful in learning about this data:
 
-### William
-What I found most usefull in learning about the State Milk Production data set was the ability to use dplyr functions in conjunction with the pipe in order to gain understanding of a subset of the data with a particular function applied to it. For example, in my computation of the 5 states that produced the most amount of milk in 2017, I filtered the year to be 2017 and then used the arrange function in the descending order to determine a list of the 5 states. The summarize function was also essential when trying to determine the year when the most milk was produced in the United States. First, I grouped by year and then summmarized based on the sum of milk_million attribute of our data table. I also found the geom_density() function to be really helpful when looking at the distribution of milk production within a particular year. It paints a better picture than a histogram because the histogram is sensative to the bin size.
+We found it very useful to learn how to manipulate data with filter, select, arrange, and mutate functions. We learned how to effectively create new variables with this data set to both tailor in on specific data (milk production over time for 1 state) and look at the larger data such as the mean milk production across an entire year. The data was particularly interesting because it called attention to state wide differences which would prompt the changes and figures we observed in our plots and calculation. We learned that, on average, larger states produce more pounds of milk annually.
 
-### Rachael
-
-### Brady
-
-What I found the most helpful in this activity was really leaning how to use the dplyr funtions in order to format data more effectivly in order to analyze the data more thoroughly. For my section, I created a new data set: milk1999 which only contained the data from that year. I make a simple density chart, graphing the disibuion of how much milk each state produced in a year. Using the milk1999 data set, i could use the mean and median fuctions to find the mean and median. In order to find the min and max, I created new variables with the data in 1999 in both ascending and descending order by milk production. I then only listed the first entry in the data set to get both the min and the max production value.
-
-### Manasi
 
 ## Individual Section:
 
