@@ -74,3 +74,23 @@ kable(mostmilk[45:50,])
 ```
 
 This indicates that the lowest producing state in 1998 was Alaska with 14 million pounds of milk.
+
+
+```{r, echo = FALSE}
+milkavg <- milk %>%
+  select(state,year,milk_million) %>%
+  group_by(year) %>%
+  mutate(mavg = mean(milk_million))
+milkstate <- milk %>%
+  filter(state %in% c('Colorado', 'California', 'Oregon', 'Arizona', 'Pennsylvania')) %>%
+  select(state, year, milk_million)
+ggplot() +
+  geom_point(data = milkstate, aes(x=year, y=milk_million, color = state)) +
+  ggtitle("Changes in milk production by state") +
+  xlab("Year") +
+  ylab("Milk production (millions of pounds)") +
+  theme_classic() +
+  geom_smooth(data = milkavg, mapping = aes(x=year, y=mavg))
+```
+
+This plot indicates that of the 5 states chosen, California has the highest milk production across all years. It can also be noted that while relative increases were seen in the milk production of all the states across the years, California's milk production looks to have increased exponentially over the years. Pennsylvania shows the next largest milk production, with all the other states (Colorado, Oregon, and Arizona) falling to the bottom of the graph. The solid blue line indicates the average milk production for all states over the years. While Arizona, Colorado, and Oregon follow national milk production averages, Pennsylvania and California have historic milk production levels significantly above average.

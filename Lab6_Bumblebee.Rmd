@@ -1,0 +1,52 @@
+---
+title: "Bumblebee Lab 6"
+authors: "Rachael Robinson, William Brickowski, Manasi Raol, Brady Kiesling"
+date: "2/22/19"
+output: html_notebook
+---
+```{r}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+
+```{r}
+library(tidyverse)
+COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/osfstorage/5a8ca28f57103100104584db")
+```
+
+
+# Bumblebee Lab 6
+
+## Research Question: What factors lead to on-time arrivals in Denver?
+
+### Why it's important
+
+  * Why this reason is important?
+  
+## Supporting Plots
+
+## Conclusions
+
+## Recommendation to DIA Managers
+
+## Individual Plots
+
+### William
+
+### Brady
+
+### Manasi
+
+### Rachael
+
+## Individual contribution and non-defaults in plot generation
+
+### William
+
+### Brady
+
+### Manasi
+
+### Rachael
+
