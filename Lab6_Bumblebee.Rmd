@@ -80,6 +80,66 @@ In this code, I divide the data into flight that depart from Denver and those th
 
 ### Brady
 
+```{r}
+
+DENflights<-COflights %>%
+  filter(DEST=="DEN" ) %>%
+  filter(CRS_ARR_TIME>0) %>%
+  mutate(isdelayed=ifelse(ARR_DELAY>=15,1,0))
+
+
+DENflights$CRS_ARR_TIME<-as.numeric(as.character(DENflights$ARR_TIME))
+
+DENflights
+  
+
+DENflightsn<-DENflights%>%
+  filter(CRS_ARR_TIME<700 | CRS_ARR_TIME>2200)
+
+DENflightsnd<-DENflightsn%>%
+  filter(ARR_DELAY>=15)
+
+
+DENflightsmorning<-DENflights%>%
+  filter(CRS_ARR_TIME<=1200 & CRS_ARR_TIME>700)
+
+DENflightsmorning
+
+
+DENflightsmdelayed<-DENflightsmorning%>%
+  filter(ARR_DELAY>=15)
+
+
+
+
+DENflightsa<-DENflights%>%
+  filter(CRS_ARR_TIME<1600 & CRS_ARR_TIME>1200)
+
+DENflightsad<-DENflightsa%>%
+  filter(ARR_DELAY>=15)
+
+
+DENflightse<-DENflights%>%
+  filter(CRS_ARR_TIME<2200 & CRS_ARR_TIME>1600)
+
+DENflightsed<-DENflightse%>%
+  filter(ARR_DELAY>=15)
+
+print("Prortion of night flights delayed")
+count(DENflightsnd)/count(DENflightsn)
+print("Prortion of morning flights delayed")
+count(DENflightsmdelayed)/count(DENflightsmorning)
+print("Prortion of afternoon flights delayed")
+count(DENflightsad)/count(DENflightsa)
+print("Prortion of evening flights delayed")
+count(DENflightsed)/count(DENflightse)
+
+ggplot(data=DENflights)+
+  geom_histogram(aes(x=CRS_ARR_TIME, fill=as.factor(isdelayed)), bins=24)+
+  scale_fill_discrete(name="Is Delayed", labels=c("Not Delayed","Delayed","NA"))
+```
+In this code, I looked into how the scheduled landing time in Denver affected whether the plane was delayed or not. I groped the day into 4 sections, Night, Morning, Evening and Afternoon and calculated the probability the flight was delayed given the flight was scheuled to land at that time(P(delayed|time of day)).I found that flights at night were the most likely to be delayed(10pm-7am) while flights(7am-noon) were the least likely to be delayed. I made a stacked histogram showing the time of day the flight was schedueld, and had a one color the flights that arrived on time and one color the flights that were delayed. You can clearly see the increase in the porportion of delayed flights from mornign until evening, but becuase there are so few data samples from the night, It is hard to tell the proportion of delayed flights. My theory why there are more delayed flights in the eveing, is that things get slowly backed up over the course of the day. 
+
 ### Manasi
 
 ### Rachael
