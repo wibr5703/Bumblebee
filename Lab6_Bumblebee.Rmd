@@ -1,8 +1,10 @@
 ---
 title: "Bumblebee Lab 6"
-authors: "Rachael Robinson, William Brickowski, Manasi Raol, Brady Kiesling"
 date: "2/22/19"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
+authors: Rachael Robinson, William Brickowski, Manasi Raol, Brady Kiesling
 ---
 ```{r}
 knitr::opts_chunk$set(echo = FALSE)
