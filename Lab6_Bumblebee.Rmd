@@ -40,6 +40,52 @@ COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/os
 
 ### Rachael
 
+```{r}
+
+library(tidyverse)
+COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/osfstorage/5a8ca28f57103100104584db")
+
+flightnotesA <- COflights %>%
+  filter(DEST == "DEN", !is.na(ARR_TIME), !is.na(AIR_TIME), !is.na(ARR_DELAY)) %>%
+  select(ARR_DELAY,AIR_TIME,DISTANCE) %>%
+  mutate(DELAY = ifelse(ARR_DELAY >= 15, 1, 0)) %>%
+  group_by(AIR_TIME) %>%
+  filter(sum(DELAY == 0, DELAY == 1) > 30) %>%
+  summarise(timeprop = mean(DELAY))
+
+
+
+flightnotesD <- COflights %>%
+  filter(ORIGIN == "DEN", !is.na(ARR_TIME), !is.na(AIR_TIME), !is.na(ARR_DELAY)) %>%
+  select(ARR_DELAY,AIR_TIME,DISTANCE) %>%
+  mutate(DELAY = ifelse(ARR_DELAY >= 15, 1, 0)) %>%
+  group_by(AIR_TIME) %>%
+  filter(sum(DELAY == 0, DELAY == 1) > 30) %>%
+  summarise(timeprop = mean(DELAY))
+
+
+ggplot() +
+  geom_line(data = flightnotesA, mapping = aes(x=AIR_TIME, y=timeprop, color = "Destination")) +
+  geom_line(data = flightnotesD, mapping = aes(x=AIR_TIME, y=timeprop, color = "Origin")) +
+  labs(title = "Probability of a delayed landing at various air times", subtitle = "DEN airport as the origin/destination", x = "Air time (minutes)", y = "Probability of delayed (>15 min) landing", color = "DEN") +
+  theme_classic()
+
+```
+Finding #1- To manipulate this data I first looked at flights arriving to Denver (i.e. Destination DEN) and calculated the proportion of flights with delayed arrival, corresponding to their relative flight time. In order to rule out probabilistic outliers, I referenced the CLT and only calculated proportions of delayed arrival for air times with more than 30 data points. However, there are clearly still some high leverage points remaining. For flights not unusually long, the plot shows a positive trend between air time and probability of delayed arrival. From around 20 to 280 minutes, an increase in probability in demonstrated. This implies that a longer flight (while not unusually long) is more likely to arrive to DEN delayed.
+
+Finding #2- I manipulated the data in a similar way to calculate the proportion of delayed arrivals where DEN is the origin airport. Outliers were regulated for in the same way as before. However, the positive trend is still the same. As air time increases, the probability of having a delayed arrival at a different airport increases. This implies that a longer flight (while not unusually long) is more likely to arrive at other airports from DEN, delayed.
+
+  
+```{r, include = FALSE}
+flightnormal <- COflights %>%
+  filter(AIR_TIME == 104) %>%
+  select(ARR_DELAY,AIR_TIME,DISTANCE)
+
+shapiro.test(flightnormal$ARR_DELAY)
+  
+  
+```
+
 ## Individual contribution and non-defaults in plot generation
 
 ### William
