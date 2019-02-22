@@ -142,6 +142,36 @@ In this code, I looked into how the scheduled landing time in Denver affected wh
 
 ### Manasi
 
+```{r}
+library(tidyverse)
+COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/osfstorage/5a8ca28f57103100104584db")
+
+filter(COflights, DEST=="DEN" & ARR_DELAY >=15 & !is.na(ARR_DELAY) & WEATHER_DELAY >= 15 & CARRIER_DELAY >= 15 & NAS_DELAY >= 15 & SECURITY_DELAY >= 15 & !is.na(WEATHER_DELAY) & !is.na(CARRIER_DELAY) & !is.na(NAS_DELAY) & !is.na(SECURITY_DELAY))
+
+ggplot(data = COflights, aes(x = WEATHER_DELAY)) +
+  geom_dotplot() +
+  ggtitle('Delay in Minutes Due to Weather') +
+  labs(x="Minutes of Delay", y="Number of Delayed Flights") 
+
+ggplot(data = COflights, aes(x = CARRIER_DELAY)) +
+  geom_dotplot() +
+  ggtitle('Delay in Minutes Due to Carrier') +
+  labs(x="Minutes of Delay", y="Number of Delayed Flights")
+
+ggplot(data = COflights, aes(x = NAS_DELAY)) +
+  geom_dotplot() +
+  ggtitle('Delay in Minutes Due to NAS') +
+  labs(x="Minutes of Delay", y="Number of Delayed Flights")
+
+ggplot(data = COflights, aes(x = SECURITY_DELAY)) +
+  geom_dotplot() +
+  ggtitle('Delay in Minutes Due to Security') +
+  labs(x="Minutes of Delay", y="Number of Delayed Flights")
+
+```
+
+I created these plots in order to determine out of all the provided reasons for delays, which one was the most common and caused the longest delays. Based on the plots, the longest delays as well as the most delays were due to specific carriers. However, the second most common reason for delay was due to issues with the National Air System. This is something that can be solved with better scheduling and solutions that produce less technical issues. This shows that delayed flights into Denver have the most issues with the carrier and problems with the National Air System. 
+
 ### Rachael
 
 ```{r}
