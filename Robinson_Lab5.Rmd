@@ -1,0 +1,96 @@
+---
+title: "Lab5Individual"
+author: "Rachael Robinson"
+date: "2/13/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::kable
+# Load tidyverse
+library(tidyverse)
+library(tidyverse)
+library(knitr)
+# Load and view the data
+milk <- read.csv('state_milk_production.csv')
+
+
+milk <- milk %>%
+  mutate(milk_million = milk_produced/1000000)
+
+milk1998 <- milk %>%
+  filter(year == 1998)
+
+
+```
+
+```{r, echo = FALSE, warning = FALSE}
+ggplot(data = milk1998, mapping = aes(x=milk_million)) +
+  geom_density(bins=11, size = 1.5, color = "blue") +
+  ggtitle("Distribution of US milk production in 1970") +
+  theme_minimal() +
+  xlab("Milk in millions of pounds")
+```
+
+```{r, include = FALSE}
+  meanmilk <- mean(milk1998$milk_million)
+  medmilk <- median(milk1998$milk_million)
+  meanmilk
+  medmilk
+```
+
+The plot shows the distribution of milk production in the US for the year 1998. From the plot, it's clear that the density is higher in the lower milk productions, from 0 to 4,000 million pounds. However, it appears there are a few states acting as outliers in the higher milk productions.
+
+When evaluating the data for 1998, I have calcuated the average milk produced across all states to be 3145.22 millions of pounds.
+
+The median was calculated to be 1411.5 millions of pounds.
+
+The large discrepency between the median and the mean, along with the outliers observed, indicates that the mean is skewed upward.
+
+The following is a table representing the top 5 states for milk production in the year 1998:
+
+```{r, results = 'asis', echo = FALSE}
+
+mostmilk <- milk1998 %>%
+  select(state, milk_million) %>%
+  arrange(desc(milk_million))
+
+kable(mostmilk[1:5,])
+```
+
+This indicates that the highest producing state in 1998 was California with 27620 million pounds of milk.
+
+This table shows the 5 states with the lowest milk production in the year 1998:
+
+```{r, results = 'asis', echo = FALSE}
+
+mostmilk <- milk1998 %>%
+  select(state, milk_million) %>%
+  arrange(desc(milk_million))
+
+kable(mostmilk[45:50,])
+
+```
+
+This indicates that the lowest producing state in 1998 was Alaska with 14 million pounds of milk.
+
+
+```{r, echo = FALSE}
+milkavg <- milk %>%
+  select(state,year,milk_million) %>%
+  group_by(year) %>%
+  mutate(mavg = mean(milk_million))
+milkstate <- milk %>%
+  filter(state %in% c('Colorado', 'California', 'Oregon', 'Arizona', 'Pennsylvania')) %>%
+  select(state, year, milk_million)
+ggplot() +
+  geom_point(data = milkstate, aes(x=year, y=milk_million, color = state)) +
+  ggtitle("Changes in milk production by state") +
+  xlab("Year") +
+  ylab("Milk production (millions of pounds)") +
+  theme_classic() +
+  geom_smooth(data = milkavg, mapping = aes(x=year, y=mavg))
+```
+
+This plot indicates that of the 5 states chosen, California has the highest milk production across all years. It can also be noted that while relative increases were seen in the milk production of all the states across the years, California's milk production looks to have increased exponentially over the years. Pennsylvania shows the next largest milk production, with all the other states (Colorado, Oregon, and Arizona) falling to the bottom of the graph. The solid blue line indicates the average milk production for all states over the years. While Arizona, Colorado, and Oregon follow national milk production averages, Pennsylvania and California have historic milk production levels significantly above average.
