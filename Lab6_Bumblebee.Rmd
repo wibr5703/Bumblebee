@@ -239,6 +239,6 @@ shapiro.test(flightnormal$ARR_DELAY)
 ### Brady
 
 ### Manasi
-
+I created four dotplots that showed how many flights were delayed due to each reason (weather, carrier, NAS, and security). I then explained my findings and talked a little bit about potential solutions. 
 ### Rachael
 
