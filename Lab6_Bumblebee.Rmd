@@ -24,7 +24,9 @@ COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/os
 
 ### Why it's important
 
-This is important, becuase by knowing what causes delays, arports will be able to implement changes to try and reduce possible delays. This will save the passengers time and the airport and airlines money. 
+This is important, becuase by knowing what causes delays, arports will be able to implement changes to try and reduce possible delays. This will save the passengers time and the airport and airlines money. This question is important because on-time arrivals play a huge component in the operational efficiency, and potentially the profit margin of an airport. Planes are constantly in rotation, flyers have important destinations, and without reliable arrivals, an entire schedule of flights could get disorganized. Therefore, it’s relevant to flyers and airport staff.
+
+  * This reason is important because in the 21st century we rely on consistent air travel.  International trade, diplomacy,     corporate work, and the maintenance of human relationships are all possible because of air travel. Knowing the factors which   cause delays could help prevent them to make air travel easier for everyone.
   
 ## Supporting Plots
 ```{r}
@@ -50,7 +52,13 @@ ggplot(data=DIAflightssd)+
 
 ## Conclusions
 
+From our individual data and the team plots, we arrive at the following conclusions. First, we identified the two slowest carriers to be UA and WN, with them having the highest probability of having a delayed flight. Second, we discovered that arrival times at night have a higher likelihood of being delayed. Third, we learned that longer air times correlate to a higher probability of delay. Similarly, we evaluated our team plots to show how the taxi in time of the aircraft affects delays. The plots seem to show that a longer taxi time is also associated with delays. Finally, we looked at the causal relationship and came to the conclusion that carrier problems was most likely to cause a delay, followed by problems with the National Air System.
+
 ## Recommendation to DIA Managers
+
+Given that carrier problems is most likely to cause a delay, and the problematic carriers have been identified in our model, we would recommend that those carrier practices be further looked into to see if there is a structural problem causing delays. We would also recommend that the DIA managers communicate with National Air System to implement better policy to avoid delays.
+
+In addition, we discovered that flights with longer air times, flights that take longer to taxi, and flights at night are all correlated with a higher likelihood of delay. Keeping this in mind, we recommend that DIA managers adjust their scheduling to account for increased chance of delay in those scenarios. This would help save managers from further problems down the line if an aircraft does eventually have a delayed arrival to DIA.
 
 ## Individual Plots
 
@@ -242,5 +250,8 @@ I calculated the probablity of a flight being delayed based on the time of day, 
 
 ### Manasi
 I created four dotplots that showed how many flights were delayed due to each reason (weather, carrier, NAS, and security). I then explained my findings and talked a little bit about potential solutions. 
+
 ### Rachael
+
+For this assignment I created my individual plot and wrote about question importance, conclusions, and recommendations. For my individual plot I used the color distinction in my aesthetic mapping to show whether DEN was a destination or origin airport. I then edited my plot to add a title, subtitle, legend, and axis labels. Finally, I edited the theme of my plot.
 
