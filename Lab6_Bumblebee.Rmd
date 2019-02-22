@@ -24,9 +24,29 @@ COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/os
 
 ### Why it's important
 
-  * Why this reason is important?
+This is important, becuase by knowing what causes delays, arports will be able to implement changes to try and reduce possible delays. This will save the passengers time and the airport and airlines money. 
   
 ## Supporting Plots
+```{r}
+DIAflights<-COflights%>%
+  filter(DEST=="DEN")
+
+
+DIAflights$ARR_DELAY<-as.numeric(as.character(DIAflights$ARR_DELAY))
+
+ggplot(data=DIAflights)+
+  geom_jitter(aes(x=ARR_DELAY, y=TAXI_IN))
+
+
+DIAflightssd<-DIAflights%>%
+  filter(ARR_DELAY<90)
+
+
+ggplot(data=DIAflightssd)+
+  geom_jitter(aes(x=ARR_DELAY, y=TAXI_IN))
+
+```
+
 
 ## Conclusions
 
@@ -88,10 +108,8 @@ DENflights<-COflights %>%
   mutate(isdelayed=ifelse(ARR_DELAY>=15,1,0))
 
 
-DENflights$CRS_ARR_TIME<-as.numeric(as.character(DENflights$ARR_TIME))
+DENflights$CRS_ARR_TIME<-as.numeric(as.character(DENflights$CRS_ARR_TIME))
 
-DENflights
-  
 
 DENflightsn<-DENflights%>%
   filter(CRS_ARR_TIME<700 | CRS_ARR_TIME>2200)
@@ -103,14 +121,8 @@ DENflightsnd<-DENflightsn%>%
 DENflightsmorning<-DENflights%>%
   filter(CRS_ARR_TIME<=1200 & CRS_ARR_TIME>700)
 
-DENflightsmorning
-
-
 DENflightsmdelayed<-DENflightsmorning%>%
   filter(ARR_DELAY>=15)
-
-
-
 
 DENflightsa<-DENflights%>%
   filter(CRS_ARR_TIME<1600 & CRS_ARR_TIME>1200)
