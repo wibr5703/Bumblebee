@@ -33,6 +33,48 @@ COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/os
 ## Individual Plots
 
 ### William
+```{r}
+library(tidyverse)
+COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/osfstorage/5a8ca28f57103100104584db")
+
+OrgDen = COflights %>% filter(LATE_AIRCRAFT_DELAY<=0,CANCELLED!=1,ORIGIN=="DEN")
+DestDen = COflights %>% filter(LATE_AIRCRAFT_DELAY<=0,CANCELLED!=1,DEST=="DEN")
+
+OrgDen=OrgDen[c("DAY_OF_MONTH","CARRIER","ORIGIN","DEST","DEP_DELAY","TAXI_OUT",
+  "AIR_TIME","DISTANCE","CARRIER_DELAY","WEATHER_DELAY","NAS_DELAY","SECURITY_DELAY")]
+
+DestDen=DestDen[c("DAY_OF_MONTH","CARRIER","ORIGIN","DEST","ARR_DELAY", "TAXI_IN",
+  "AIR_TIME","DISTANCE","CARRIER_DELAY","WEATHER_DELAY","NAS_DELAY","SECURITY_DELAY")]
+
+#Given an arrival delay for flights landing in Denver what
+#is the probability the flight came from particular airlines?
+
+DestDen_Delayed = DestDen %>% filter(ARR_DELAY>=15)
+
+DestDen_Delayed_Carrier = DestDen_Delayed %>% group_by(CARRIER) %>% count() %>% 
+    mutate(Probability = n/dim(DestDen_Delayed)[1])
+
+#Given a departure delay for flights leaving  Denver what
+#is the probability the flight came from particular airlines?
+
+OrgDen_Delayed = OrgDen %>% filter(DEP_DELAY >=15)
+
+OrgDen_Delayed_Carrier = OrgDen_Delayed %>% group_by(CARRIER) %>% count() %>% 
+    mutate(Probability = n/dim(OrgDen_Delayed)[1])
+
+ggplot(data=DestDen_Delayed_Carrier) +
+  geom_bar(aes(x=CARRIER,y=Probability),stat='identity')+
+  xlab('Carrier')+
+  ylab('Probability')+
+  ggtitle('Given an Arrival Delay What is the Probability it Came From a Particular Carrier?')
+
+ggplot(data=OrgDen_Delayed_Carrier) +
+  geom_bar(aes(x=CARRIER,y=Probability),stat='identity')+
+  xlab('Carrier')+
+  ylab('Probability')+
+  ggtitle('Given an Departure Delay What is the Probability it Came From a Particular Carrier?')
+```
+In this code, I divide the data into flight that depart from Denver and those that arrive in Denver in order to isolate the factors that lead to delays in the respective data sets. In the data frame titled OrgDen (flights that originate from Denver), I seek to look at the factors that contribute departure delays. In the data frame titles DestDen (flights whose destination is Denver), I seek to look at the factors that contribute to arrival delays. In my analysis, I look at the conditional probability that given a delay occured, the flight was from a particluar airline. In the cases of both departure delay and arrival, one can see that UA airline has the highest probability of being the airline given that a delay occurar. From this analysis, one can use these result to better understand which airlines contribute to delays in general within the Denver aiport.
 
 ### Brady
 
