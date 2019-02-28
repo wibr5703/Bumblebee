@@ -16,20 +16,30 @@ General description - This dataset is hosted by the UC Irvine Machine Learning R
 Variables:
 
 Global_active_power - 
+
 Global_reactive_power - 
+
 Voltage - 
+
 Global_intensity - 
+
 Sub_metering_1, Sub_metering_2, Sub_metering_3 - 
+
 
 ### How we dealt with the missing data
 
 
 ## Individual Findings
 
+
 ### William
+
 
 ### Brady
 
+
 ### Manasi
 
+
 ### Rachael
+
