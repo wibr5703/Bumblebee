@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Description of the individual household electric power consumption data set
 
-General description - 
+General description - This dataset is hosted by the UC Irvine Machine Learning Repository. It represents data from one household, over the course of roughly 4 years. The measurements under consideration are those dealing with the electric power consumption. Every minute, data from the house was sampled and power consumption is represented in multiple different ways such as voltage, active and reactive power, current intensity. The data also evaluates consumption in key areas of the house like the kitchen and water heater. The 9 variables in the data set are described in further detail.
 
 Variables:
 
