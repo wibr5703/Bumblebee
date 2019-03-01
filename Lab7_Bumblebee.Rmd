@@ -34,6 +34,79 @@ Sub_metering_1, Sub_metering_2, Sub_metering_3 -
 
 ### William
 
+Question to answer: How does the mean global active power vary by month between 2006 and 2010? Additionally, how the mean global active power vary depending on what day of the week it is?
+
+Below is a plot of the average montly global active power between 2006 and 2010:
+
+```{r, echo = FALSE, message = FALSE, error= FALSE}
+library(tidyverse)
+data <- read_csv2("household_power_consumption.txt", col_types = cols(
+      Date = col_date(format = "%d/%m/%Y"),
+      Time = col_time(format = ""),
+      Global_active_power = col_character(),
+      Global_reactive_power = col_character(),
+      Voltage = col_number(),
+      Global_intensity = col_character(),
+      Sub_metering_1 = col_character(),
+      Sub_metering_2 = col_character(),
+      Sub_metering_3 = col_character()))
+tib <- tibble(
+    Date = data$Date,
+    Global_active_power = as.numeric(data$Global_active_power),
+    Global_reactive_power = as.numeric(data$Global_reactive_power)
+)
+tib = tib %>% drop_na()
+tib_monthly=tib %>%
+    mutate(month = format(Date, "%m"), year = format(Date, "%Y")) %>%
+    group_by(year, month) %>%
+    summarise(mean_global_active_power = mean(Global_active_power)) %>%
+    mutate(date=paste(year,month,"01",sep = "/",collapse = NULL))
+tib_monthly_formatted <- tibble(
+    date = as.Date(tib_monthly$date),
+    mean_global_active_power = tib_monthly$mean_global_active_power
+)
+ggplot(data = tib_monthly_formatted,aes(x = date, y = mean_global_active_power)) +  
+  geom_point() +
+  geom_line() +
+  ggtitle('Monthly Average Global Active Power Between 2006 and 2010') +              
+  xlab('Date') +                                              
+  ylab('Global Active Power') 
+```
+Based on the above graph, it is clear that there is a pattern with respect to average global active power and the time of year plotted monthly. This graph clearly demonstrates a cyclical pattern with peaks in the winter and troughs in the summer. This seasonility to power consumption makes sense because more power is needed during the winter because less solar energy is produced and it takes more energy to heat homes when temperatures drop. This answers the question:how does the mean global active power vary by month between 2006 and 2010? This question is interesting because it is important for power companies to understand the seasonal patterns of power consumption. This could also be of interest to power traders as there is a heightened demand for power during winter months and less of a demand for it during summer months. Basing ones trading strategy off of the seasonality patterns of of global active power could be interesting.
+
+To answer my second question: how the mean global active power vary depending on what day of the week it is? Below is a table of the mean global active power by weekday.
+```{r, echo = FALSE, message = FALSE, error= FALSE}
+library(tidyverse)
+
+data <- read_csv2("household_power_consumption.txt", col_types = cols(
+      Date = col_date(format = "%d/%m/%Y"),
+      Time = col_time(format = ""),
+      Global_active_power = col_character(),
+      Global_reactive_power = col_character(),
+      Voltage = col_number(),
+      Global_intensity = col_character(),
+      Sub_metering_1 = col_character(),
+      Sub_metering_2 = col_character(),
+      Sub_metering_3 = col_character()))
+
+tib <- tibble(
+    Date = data$Date,
+    Global_active_power = as.numeric(data$Global_active_power),
+    Global_reactive_power = as.numeric(data$Global_reactive_power)
+)
+tib = tib %>% drop_na()
+tib_weekdays <- tibble(
+    Weekday = weekdays(tib$Date),
+    Global_active_power=tib$Global_active_power
+)
+
+tib_weekdays %>% 
+  group_by(Weekday) %>% 
+  summarise(mean_global_active_power = mean(Global_active_power))
+```
+The above tables show that the least amount of global active power occurs on Thursday's and the most ocurs on Saturday's. To generalize, it appears that weekedays have significantly lower global active power values than for weekends. This makes sense because more power is consumed on weekends when people are home for longer periods of time due to the fact that parents are most likely at work and kids are at school. This again, is of interst to power companies who need to know how much power to allow on the grid based on the day and the demand. Additionally, if power traders trade more frequently they might use this information to trade power day by day. Buy weekdays, sell weekends.
+
+I initially came up with these questions by looking at the standard deviation of the global active power column. Because there was significant deviation in values, I wanted to see if I could come up with a few things that I thought that may contribute. For this reason, I decided to analyze gloval active power on a monthly basis between 2006 and 2010 as well as by weekday. In the exploratory phase, I also used several ggplots and varied the time intervals to determine interesting time periods to look at. Monthly time periods and the day of the week stood out to me.
 
 ### Brady
 
