@@ -72,6 +72,7 @@ ggplot(data = tib_monthly_formatted,aes(x = date, y = mean_global_active_power))
   xlab('Date') +                                              
   ylab('Global Active Power') 
 ```
+
 Based on the above graph, it is clear that there is a pattern with respect to average global active power and the time of year plotted monthly. This graph clearly demonstrates a cyclical pattern with peaks in the winter and troughs in the summer. This seasonility to power consumption makes sense because more power is needed during the winter because less solar energy is produced and it takes more energy to heat homes when temperatures drop. This answers the question:how does the mean global active power vary by month between 2006 and 2010? This question is interesting because it is important for power companies to understand the seasonal patterns of power consumption. This could also be of interest to power traders as there is a heightened demand for power during winter months and less of a demand for it during summer months. Basing ones trading strategy off of the seasonality patterns of of global active power could be interesting.
 
 To answer my second question: how the mean global active power vary depending on what day of the week it is? Below is a table of the mean global active power by weekday.
