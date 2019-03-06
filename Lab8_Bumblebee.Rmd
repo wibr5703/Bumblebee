@@ -1,0 +1,44 @@
+---
+title: "Lab8_Bumblebee"
+author: "Rachael Robinson, William Brickowski, Manasi Raol, Brady Kiesling"
+date: "3/5/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lab 8
+
+## Overall Team Question
+
+## Why this question is important\
+
+  * why this reason is important
+  
+## Conclusion/Answer to question
+
+## Recommendation/importance to domain expert
+
+## Description of datasets imported/tidied/analyzed
+
+## Individual findings
+
+### William
+
+### Brady
+
+### Manasi
+
+### Rachael
+
+## Who did what/tidyverse functions used
+
+### William
+
+### Brady
+
+### Manasi
+
+### Rachael
