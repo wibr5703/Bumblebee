@@ -113,7 +113,31 @@ I initially came up with these questions by looking at the standard deviation of
 
 
 ### Manasi
+```{r}
+install.packages('data.table')
+library(tidyverse)
+library(data.table)
 
+data3 <- read.table('household_power_consumption.txt',sep=";",
+                    header = T,
+                    na.strings = c("NA","","?"),
+                    stringsAsFactors = FALSE)
+str(data3)
+
+filter(data3, Time >= 12:00:00 & Time < 20:00:00)
+ggplot(data = data3, aes(x = Global_intensity, y = Time)) +
+  geom_jitter(alpha=0.1)
+
+filter(data3, Time >=20:00:00 & (Time >= 0:00:00 & Time < 4:00))
+ggplot(data = data3, aes(x = Global_intensity, y = Time)) +
+  geom_jitter(alpha=0.1)
+
+filter(data3, Time >= 4:00:00 & Time < 12:00:00)
+ggplot(data = data3, aes(x = Global_intensity, y = Time)) +
+  geom_jitter(alpha=0.1)
+```
+Question to answer: How does global intensity vary over time? 
+To answer this question, I filtered the data by time into three time periods to look at how global intensity varies with time of day. The first time frame is from 12 PM to 8 PM, the second time frame is from 8PM to 4AM, and the third time frame is from 4AM to 12 PM. I did this so it was easier to look at the data instead of having thousands of points on one graph. The data shows that global intensity is high is relatively high in the evenings, begins to decrease as the night goes on. There are little jumps, but overall the global intensity is lower later in the night. As the morning approaches the global intensity begins to rise. Overall, the global intensity is the highest in the evening hours. This makes sense because the most energy/electricity is used in the evening because that's when the majority of people are home.This question is interesting because it's useful to know when the most energy is used. Additionally, it was intriguing that there were spikes in the global intensity at 1AM for example. I came up with this question because I wanted to know if there were big differences in global intensity at different parts of the day and if time was a big factor. Based on my own experiences, I infered that the data would show that the global intensity is higher in the hours of the evening and I wanted to confirm my suspicions. Additionally, I wanted to know if it was common for the global intensity to be higher in later hours of the night.
 
 ### Rachael
 
