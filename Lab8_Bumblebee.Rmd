@@ -11,6 +11,13 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Lab 8
 
+```{r}
+library(tidyverse)
+ufo <- read_csv("ufo_sighting_data.csv")
+ufo %>% select(-described_duration_of_encounter, -description)
+```
+
+
 ## Overall Team Question
 
 ## Why this question is important\
