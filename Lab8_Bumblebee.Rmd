@@ -12,14 +12,16 @@ knitr::opts_chunk$set(echo = FALSE)
 # Lab 8
 
 ```{r}
+#general tidying of data, selecting relevant variables, differentiating date and time and converting date from characters
 library(tidyverse)
 ufo <- read_csv("ufo_sighting_data.csv")
-ufo %>% select(-described_duration_of_encounter, -description) %>%
+ufo <- ufo %>% select(-described_duration_of_encounter, -description) %>%
   separate(Date_time, into = c("Date","Time"), sep = " ")
+ufo$Date <- as.Date(ufo$Date, "%m/%d/%Y")
 ```
 
 
-## Overall Team Question
+## Overall Team Question: What factors correlate with UFO sightings, and what variables could account for variation in sighting duration?
 
 ## Why this question is important\
 
