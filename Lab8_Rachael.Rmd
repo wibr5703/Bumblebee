@@ -1,0 +1,55 @@
+---
+title: "Lab 8 Individual"
+author: "Rachael Robinson"
+date: "3/7/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#general tidying of data, selecting relevant variables, differentiating date and time and converting them from characters
+
+library(tidyverse)
+ufo <- read_csv("ufo_sighting_data.csv")
+ufo <- ufo %>% select(-described_duration_of_encounter, -description) %>%
+  separate(Date_time, into = c("Date","Time"), sep = " ")
+ufo$Date <- as.Date(ufo$Date, "%m/%d/%Y")
+ufo$Time <- parse_time(ufo$Time, format = "%H:%M")
+
+#ufo is tidy
+
+```
+
+```{r}
+library(hms)
+library(lubridate)
+
+ufo_days <- ufo %>%
+  mutate(dayofweek = weekdays(ufo$Date))
+
+ufo_sum <- ufo_days %>%
+  group_by(dayofweek) %>%
+  summarise(daycount = n())
+
+
+```
+
+```{r}
+ggplot(data = ufo_sum, aes(x=dayofweek, y= daycount, fill = dayofweek)) +
+  geom_bar(stat = "identity") +
+  scale_x_discrete(limits = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")) +
+  coord_cartesian(ylim = c(5000,14000)) +
+  labs(title = "Number of UFO Sightings by Day of Week", x = "Day of the week", y = "Number of sightings", fill = "Day of week") +
+  theme_classic()
+  
+
+```
+
+Findings: The above plot suggests that day of the week does correlate with number of reported UFO sightings. From the beginning of the week (Monday), UFO sighting reports steadily increase throughout the week, creating a significant peak on Saturday. The data suggests that a UFO is most likely to be seen on a Saturday, and least likely to be seen on a Monday, and a steady increase in between. Sunday reportings are comparable with Friday, and do represent the decline from high reporting Saturday to the dropoff on Monday.
+
+There could be many reasons for this correlation, including some confounding variables not represented in the data set. For example, individuals might be more likely to be outside to see a UFO on the weekend. Alternatively, individuals might also be more likely to consume substances on the weekend, which might increase the number of preported sightings.
+
+Ultimately, it is clear that there is some relationship between day of the week and UFO sightings, particularly that the weekend is a popular time for UFO sightings, where Monday is relatively unpopular for UFO sightings.
