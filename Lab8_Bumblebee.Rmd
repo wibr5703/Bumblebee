@@ -83,6 +83,8 @@ In my analysis of the ufo sighting data set, I sought to use multivariate linear
 ### Brady
 
 ### Manasi
+
+
 ```{r}
 ufo_times <- ufo %>%
   separate(Time, into = c("Hour","Minutes","Seconds"), sep = ":")
@@ -91,13 +93,20 @@ ufo_comb_times <- ufo_times %>%
   unite(Time, Hour, Minutes, Seconds, sep = "")
 
 ufo_time_data <- ufo_comb_times %>%
-  group_by(Time)
+  mutate(dayofweek = weekdays(ufo$Date)) %>%
+  group_by(dayofweek) %>%
+  summarise(daycount = n())
+
+
 
 ```
 
 ```{r}
-ggplot(data = ufo_comb_times, aes(x = Time, y = count)) +
-  geom_jitter()
+ggplot(data = ufo_comb_times, aes(x = Time)) +
+   geom_histogram(stat="count")
+  # scale_x_discrete(limits = c("Morning", "Afternoon", "Evening","Night")) +
+  # coord_cartesian(ylim = c(5000,14000)) +
+  # labs(title = "Number of UFO Sightings by Time of Day", x = "Time", y = "Number of sightings") 
 ```
 Findings:
 
