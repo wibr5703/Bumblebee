@@ -42,6 +42,32 @@ ufo$Time <- parse_time(ufo$Time, format = "%H:%M")
 
 ### William
 
+```{r, echo = FALSE, message = FALSE, error= FALSE}
+library(tidyverse)
+ufo = read_csv("ufo_sighting_data.csv")
+
+ufo = ufo %>% select(1,6,9:11) %>% drop_na() %>% separate(1, c('Date','Time'), sep = " ", remove = TRUE) 
+
+ufo=as_tibble(ufo)
+ufo$Time=parse_number(ufo$Time)
+ufo$Time=parse_integer(ufo$Time)
+ufo$latitude=parse_double(ufo$latitude)
+ufo$longitude=parse_double(ufo$longitude)
+ufo$date_documented=parse_date(ufo$date_documented,format="%m/%d/%Y")
+ufo$Date=parse_date(ufo$Date,format="%m/%d/%Y")
+
+ufo = ufo %>% mutate(diff=date_documented-Date,day=format(ufo$Date, "%d"),month=format(ufo$Date, "%m"),year=format(ufo$Date, "%Y"))
+
+ufo$diff=parse_number(ufo$diff)
+ufo$day=parse_integer(ufo$day)
+ufo$month=parse_integer(ufo$month)
+ufo$year=parse_integer(ufo$year)
+
+lmod=lm(length_of_encounter_seconds ~ Time + day + month + year + diff + latitude + longitude, data=ufo)
+summary(lmod)
+```
+In my analysis of the ufo sighting data set, I sought to use multivariate linear regression with the length of the encounter of a ufo sighting as the response variable and with the following predictors: time of day, day of the week, month, year, number of days between when the ufo was sighted (represented by the column titled 'diff') and when its sighting was recorded, latitude of where it was observed, and the respective longitude. After performing multivariate regression on the data, I found that at the 1% confidence level the only significant predictors was 'diff' as it had an associated P-value of 0.00796. The beta associated with this predictor was 4.139 which means that on average if you increase the number of days between when the sighting occured and when it was recorded by 1, the sighting increases by 4.139 seconds. This result makes sense because people, psychologically speaking, tend to overestimate emotional events due to the flashbulb memory theory. However, with time, it has been shown that humans exaggerate what they had seen. The data is showing that this is most likely variable to determine the duration of a sighting.
+
 ### Brady
 
 ### Manasi
@@ -51,7 +77,7 @@ ufo$Time <- parse_time(ufo$Time, format = "%H:%M")
 ## Who did what/tidyverse functions used
 
 ### William
-
+In order to perform multivariate regression, there were several things that had to occur prior. I had to clean and tidy the data in an way that would permit regression, as only numerical values can be regressed against each other. To begin with, I loaded the data set by using the function read_csv. I then, using tidyverse and the pip function, selected only those columns that would be usefull for my analysis. In this case, the columns were Date, Time, length_of_encounter_seconds, date_documented, latitude, and longitude. I then split the Date column into two columns because it originally contained both the date and time. I called the sepearte function on the Date column with " " as the seperater. I then convereted all columns to numeric or integer values. By converting the Time column to a numberic it gave me just the hour which is what I wanted to use to regress. I also parsed the Date and date_documented columns to date using the parse_date function. Then using the mutate function, I created several columns called diff, day, month, and year - all of which would be used as predictors in the model. The diff column is difference between the date_documented and Date. This returns are char so I had to convert this column to a numeric value later on. As for the day, month, and year columns, I created these by using the format function and selecting the respective value from the original Date column. These all had to be converted to numeric afterwards as well. With all of my data in the right format, I then ran linear regresson with length_of_encounter_seconds as the response and Time, day, month, year, diff, latitude, and longitude as predictors. Finally, the summary function was called in order to show the significance of the respective predictors as well as their associated betas.
 ### Brady
 
 ### Manasi
