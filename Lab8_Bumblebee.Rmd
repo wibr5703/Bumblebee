@@ -42,6 +42,7 @@ ufo$Time <- parse_time(ufo$Time, format = "%H:%M")
 
 ### William
 
+
 ```{r, echo = FALSE, message = FALSE, error= FALSE}
 library(tidyverse)
 ufo = read_csv("ufo_sighting_data.csv")
@@ -68,16 +69,53 @@ summary(lmod)
 ```
 In my analysis of the ufo sighting data set, I sought to use multivariate linear regression with the length of the encounter of a ufo sighting as the response variable and with the following predictors: time of day, day of the week, month, year, number of days between when the ufo was sighted (represented by the column titled 'diff') and when its sighting was recorded, latitude of where it was observed, and the respective longitude. After performing multivariate regression on the data, I found that at the 1% confidence level the only significant predictors was 'diff' as it had an associated P-value of 0.00796. The beta associated with this predictor was 4.139 which means that on average if you increase the number of days between when the sighting occured and when it was recorded by 1, the sighting increases by 4.139 seconds. This result makes sense because people, psychologically speaking, tend to overestimate emotional events due to the flashbulb memory theory. However, with time, it has been shown that humans exaggerate what they had seen. The data is showing that this is most likely variable to determine the duration of a sighting.
 
+
 ### Brady
 
 ### Manasi
 
 ### Rachael
 
+```{r}
+library(hms)
+library(lubridate)
+
+ufo_days <- ufo %>%
+  mutate(dayofweek = weekdays(ufo$Date))
+
+ufo_sum <- ufo_days %>%
+  group_by(dayofweek) %>%
+  summarise(daycount = n())
+
+
+```
+
+```{r}
+ggplot(data = ufo_sum, aes(x=dayofweek, y= daycount, fill = dayofweek)) +
+  geom_bar(stat = "identity") +
+  scale_x_discrete(limits = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")) +
+  coord_cartesian(ylim = c(5000,14000)) +
+  labs(title = "Number of UFO Sightings by Day of Week", x = "Day of the week", y = "Number of sightings", fill = "Day of week") +
+  theme_classic()
+  
+
+```
+
+Findings: The above plot suggests that day of the week does correlate with number of reported UFO sightings. From the beginning of the week (Monday), UFO sighting reports steadily increase throughout the week, creating a significant peak on Saturday. The data suggests that a UFO is most likely to be seen on a Saturday, and least likely to be seen on a Monday, and a steady increase in between. Sunday reportings are comparable with Friday, and do represent the decline from high reporting Saturday to the dropoff on Monday.
+
+There could be many reasons for this correlation, including some confounding variables not represented in the data set. For example, individuals might be more likely to be outside to see a UFO on the weekend. Alternatively, individuals might also be more likely to consume substances on the weekend, which might increase the number of preported sightings.
+
+Ultimately, it is clear that there is some relationship between day of the week and UFO sightings, particularly that the weekend is a popular time for UFO sightings, where Monday is relatively unpopular for UFO sightings.
+
+
 ## Who did what/tidyverse functions used
 
 ### William
+
+
 In order to perform multivariate regression, there were several things that had to occur prior. I had to clean and tidy the data in an way that would permit regression, as only numerical values can be regressed against each other. To begin with, I loaded the data set by using the function read_csv. I then, using tidyverse and the pip function, selected only those columns that would be usefull for my analysis. In this case, the columns were Date, Time, length_of_encounter_seconds, date_documented, latitude, and longitude. I then split the Date column into two columns because it originally contained both the date and time. I called the sepearte function on the Date column with " " as the seperater. I then convereted all columns to numeric or integer values. By converting the Time column to a numberic it gave me just the hour which is what I wanted to use to regress. I also parsed the Date and date_documented columns to date using the parse_date function. Then using the mutate function, I created several columns called diff, day, month, and year - all of which would be used as predictors in the model. The diff column is difference between the date_documented and Date. This returns are char so I had to convert this column to a numeric value later on. As for the day, month, and year columns, I created these by using the format function and selecting the respective value from the original Date column. These all had to be converted to numeric afterwards as well. With all of my data in the right format, I then ran linear regresson with length_of_encounter_seconds as the response and Time, day, month, year, diff, latitude, and longitude as predictors. Finally, the summary function was called in order to show the significance of the respective predictors as well as their associated betas.
+
+
 ### Brady
 
 ### Manasi
