@@ -18,8 +18,8 @@ library(tidyverse)
 ufo <- read_csv("ufo_sighting_data.csv")
 ufo <- ufo %>% select(-described_duration_of_encounter, -description) %>%
   separate(Date_time, into = c("Date","Time"), sep = " ")
-ufo$Date <- as.Date(ufo$Date, "%m/%d/%Y")
-ufo$Time <- parse_time(ufo$Time, format = "%H:%M")
+ ufo$Date <- as.Date(ufo$Date, "%m/%d/%Y")
+ ufo$Time <- parse_time(ufo$Time, format = "%H:%M")
 
 #ufo is tidy
 
@@ -83,6 +83,24 @@ In my analysis of the ufo sighting data set, I sought to use multivariate linear
 ### Brady
 
 ### Manasi
+```{r}
+ufo_times <- ufo %>%
+  separate(Time, into = c("Hour","Minutes","Seconds"), sep = ":")
+
+ufo_comb_times <- ufo_times %>%
+  unite(Time, Hour, Minutes, Seconds, sep = "")
+
+ufo_time_data <- ufo_comb_times %>%
+  group_by(Time)
+
+```
+
+```{r}
+ggplot(data = ufo_comb_times, aes(x = Time, y = count)) +
+  geom_jitter()
+```
+Findings:
+
 
 ### Rachael
 
@@ -129,6 +147,8 @@ In order to perform multivariate regression, there were several things that had 
 ### Brady
 
 ### Manasi
+In this lab, I helped tidy the data using functions such as separate to make sure the dataset followed tidying rules. For example, the original data had the date and time in one column, but I used separate to create separate columns for the date and time variables. 
+For my individual part, I manipulated the data to see if there were more UFO sitings at specific times. First, I separated the Time variable into hour, minutes, and seconds by the colons and then united them to form a six digit time for each siting to make the values easier to plot. This way I would know that a higher number such as 221500 (22:15:00) is time that is later in the day whereas a lower number such as 061000 (06:10:00) is earlier in the day.I then used ggplot to plot the time vs the total number of sitings to see which times of day had the most sitings. I added lables and a title to make my graph clearer.
 
 ### Rachael
 
