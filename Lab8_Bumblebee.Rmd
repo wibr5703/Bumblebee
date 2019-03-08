@@ -103,6 +103,7 @@ ggplot(data = ufo_comb_times, aes(x = Time)) +
   labs(title = "Number of UFO Sightings by Time of Day", x = "Time", y = "Number of sightings") 
 ```
 Findings:
+The plot above illustrates that time of day does indeed have a correlation with the humber of UFO sitings. UFO sitings increase as the it gets later into the day and the most sitings happen really late at night. This makes sense because a UFO is probably more likely to be seen at night, especially since so many of the sitings describe them as bright lights. The number of UFO sitings seems to stay about the same for other hours of the day. Another reason for this correlation is that people tend to go out more at night, since they usually have oher commitments such as work or school during the day.
 
 
 ### Rachael
