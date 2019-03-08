@@ -28,15 +28,25 @@ ufo$Time <- parse_time(ufo$Time, format = "%H:%M")
 
 ## Overall Team Question: What factors correlate with UFO sightings, and what variables could account for variation in sighting duration?
 
+Our domain expert is Judy Messoline, founder and owner of the UFO WatchTower located in Hooper, Colorado. As an avid consumer of all things alien, Messoline would naturally be curious about the circumstances which prompt more UFO and alien sightings. Messoline might also be interested in creating an exicting atmosphere for watch tower visitors, so she may find our results interesting to incorporate new elements to her business, and drive her profit. Finally, Messoline might be interested in having longer UFO sightings herself, so finding out what variables increase duration would be interesting to her.
+
 ## Why this question is important
 
-  * why this reason is important
+This question is important first because of the little information known about UFO sightings. Analysis of data is crucial to understand what influences UFO sightings, reportings, and all the time in between. This question is also important because of prejudices associated with those who report UFO sightings. With concrete data analysis, this question helps illuminate some of the unifying circumstances which prompt individuals to report UFO sightings, and possibly unifying characteristics of those people.
+
+  * This reason is important because we know so little about the possibilities of extraterrestrial life. Analysis of this data is how we can demystify some of the circumstances surrounding alien sightings, and could lead to discovery of patterns. Finding those patterns would be the next step to recreating circumstances and developing tests.
   
 ## Conclusion/Answer to question
 
+
 ## Recommendation/importance to domain expert
 
+
 ## Description of datasets imported/tidied/analyzed
+
+The dataset we have chosen to import, tidy, and analyze can be found at: https://www.kaggle.com/camnugent/ufo-sightings-around-the-world.
+
+This data set contains over 80,000 reports of UFO sightings. The data includes the date and time the UFO was seen, the location the UFO was observed, a description of the UFO, the sighting, and its duration, and the date the sighting was reported. We were able to tidy the dataset in order to accurately represent when and where the UFO was seen. We tidied the data to primarily focus on the location, time, and duration of the UFO sighting. Using this information we were able to answer our central question as to what factors influenced a UFO sighting and it's duration.
 
 ## Individual findings
 
@@ -121,3 +131,7 @@ In order to perform multivariate regression, there were several things that had 
 ### Manasi
 
 ### Rachael
+
+For this lab, I searched for data sets and found the data set we eventually used for the lab. I wrote the code to import the data, selected the relevant variables, and converted the data and time to appropriate classes instead of the default string. I also wrote about our domain expert, the importance/relevance of the question, and the explanation of the dataset.
+
+For my individual work, I manipulated the data further to create a new variable representing the day of the week the UFO was seen. I then summarised the data to find the total counts of UFO sightings for each day of the week. Finally, I used ggplot to visualize this data. Within this visualization I used the fill command to color by day, the scale function to reorder the bars to move in a chronological order, and a coordinate switch to change the limits of the y axis. Finally, I used the lab and theme functions to improve the aesthetics and clarity of my plot.
