@@ -1,0 +1,21 @@
+---
+title: "Individual"
+author: "Rachael Robinson"
+date: "3/13/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r}
+stationloc <- read_csv("Nice_Ride_2017_Station_Locations.csv")
+nicetrip <- read_csv("Nice_ride_trip_history_2017_season.csv")
+```
+
+```{r}
+head(stationloc)
+head(nicetrip)
+```
+
