@@ -1,0 +1,59 @@
+---
+title: "Bumblebee Lab 9"
+author: "Rachael Robinson, William Brickowski, Manasi Raol, Brady Kiesling"
+date: "3/13/2019"
+output: html_document
+---
+
+#Lab 9
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(lubridate)
+install.packages("java-openjdk-devel")
+library(OpenStreetMap)
+```
+
+```{r}
+#global data set, make duplicates before manipulation when working on individual portions
+
+station <- read_csv("Nice_Ride_2017_Station_Locations.csv")
+trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
+
+```
+
+##Team Question:
+
+##Most interesting plot to answer team question:
+
+
+##Individual Findings
+
+
+###William
+
+
+###Brady
+
+
+###Manasi
+
+
+###Rachael
+
+
+## Who did what/tidyverse functions used
+
+
+###William
+
+
+###Brady
+
+
+###Manasi
+
+
+###Rachael
+
