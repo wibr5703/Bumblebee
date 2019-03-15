@@ -42,6 +42,171 @@ trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
 
 ###Rachael
 
+```{r}
+#setup
+
+library(tidyverse)
+library(lubridate)
+library(OpenStreetMap)
+
+#loading the data
+
+station_loc <- read_csv("Nice_Ride_2017_Station_Locations.csv")
+Nice_Trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
+
+#simplifying the station data
+
+station_loc <- station_loc %>%
+  select(-Name, -`Total docks`)
+
+#joining data sets, renaming variables
+
+Nice_Trip <- Nice_Trip %>%
+  left_join(station_loc, c("Start station number" = "Number"))
+
+Nice_Trip <- Nice_Trip %>%
+  rename(start_lat = Latitude, start_long = Longitude)
+
+Nice_Trip <- Nice_Trip %>%
+  left_join(station_loc, c("End station number" = "Number"))
+
+Nice_Trip <- Nice_Trip %>%
+  rename(end_lat = Latitude, end_long = Longitude)
+
+
+#creating subsets, longest/shortest rides
+
+longest_trip <- Nice_Trip %>%
+  top_n(1000, `Total duration (Seconds)`)
+
+shortest_trip <- Nice_Trip %>%
+  top_n(-1000, `Total duration (Seconds)`)
+
+#Member data frames on longest/shortest rides
+
+member_count_long <- longest_trip %>%
+  count(Account = `Account type`)
+
+member_count_short <- shortest_trip %>%
+  count(Account = `Account type`)
+
+#Data frame showing discrepency, casual riders more represented in starting and ending at the same station
+
+casual_trip <- Nice_Trip %>%
+  filter(`Start station` == `End station`) %>%
+  count(Account = `Account type`)
+
+#Renaming values in data frame
+
+member_count_long <- member_count_long %>%
+  rename(`Long ride count` = n)
+
+member_count_short <- member_count_short %>%
+  rename(`Short ride count` = n)
+
+causal_trip <- casual_trip %>%
+  rename(`Ride count` = n)
+
+#Formatting date in datasets, 
+
+longest_trip <- longest_trip %>%
+  separate(`Start date`, into = c("Start_Date","Time"), sep = " ")
+
+shortest_trip <- shortest_trip %>%
+  separate(`Start date`, into = c("Start_Date","Time"), sep = " ")
+
+longest_trip$Start_Date <- as.Date(longest_trip$Start_Date, "%m/%d/%Y")
+shortest_trip$Start_Date <- as.Date(shortest_trip$Start_Date, "%m/%d/%Y")
+
+#Added variable indicating the weekday of the ride on both data frames
+
+daytrip_long <- longest_trip %>%
+  mutate(dayofweek = weekdays(Start_Date)) %>%
+  count(day_of_week = dayofweek)
+
+daytrip_short <- shortest_trip %>%
+  mutate(dayofweek = weekdays(Start_Date)) %>%
+  count(day_of_week = dayofweek)
+
+#renaming columns in weekday info, joining tables for short and long rides
+
+daytrip_long <- daytrip_long %>%
+  rename(long_trip_count = n)
+
+daytrip_short <- daytrip_short %>%
+  rename(short_trip_count = n)
+
+daytripper <- left_join(daytrip_long, daytrip_short, key = "day_of_week")
+
+#data frame for map plot
+
+long_map <- longest_trip %>%
+  top_n(10, `Total duration (Seconds)`)
+
+short_map <- shortest_trip %>%
+  top_n(-10, `Total duration (Seconds)`)
+
+```
+
+The following tables show the breakdown of member vs casual riders in the top 1000 longest and 1000 shortest rides in the data set. Note that the short ride count totals to more than 1000- this is because many of the short ride durations are equal, and the 1000 shortest rides refers to the 1000 shortest ride durations.
+
+```{r}
+print(member_count_long)
+print(member_count_short)
+```
+
+One finding from these tables is that the longest rides in the set were primarily from casual riders, whereas the opposite is true for the shortest rides in the set. Thus, it may be true that shorter rides are more likely to be member riders, and longer rides are more likely to be casual riders.
+
+One discrepency exists in short rides which start and end at the same station. Upon inspection of the data, it appears that casual riders are twice as likely to start and end at the same station. Ruling these cases out in the shortest ride data presents a bias against casual riders in the data representation.
+
+```{r}
+print(casual_trip)
+```
+
+Next, I investigated the days of the week the longest and shortest rides were happening on. The counts are summarised in the following chart.
+
+```{r}
+ggplot(data = daytripper, aes(fill = day_of_week)) +
+  geom_bar(mapping = aes(x=day_of_week, y=long_trip_count), stat = "identity") +
+  scale_x_discrete(limits = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")) +
+  geom_point(mapping = aes(x=day_of_week, y=short_trip_count)) +
+  geom_line(mapping = aes(x=day_of_week, y=short_trip_count, group = 1)) +
+  labs(title = "Weekday distribution of longest and shortest rides", subtitle = "Bars represent long trips, line shows short trips", x = "Day of week", y = "Number of rides out of shortest/longest", fill = "Day of week")
+```
+
+The bars show the distribution of the longest rides in the data set. Clearly, the longest rides are more likely to happen on weekend days, with a prominent peak on Saturday. This is congruent with our intuition that individuals would be more likely to take longer rides on the weekend. Similarly, the shortest rides in the data set (represented by the black lines) are much more consistent across the work week, and decline slightly on the weekends.
+
+We can conclude from this chart that the longest rides in the dataset occur on the weekends, whereas the shortest rides in the dataset are more evenly distributed throughout the week, with a small decline on the weekends.
+
+Finally, we can plot the 10 longest and 10 shortest rides over a map of Minneapolis.
+
+```{r}
+# Set latitudes and longitudes of city map
+LAT1 <- 44.88 
+LAT2 <- 45.05
+LON1 <- -93.35
+LON2 <- -93.08
+
+# Generate map
+map <- openmap(c(LAT2,LON1), c(LAT1,LON2), zoom = NULL,
+               type = "esri",
+               mergeTiles = TRUE)
+
+# Project map to latitude and longitude
+map.latlon <- openproj(map, projection = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
+
+# Plot map of Minneapolis
+autoplot(map.latlon) +
+  geom_segment(data = long_map, aes(x=start_long, y=start_lat, xend = end_long, yend = end_lat), color = 'blue', size = .75, arrow = arrow(length = unit(0.2, "cm"))) +
+  geom_point(data = short_map, aes(x=start_long, y=start_lat), color = 'red', size = 2.5) +
+  geom_point(data = short_map, aes(x=end_long, y=end_lat), color = 'yellow', size = .75, shape = 8) +
+  labs(title = "Top 10 longest and shortest bike rides in Minneapolis, 2017", subtitle = "Blue arrows represent longest trips, red indicates short ride start stations, and yellow stars are short ride end stations", x = "Longitude", y = "Latitude")
+```
+
+Again, it's easy to see how the short rides often start and end in the same location. Furthermore, most of the shortest rides occur near bodies of water in the area, and are generally clustered toward the center of the city. On the other hand, the longest rides in the set unsurprisingly cover larger distances, and are less centralized. While some of the distances are relatively short, the longer rides on this plot are generally farther apart.
+
+This plot is illuminating to show the popular locations of the shortest and longest rides in the set.
+
 
 ## Who did what/tidyverse functions used
 
@@ -56,4 +221,6 @@ trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
 
 
 ###Rachael
+
+For this lab, I created and formatted the team document. I also worked to override defaults on my computer in order to load and run the OpenStreetMap library to compile the document for my group. In addition, I completed my individual analysis and reported several findings about the data. In the tidyverse, I read in the data and completed some mutating joins to combine data from the two tables. I used the select, filter, rename functions to simplify my data frames. I used the mutate, top_n(), and count functions to create unique variables of which I could evaluate the characteristics of the longest and shortest rides in the dataset. Finally, I used functions such as scale_x_discrete() and labs() to customize my charts and plots. 
 

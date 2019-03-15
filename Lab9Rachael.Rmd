@@ -1,0 +1,301 @@
+---
+title: "Untitled"
+author: "Rachael Robinson"
+date: "3/14/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(lubridate)
+library(OpenStreetMap)
+```
+
+```{r}
+station_loc <- read_csv("Nice_Ride_2017_Station_Locations.csv")
+Nice_Trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
+```
+```{r}
+head(station_loc)
+head(Nice_Trip)
+```
+
+```{r}
+station_loc <- station_loc %>%
+  select(-Name, -`Total docks`)
+
+head(station_loc)
+```
+
+```{r}
+Nice_Trip <- Nice_Trip %>%
+  left_join(station_loc, c("Start station number" = "Number"))
+
+head(Nice_Trip)
+```
+
+```{r}
+Nice_Trip <- Nice_Trip %>%
+  rename(start_lat = Latitude, start_long = Longitude)
+
+head(Nice_Trip)
+
+```
+
+```{r}
+Nice_Trip <- Nice_Trip %>%
+  left_join(station_loc, c("End station number" = "Number"))
+
+head(Nice_Trip)
+```
+
+```{r}
+Nice_Trip <- Nice_Trip %>%
+  rename(end_lat = Latitude, end_long = Longitude)
+
+head(Nice_Trip)
+```
+
+```{r}
+longest_trip <- Nice_Trip %>%
+  top_n(1000, `Total duration (Seconds)`)
+
+shortest_trip <- Nice_Trip %>%
+  top_n(-1000, `Total duration (Seconds)`)
+
+#view(shortest_trip)
+
+```
+
+Data analysis 
+
+Members/casual
+
+```{r}
+member_count_long <- longest_trip %>%
+  count(... = `Account type`)
+
+print(member_count_long)
+```
+```{r}
+member_count_short <- shortest_trip %>%
+  count(... = `Account type`)
+
+print(member_count_short)
+```
+
+A side note about why I'm keeping more data points in the casual riders.
+(Tried to rule out instances where the start and end stations were the same, realized it was a biasing results and hiding casual riders taking short trips)
+
+
+```{r}
+casual_trip <- Nice_Trip %>%
+  filter(`Start station` == `End station`) %>%
+  count(... = `Account type`)
+
+print(casual_trip)
+
+```
+An explanation for the discrepency I found when ruling out really short rides with the same start and end station - casual riders are more likely to start and end at the same station at over a 2 to 1 ratio.
+
+
+
+
+
+Day of week breakdown
+
+```{r}
+longest_trip <- longest_trip %>%
+  separate(`Start date`, into = c("Start_Date","Time"), sep = " ")
+
+shortest_trip <- shortest_trip %>%
+  separate(`Start date`, into = c("Start_Date","Time"), sep = " ")
+
+longest_trip$Start_Date <- as.Date(longest_trip$Start_Date, "%m/%d/%Y")
+shortest_trip$Start_Date <- as.Date(shortest_trip$Start_Date, "%m/%d/%Y")
+
+head(longest_trip)
+head(shortest_trip)
+
+```
+
+
+
+```{r}
+daytrip_long <- longest_trip %>%
+  mutate(dayofweek = weekdays(Start_Date)) %>%
+  count(day_of_week = dayofweek)
+
+daytrip_short <- shortest_trip %>%
+  mutate(dayofweek = weekdays(Start_Date)) %>%
+  count(day_of_week = dayofweek)
+
+print(daytrip_long)
+```
+
+```{r}
+print(daytrip_short)
+```
+
+```{r}
+daytrip_long <- daytrip_long %>%
+  rename(long_trip_count = n)
+
+daytrip_short <- daytrip_short %>%
+  rename(short_trip_count = n)
+
+
+daytripper <- left_join(daytrip_long, daytrip_short, key = "day_of_week")
+
+  
+print(daytripper)
+```
+
+```{r}
+ggplot(data = daytripper, aes(fill = day_of_week)) +
+  geom_bar(mapping = aes(x=day_of_week, y=long_trip_count), stat = "identity") +
+  scale_x_discrete(limits = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")) +
+  geom_point(mapping = aes(x=day_of_week, y=short_trip_count)) +
+  geom_line(mapping = aes(x=day_of_week, y=short_trip_count, group = 1)) +
+  labs(title = "Weekday distribution of longest and shortest rides", subtitle = "Bars represent long trips, line shows short trips", x = "Day of week", y = "Number of rides out of shortest/longest", fill = "Day of week")
+```
+
+```{r}
+long_map <- longest_trip %>%
+  top_n(10, `Total duration (Seconds)`)
+
+short_map <- shortest_trip %>%
+  top_n(-10, `Total duration (Seconds)`)
+```
+
+
+
+
+```{r}
+# Set latitudes and longitudes of city map
+LAT1 <- 44.88 
+LAT2 <- 45.05
+LON1 <- -93.35
+LON2 <- -93.08
+
+# Generate map
+map <- openmap(c(LAT2,LON1), c(LAT1,LON2), zoom = NULL,
+               type = "esri",
+               mergeTiles = TRUE)
+
+# Project map to latitude and longitude
+map.latlon <- openproj(map, projection = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
+
+# Plot map of Minneapolis
+autoplot(map.latlon) +
+  geom_segment(data = long_map, aes(x=start_long, y=start_lat, xend = end_long, yend = end_lat), color = 'blue', size = .75, arrow = arrow(length = unit(0.2, "cm"))) +
+  geom_point(data = short_map, aes(x=start_long, y=start_lat), color = 'red', size = 2.5) +
+  geom_point(data = short_map, aes(x=end_long, y=end_lat), color = 'yellow', size = .75, shape = 8) +
+  labs(title = "Top 10 longest and shortest bike rides in Minneapolis, 2017", subtitle = "Blue arrows represent longest trips, red indicates short ride start stations, and yellow stars are short ride end stations", x = "Longitude", y = "Latitude")
+```
+
+
+```{r}
+#setup
+
+library(tidyverse)
+library(lubridate)
+library(OpenStreetMap)
+
+#loading the data
+
+station_loc <- read_csv("Nice_Ride_2017_Station_Locations.csv")
+Nice_Trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
+
+#simplifying the station data
+
+station_loc <- station_loc %>%
+  select(-Name, -`Total docks`)
+
+#joining data sets, renaming variables
+
+Nice_Trip <- Nice_Trip %>%
+  left_join(station_loc, c("Start station number" = "Number"))
+
+Nice_Trip <- Nice_Trip %>%
+  rename(start_lat = Latitude, start_long = Longitude)
+
+Nice_Trip <- Nice_Trip %>%
+  rename(end_lat = Latitude, end_long = Longitude)
+
+Nice_Trip <- Nice_Trip %>%
+  rename(end_lat = Latitude, end_long = Longitude)
+
+
+#creating subsets, longest/shortest rides
+
+longest_trip <- Nice_Trip %>%
+  top_n(1000, `Total duration (Seconds)`)
+
+shortest_trip <- Nice_Trip %>%
+  top_n(-1000, `Total duration (Seconds)`)
+
+#Member data frames on longest/shortest rides
+
+member_count_long <- longest_trip %>%
+  count(Account = `Account type`)
+
+member_count_short <- shortest_trip %>%
+  count(Account = `Account type`)
+
+#Data frame showing discrepency, casual riders more represented in shorter rides
+
+casual_trip <- Nice_Trip %>%
+  filter(`Start station` == `End station`) %>%
+  count(Account = `Account type`)
+
+#Renaming values in data frame
+
+member_count_long <- member_count_long %>%
+  rename(count = n)
+
+member_count_short <- member_count_short %>%
+  rename(count = n)
+
+causal_trip <- casual_trip %>%
+  rename(count = n)
+
+#Formatting date in datasets, 
+
+longest_trip <- longest_trip %>%
+  separate(`Start date`, into = c("Start_Date","Time"), sep = " ")
+
+shortest_trip <- shortest_trip %>%
+  separate(`Start date`, into = c("Start_Date","Time"), sep = " ")
+
+longest_trip$Start_Date <- as.Date(longest_trip$Start_Date, "%m/%d/%Y")
+shortest_trip$Start_Date <- as.Date(shortest_trip$Start_Date, "%m/%d/%Y")
+
+#Added variable indicating the weekday of the ride on both data frames
+
+daytrip_long <- longest_trip %>%
+  mutate(dayofweek = weekdays(Start_Date)) %>%
+  count(day_of_week = dayofweek)
+
+daytrip_short <- shortest_trip %>%
+  mutate(dayofweek = weekdays(Start_Date)) %>%
+  count(day_of_week = dayofweek)
+
+#renaming columns in weekday info, joining tables for short and long rides
+
+daytrip_long <- daytrip_long %>%
+  rename(long_trip_count = n)
+
+daytrip_short <- daytrip_short %>%
+  rename(short_trip_count = n)
+
+daytripper <- left_join(daytrip_long, daytrip_short, key = "day_of_week")
+
+
+
+
+
+```
+
+
