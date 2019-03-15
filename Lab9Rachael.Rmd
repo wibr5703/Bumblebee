@@ -294,8 +294,12 @@ daytripper <- left_join(daytrip_long, daytrip_short, key = "day_of_week")
 
 
 
+```
 
 
+```{r}
+print(member_count_long)
+print(member_count_short)
 ```
 
 
