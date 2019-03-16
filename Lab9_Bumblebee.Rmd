@@ -32,7 +32,36 @@ trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
 
 
 ###William
+```{r setup, include=FALSE}
+library(tidyverse)
+locations=read_csv("Nice_Ride_2017_Station_Locations.csv")
+history=read_csv("Nice_ride_trip_history_2017_season.csv")
 
+history=rename(history,Number = `Start station number`)
+
+history = history %>% 
+  left_join(locations, by = "Number")
+
+history=rename(history, `Start station number` = `Number`, `Number` = `End station number`,`Start station name`=`Name`,`Start station latitude`=`Latitude`,`Start station longitude`=`Longitude`,`Start station total docks`=`Total docks`)
+
+history = history %>% 
+  left_join(locations, by = "Number")
+
+history=rename(history, `End station number` = `Number`,`End station name`=`Name`,`End station latitude`=`Latitude`,`End station longitude`=`Longitude`,`End station total docks`=`Total docks`)
+
+history=history %>% select(1:8,10:12,14:16)
+
+history = history %>% mutate(trip_name=str_c(`Start station`, `End station`, sep = " to "))
+
+history = history %>% drop_na() %>% separate(1, c('Start date','Start time'), sep = " ", remove = TRUE) 
+
+history = history %>% separate(5, c('End date','End time'), sep = " ", remove = TRUE)
+
+most_freq = history %>% count(trip_name) %>% arrange(desc(n))
+
+head(most_freq)
+```
+Above is a table of the top 6 most frequent rides in the data set. The five most frequent rides have the same start and end station. For example, the most frequent ride with a total of 4853 rides is from Lake Street & Knox Ave S and back to Lake Street & Knox Ave S. This is followed a total of 3171 rides from Lake Calhoun Center and back to Lake Calhoun Center. This data is very interesting because it can be used to understand how consumers use this ride serivce. From the data, it is aparent that most individuals start and return to the same station. This is vital data because while particular stations may be more popular than others, it must be taken into account that vehicles will be return to these stations. So when determining how many docks are needed at popular locations, the provider must not only consider the most popular stations but also how frequent customers return scooters to these locations. If a particular location is a common one in which vehicles return, then less docks will be needed. The rate by which scooters return to a particular location can be modeled by using a poisson process in order to maximize efficiency. The sixth most popular ride is one that deviates from this pattern as the start and end location are different. There were 1857 rides from Willey Hall to Weisman Art Museum. In this case, this trip may represent a destination trip rather than a return trip. By classyfing particular rides as desintaiton (one in which the scooter starts somewhere and is dropped off somewhere else) or return trips (one in which a customer starts and ends at the same location), the provider can again better estimate how many docks are needed at eaach location.
 
 ###Brady
 
@@ -212,7 +241,7 @@ This plot is illuminating to show the popular locations of the shortest and long
 
 
 ###William
-
+For this lab, I sought to anser the question of which trips are the most popular in order to learn more about how many docks should be at each location. In order to perform this data analysis, I had to make use of several tidyverse functions. I initially used the read_csv function to import the respective data sets. I had to first rename the Start station number from one of the tibbles to Number so that this column title would match so that I could perform a left join. I joined the data sets based on the Number of the ride. I used left join because I only wanted longitudes and latitudes for rides the stations that had rides occur. I then performed another left join in order to get latidude and longitue for the End station. I then selected only those columsn needed for my analysis. I mutated my new tibble to get a new column for trip_name by concatenating Start station and End station. I then dropped the na values. And, I seperated the Start and End date columns so that I got two columns for each corresponding to Date and Time. Finally, I used the pip to count the trip_name column and arrange in descending order of n to show the most frequent trips.
 
 ###Brady
 
