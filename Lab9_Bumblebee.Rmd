@@ -93,6 +93,38 @@ Above is a table of the top 6 most frequent rides in the data set. The five most
 
 ###Brady
 
+```{r}
+station2<-station%>%
+  select(Longitude,Latitude,Number)
+
+tripssel<-trip%>%
+  select(`Start station number`, `End station number`, `Total duration (Seconds)`, `Account type`)
+
+joint<-left_join(tripssel,station2,by = c("Start station number" ="Number"))
+
+joint2<-left_join(joint,station2,by = c("End station number" ="Number"))
+
+jointx<-joint2%>%
+  mutate(xdis=(Longitude.x-Longitude.y)*69)%>%
+  mutate(ydis=(Latitude.x-Latitude.y)*69)%>%
+  mutate(tdis=sqrt((xdis^2)+(ydis)^2))%>%
+  mutate(durmin=(`Total duration (Seconds)`/60))
+
+jointy<-jointx%>%
+  filter(durmin<300)
+
+
+
+
+
+ggplot(data=jointy)+
+  geom_jitter(aes(x=durmin, y=tdis))+
+  geom_smooth(aes(x=durmin, y=tdis))
+
+
+```
+
+For my plot, I used the left_join fuction twice to have the start and end coordinates in one plot. I did this by joining once by the start station number and once by the end station numbers. I then created a new column with the displacement for each of the x and the y coordinates, and multiplied them by 69, to convert degrees to miles. I used the pythagorean formula to calculate the total displacement. I did not take the curvature of the earth into account, because it was negligible at this scale. I then plotted the displacement on the y axis and trip duration on the x axis to determine for each duration, how long the average trip was. I found that for the first 30 minutes, the average displacement increased with time, but then went back down and leveled off. This is likely due to people who take 30 minute trips or less tend to make one way trips, while the people who have longer trips will do a round trip and bring the bike back closer to where they started the trip, meaning the total distance is farther but the displacement is shorter.
 
 ###Manasi
 
@@ -321,6 +353,7 @@ For this lab, I sought to anser the question of which trips are the most popular
 
 ###Brady
 
+For this lab, I wanted to demonstate that I could use the join fuction properly, and I did that by using join to attach the latitude and longitude values to the start and end destination for every trip. when joining, I only selected the columns that would be relevant to the question. Using this data, I then did a scatter plot showing the correlation between the displacement and the duration of the trip.
 
 ###Manasi
 
