@@ -32,7 +32,8 @@ trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
 
 
 ###William
-```{r setup, include=FALSE}
+
+```{r, include=FALSE}
 library(tidyverse)
 locations=read_csv("Nice_Ride_2017_Station_Locations.csv")
 history=read_csv("Nice_ride_trip_history_2017_season.csv")
@@ -61,6 +62,7 @@ most_freq = history %>% count(trip_name) %>% arrange(desc(n))
 
 head(most_freq)
 ```
+
 Above is a table of the top 6 most frequent rides in the data set. The five most frequent rides have the same start and end station. For example, the most frequent ride with a total of 4853 rides is from Lake Street & Knox Ave S and back to Lake Street & Knox Ave S. This is followed a total of 3171 rides from Lake Calhoun Center and back to Lake Calhoun Center. This data is very interesting because it can be used to understand how consumers use this ride serivce. From the data, it is aparent that most individuals start and return to the same station. This is vital data because while particular stations may be more popular than others, it must be taken into account that vehicles will be return to these stations. So when determining how many docks are needed at popular locations, the provider must not only consider the most popular stations but also how frequent customers return scooters to these locations. If a particular location is a common one in which vehicles return, then less docks will be needed. The rate by which scooters return to a particular location can be modeled by using a poisson process in order to maximize efficiency. The sixth most popular ride is one that deviates from this pattern as the start and end location are different. There were 1857 rides from Willey Hall to Weisman Art Museum. In this case, this trip may represent a destination trip rather than a return trip. By classyfing particular rides as desintaiton (one in which the scooter starts somewhere and is dropped off somewhere else) or return trips (one in which a customer starts and ends at the same location), the provider can again better estimate how many docks are needed at eaach location.
 
 ###Brady
