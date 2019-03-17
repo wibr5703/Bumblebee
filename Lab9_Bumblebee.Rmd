@@ -68,6 +68,54 @@ Above is a table of the top 6 most frequent rides in the data set. The five most
 
 ###Manasi
 
+```{r}
+library(tidyverse)
+library(lubridate)
+library(OpenStreetMap)
+
+station_loc <- read_csv("Nice_Ride_2017_Station_Locations.csv")
+Nice_Trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
+
+christmas <- data %>%
+  filter(Startingdate == "2017-12-25") 
+
+autoplot(map.latlon) + 
+  geom_segment(data=christmas, 
+               aes(x=start.long, y=start.lat,
+                   xend=end.long, yend=end.lat), 
+               color = 'green', size = .6,
+               arrow = arrow(length = unit(0.2, "cm"))) +
+  labs(x='Longitude', y='Latitude') +
+  scale_x_continuous(limits = c(-93.3, -93.2)) +
+  scale_y_continuous(limits = c(44.93, 45.02)) +
+  ggtitle('Christmas Rides')
+```
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(OpenStreetMap)
+
+station_loc <- read_csv("Nice_Ride_2017_Station_Locations.csv")
+Nice_Trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
+
+thanksgiving <- data %>%
+  filter(Startingdate == "2017-11-23") 
+
+
+autoplot(map.latlon) + 
+  geom_segment(data=thanksgiving, 
+               aes(x=start.long, y=start.lat,
+                   xend=end.long, yend=end.lat), 
+               color = 'orange', size = .6,
+               arrow = arrow(length = unit(0.2, "cm"))) +
+  labs(x='Longitude', y='Latitude') +
+  scale_x_continuous(limits = c(-93.3, -93.2)) +
+  scale_y_continuous(limits = c(44.93, 45.02)) +
+  ggtitle('Thanksgiving Rides')
+```
+
+I looked at rides on popular holidays (Thanksgiving and Christmas) to see if there were more rides or less rides on those days. This was in order to determine whether more bikes were needed during the holidays or not. According to the Minneapolis bike maps for Thanksgiving and Christmas, there are less riders during these two holidays. This makes sense because most people stay in with their families during these times of the year. Additionally, these two holidays are during the winter season so less people may want to bike places due to the cold weather (especially in Minneapolis). 
 
 ###Rachael
 
@@ -247,6 +295,8 @@ For this lab, I sought to anser the question of which trips are the most popular
 
 
 ###Manasi
+
+For this lab, I answered the question of whether more or less bikes are needing during the holidays. I created maps with arrows repesenting peoples' bike paths during Thanksgiving and Christmas which are two of the most popular holidays. I customized the maps with specific arrows, colors, labels, and axes. I used filter to create the specific maps for Thanksgiving and Christmas and used autoplot to create the maps.
 
 
 ###Rachael
