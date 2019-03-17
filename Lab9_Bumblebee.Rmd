@@ -23,13 +23,24 @@ trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
 ```
 
 ##Team Question:
+Are more rides taken where the concentration of nice ride stations is higher?
 
 ##Most interesting plot to answer team question:
+
+```{r}
+autoplot(map.latlon) +  
+  geom_point(data=locations, 
+               aes(x=Longitude, y=Latitude), 
+               color = 'red', size = 0.8) +
+  labs(x='Longitude', y='Latitude') +
+  ggtitle('Stations Across Minneapolis and Surrounding Areas')
+```
+
 
 
 ##Individual Findings
 
-
+###William
 
 ```{r}
 locations=read_csv("Nice_Ride_2017_Station_Locations.csv")
@@ -72,10 +83,10 @@ library(tidyverse)
 library(lubridate)
 library(OpenStreetMap)
 
-station_loc <- read_csv("Nice_Ride_2017_Station_Locations.csv")
-Nice_Trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
+station <- read_csv("Nice_Ride_2017_Station_Locations.csv")
+trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
 
-christmas <- data %>%
+christmas <- station %>%
   filter(Startingdate == "2017-12-25") 
 
 autoplot(map.latlon) + 
@@ -95,10 +106,10 @@ library(tidyverse)
 library(lubridate)
 library(OpenStreetMap)
 
-station_loc <- read_csv("Nice_Ride_2017_Station_Locations.csv")
-Nice_Trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
+station <- read_csv("Nice_Ride_2017_Station_Locations.csv")
+trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
 
-thanksgiving <- data %>%
+thanksgiving <- station %>%
   filter(Startingdate == "2017-11-23") 
 
 
@@ -295,7 +306,7 @@ For this lab, I sought to anser the question of which trips are the most popular
 
 ###Manasi
 
-For this lab, I answered the question of whether more or less bikes are needing during the holidays. I created maps with arrows repesenting peoples' bike paths during Thanksgiving and Christmas which are two of the most popular holidays. I customized the maps with specific arrows, colors, labels, and axes. I used filter to create the specific maps for Thanksgiving and Christmas and used autoplot to create the maps.
+For this lab, I answered the question of whether more or less bikes are needing during the holidays. I created maps with arrows repesenting peoples' bike paths during Thanksgiving and Christmas which are two of the most popular holidays. I customized the maps with specific arrows, colors, labels, and axes. I used filter to create the specific maps for Thanksgiving and Christmas and used autoplot to create the maps. I also created the team plot to answer the overall team question. I found that more stations are concentrated within the hearts of the cities such as Minneapolis and St. Paul which makes sense since their populations are higher. Accoring to findings made my group, there are a couple streets within these cities that get the most rides. Therefore, a possible solution may be to add more bikes to these stations so more people can take advantage of them.
 
 
 ###Rachael
