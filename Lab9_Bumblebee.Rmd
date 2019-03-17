@@ -28,6 +28,21 @@ Are more rides taken where the concentration of nice ride stations is higher?
 ##Most interesting plot to answer team question:
 
 ```{r}
+
+LAT1 <- 44.88 
+LAT2 <- 45.05
+LON1 <- -93.35
+LON2 <- -93.08
+
+# Generate map
+map <- openmap(c(LAT2,LON1), c(LAT1,LON2), zoom = NULL,
+               type = "esri",
+               mergeTiles = TRUE)
+
+# Project map to latitude and longitude
+map.latlon <- openproj(map, projection = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
+
+
 autoplot(map.latlon) +  
   geom_point(data=locations, 
                aes(x=Longitude, y=Latitude), 
@@ -88,6 +103,8 @@ trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
 
 christmas <- station %>%
   filter(Startingdate == "2017-12-25") 
+
+
 
 autoplot(map.latlon) + 
   geom_segment(data=christmas, 
