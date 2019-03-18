@@ -129,50 +129,50 @@ For my plot, I used the left_join fuction twice to have the start and end coordi
 ###Manasi
 
 ```{r}
-library(tidyverse)
-library(lubridate)
-library(OpenStreetMap)
+#library(tidyverse)
+#library(lubridate)
+#library(OpenStreetMap)
 
-station <- read_csv("Nice_Ride_2017_Station_Locations.csv")
-trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
+#station <- read_csv("Nice_Ride_2017_Station_Locations.csv")
+#trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
 
-christmas <- station %>%
-  filter(Startingdate == "2017-12-25") 
+#christmas <- station %>%
+  #filter(Startingdate == "2017-12-25") 
 
-autoplot(map.latlon) + 
-  geom_segment(data=christmas, 
-               aes(x=start.long, y=start.lat,
-                   xend=end.long, yend=end.lat), 
-               color = 'green', size = .6,
-               arrow = arrow(length = unit(0.2, "cm"))) +
-  labs(x='Longitude', y='Latitude') +
-  scale_x_continuous(limits = c(-93.3, -93.2)) +
-  scale_y_continuous(limits = c(44.93, 45.02)) +
-  ggtitle('Christmas Rides')
+#autoplot(map.latlon) + 
+ # geom_segment(data=christmas, 
+              # aes(x=start.long, y=start.lat,
+                  # xend=end.long, yend=end.lat), 
+               #color = 'green', size = .6,
+               #arrow = arrow(length = unit(0.2, "cm"))) +
+ # labs(x='Longitude', y='Latitude') +
+ # scale_x_continuous(limits = c(-93.3, -93.2)) +
+  #scale_y_continuous(limits = c(44.93, 45.02)) +
+ # ggtitle('Christmas Rides')
 ```
 
 ```{r}
-library(tidyverse)
-library(lubridate)
-library(OpenStreetMap)
+#library(tidyverse)
+#library(lubridate)
+#library(OpenStreetMap)
 
-station <- read_csv("Nice_Ride_2017_Station_Locations.csv")
-trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
+#station <- read_csv("Nice_Ride_2017_Station_Locations.csv")
+#trip <- read_csv("Nice_ride_trip_history_2017_season.csv")
 
-thanksgiving <- station %>%
-  filter(Startingdate == "2017-11-23") 
+#thanksgiving <- station %>%
+ # filter(Startingdate == "2017-11-23") 
 
 
-autoplot(map.latlon) + 
-  geom_segment(data=thanksgiving, 
-               aes(x=start.long, y=start.lat,
-                   xend=end.long, yend=end.lat), 
-               color = 'orange', size = .6,
-               arrow = arrow(length = unit(0.2, "cm"))) +
-  labs(x='Longitude', y='Latitude') +
-  scale_x_continuous(limits = c(-93.3, -93.2)) +
-  scale_y_continuous(limits = c(44.93, 45.02)) +
-  ggtitle('Thanksgiving Rides')
+#autoplot(map.latlon) + 
+  #geom_segment(data=thanksgiving, 
+              # aes(x=start.long, y=start.lat,
+                   #xend=end.long, yend=end.lat), 
+              # color = 'orange', size = .6,
+              # arrow = arrow(length = unit(0.2, "cm"))) +
+  #labs(x='Longitude', y='Latitude') +
+ # scale_x_continuous(limits = c(-93.3, -93.2)) +
+  #scale_y_continuous(limits = c(44.93, 45.02)) +
+  #ggtitle('Thanksgiving Rides')
 ```
 
 I looked at rides on popular holidays (Thanksgiving and Christmas) to see if there were more rides or less rides on those days. This was in order to determine whether more bikes were needed during the holidays or not. According to the Minneapolis bike maps for Thanksgiving and Christmas, there are less riders during these two holidays. This makes sense because most people stay in with their families during these times of the year. Additionally, these two holidays are during the winter season so less people may want to bike places due to the cold weather (especially in Minneapolis). 
