@@ -40,4 +40,15 @@ What features affect the score the most?
 
 ###Rachael
 
+##What features did you create and why did you choose those features?
+##What is the relationship between your features and the scores of questions/answers if any? Provide an explanation for why each relationship does/does not exist.
+
+###William
+
+###Manasi
+
+###Brady
+
+###Rachael
+
 
