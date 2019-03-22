@@ -9,22 +9,127 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r}
+library(tidyverse)
+ans <- read_csv("Answers_trunc.csv")
+ques <- read_csv("Questions_trunc.csv")
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+head(ans)
+head(ques)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+lefthalf = "qwertasdfgzxcvb"
+righthalf = "yuiophjklnm"
+ques <- ques %>%
+  mutate(leftprop_ques = str_count(Title, "[qwertasdfgzxcvb]")/str_count(Title)) %>%
+  mutate(rightprop_ques = str_count(Title, "[yuiophjklnm]")/str_count(Title))
+
+
+ans <- ans %>%
+  mutate(leftprop_ans = str_count(Body, "[qwertasdfgzxcvb]")/str_count(Body)) %>%
+  mutate(rightprop_ans = str_count(Body, "[yuiophjklnm]")/str_count(Body))
+
+
+         
+      
+
+
+```
+
+```{r}
+head(ques)
+head(ans)
+```
+
+
+
+```{r}
+left.ques.lm <- lm(data = ques, Score~leftprop_ques)
+right.ques.lm <- lm(data = ques, Score~rightprop_ques)
+
+
+summary(left.ques.lm)
+summary(right.ques.lm)
+
+
+left.ans.lm <- lm(data = ans, Score~leftprop_ans)
+right.ans.lm <- lm(data = ans, Score~rightprop_ans)
+
+
+summary(left.ans.lm)
+summary(right.ans.lm)
+
+  
+```
+
+geom_jitter(mapping = aes(x = leftprop_ques, y = Score, color = "red")) +
+  geom_jitter(mapping = aes(x = rightprop_ques, y = Score, color = "blue")) +
+  ylim(0,2000) +
+  
+  
+  
+```{r}
+
+par(mfrow = c(2,2))
+
+
+ggplot(data = ques) +
+  geom_bin2d(binwidth = c(50,0.01), mapping = aes(x = Score, y=leftprop_ques)) +
+  xlim(-100, 500)
+
+ggplot(data = ques) +
+  geom_bin2d(binwidth = c(50,0.01), mapping = aes(x = Score, y=rightprop_ques)) +
+  xlim(-100, 500)
+
+ggplot(data = ans) +
+  geom_bin2d(binwidth = c(50,0.01), mapping = aes(x = Score, y=leftprop_ans)) +
+  xlim(-100, 500)
+
+ggplot(data = ans) +
+  geom_bin2d(binwidth = c(50,0.01), mapping = aes(x = Score, y=rightprop_ans)) +
+  xlim(-100, 500)
+
+
+```
+
+
+```{r}
+lefthalf = "qwertasdfgzxcvb"
+righthalf = "yuiophjklnm"
+ques <- ques %>%
+  mutate(leftprop_ques = str_count(Title, "[qwertasdfgzxcvb]")/str_count(Title)) %>%
+  mutate(rightprop_ques = str_count(Title, "[yuiophjklnm]")/str_count(Title))
+
+
+ans <- ans %>%
+  mutate(leftprop_ans = str_count(Body, "[qwertasdfgzxcvb]")/str_count(Body)) %>%
+  mutate(rightprop_ans = str_count(Body, "[yuiophjklnm]")/str_count(Body))
+
+
+ggplot(data = ques) +
+  geom_bin2d(binwidth = c(50,0.01), mapping = aes(x = Score, y=leftprop_ques)) +
+  xlim(-100, 500) +
+  labs(title = "Distribution of scores and proportion of left keyboard letters - Questions", x = "Score", y = "Proportion of left key letters in question" )
+
+ggplot(data = ques) +
+  geom_bin2d(binwidth = c(50,0.01), mapping = aes(x = Score, y=rightprop_ques)) +
+  xlim(-100, 500) +
+  labs(title = "Distribution of scores and proportion of right keyboard letters - Questions", x = "Score", y = "Proportion of right key letters in question" )
+
+ggplot(data = ans) +
+  geom_bin2d(binwidth = c(50,0.01), mapping = aes(x = Score, y=leftprop_ans)) +
+  xlim(-100, 500) +
+  labs(title = "Distribution of scores and proportion of left keyboard letters - Answers", x = "Score", y = "Proportion of left key letters in answer" )
+
+ggplot(data = ans) +
+  geom_bin2d(binwidth = c(50,0.01), mapping = aes(x = Score, y=rightprop_ans)) +
+  xlim(-100, 500) +
+  labs(title = "Distribution of scores and proportion of right keyboard letters - Answers", x = "Score", y = "Proportion of right key letters in answer" )
+
+```
+

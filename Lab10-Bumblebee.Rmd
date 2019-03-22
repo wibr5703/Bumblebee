@@ -15,11 +15,16 @@ questions <- read_csv("Questions_trunc.csv")
 ```
 
 ##Team Part
-What features affect the score the most?
+What features affect the score the most? How does timeliness affect score of answer?
+
 
 #Team Plots
 
 ##Individual Findings
+
+What features did you create and why did you choose those features?
+
+What is the relationship between your features and the scores of questions/answers if any? Provide an explanation for why each relationship does/does not exist.
 
 ###William
 
@@ -73,6 +78,51 @@ With my features, I wanted to see wheteher more people had questions about Pytho
 
 ###Rachael
 
+The feature I chose to examine for both the answers and the questions is proportion of letters used on the left side of the keyboard versus the right, and it's relationship to score. I chose this feature because it's been previously demonstrated that psychologically, humans prefer words created from the left side of the keyboard, as we often associate those letters and combinations with more pleasant attributes. Then, a study of questions and answers and it's relationship to score might demonstrate that the left side of the keyboard is associated with higher scores, simply due to human psychology. That analysis produced the following results:
+
+```{r}
+lefthalf = "qwertasdfgzxcvb"
+righthalf = "yuiophjklnm"
+ques <- ques %>%
+  mutate(leftprop_ques = str_count(Title, "[qwertasdfgzxcvb]")/str_count(Title)) %>%
+  mutate(rightprop_ques = str_count(Title, "[yuiophjklnm]")/str_count(Title))
+
+
+ans <- ans %>%
+  mutate(leftprop_ans = str_count(Body, "[qwertasdfgzxcvb]")/str_count(Body)) %>%
+  mutate(rightprop_ans = str_count(Body, "[yuiophjklnm]")/str_count(Body))
+
+
+ggplot(data = ques) +
+  geom_bin2d(binwidth = c(50,0.01), mapping = aes(x = Score, y=leftprop_ques)) +
+  xlim(-100, 500) +
+  labs(title = "Distribution of scores and proportion of left keyboard letters - Questions", x = "Score", y = "Proportion of left key letters in question" )
+
+ggplot(data = ques) +
+  geom_bin2d(binwidth = c(50,0.01), mapping = aes(x = Score, y=rightprop_ques)) +
+  xlim(-100, 500) +
+  labs(title = "Distribution of scores and proportion of right keyboard letters - Questions", x = "Score", y = "Proportion of right key letters in question" )
+
+ggplot(data = ans) +
+  geom_bin2d(binwidth = c(50,0.01), mapping = aes(x = Score, y=leftprop_ans)) +
+  xlim(-100, 500) +
+  labs(title = "Distribution of scores and proportion of left keyboard letters - Answers", x = "Score", y = "Proportion of left key letters in answer" )
+
+ggplot(data = ans) +
+  geom_bin2d(binwidth = c(50,0.01), mapping = aes(x = Score, y=rightprop_ans)) +
+  xlim(-100, 500) +
+  labs(title = "Distribution of scores and proportion of right keyboard letters - Answers", x = "Score", y = "Proportion of right key letters in answer" )
+```
+
+From these graphs, we can draw some conclusions about the relationship between keyboard side and the score of both the questions and answers. 
+
+Looking first at the questions, we see that the highest density in the first bin of scores occurs at left sided key proportions of around 0.4-0.5. On the other hand, the highest density in the same area for the right sided keys is 0.3-0.4. Thus, we see that scores ranging from 0-50 are more likely to have higher proportions of the left side of the keyboard, and slightly lower proportions on the right.
+
+Turning to answers, we see a similar trend. On the left side of the keyboard, we see the highest density in in proportions around 0.4. On the right side of the keyboard however, the proportions seem to be centered around 0.3. Thus, we can again note that in the lowest range of scores, the left key proportions should be higher on average.
+
+Unfortunately, due to the enormity of the data set, the data seems evenly distributed for the other scores, and thus we cannot make any generalizations about higher scores and their relationship to keyboard side proportions.
+
+Ultimately, because of the ambiguity in the larger scoring ranges, we cannot really establish a relationship between keyboard side proportion and the score of the answer. This feature doesn't have bearing on the score because it does not differentiate the content itself, only the keys being used. Thus, we can assume that the apparent "pleasantness" of the left keys have no bearing on the quality of the question or answer content.
 
 ## Who did what
 
@@ -84,5 +134,5 @@ With my features, I wanted to see wheteher more people had questions about Pytho
 
 ###Rachael
 
-
+For this lab, I imported data, manipulated it to add new variables for the proportion of letters from each side of the keyboard, and plotted my results against scores. I then discussed the relationship between these proportions and scores. I also did minor formatting of the lab document, and communicated my results to my team.
 
