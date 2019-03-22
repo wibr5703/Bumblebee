@@ -25,6 +25,50 @@ What features affect the score the most?
 
 ###Manasi
 
+```{r}
+library(tidyverse)
+answers <- read_csv("Answers_trunc.csv")
+questions <- read_csv("Questions_trunc.csv")
+
+#feature 1 (answers) 
+
+no <- sum(str_count(answers$Body,pattern = "No"))
+yes <- sum(str_count(answers$Body,pattern = "Yes"))
+ggplot()
+
+#feature 1 (questions)   
+python <- sum(str_count(questions$Body,pattern = "Python"))
+sql <- sum(str_count(questions$Body,pattern = "SQL"))
+
+answers %>%
+  mutate(no)
+
+answers %>%
+  mutate(yes)
+
+ggplot(data = answers, aes(x=no, y= Score)) +
+  geom_line()
+
+ggplot(data = answers, aes(x=no, y= Score)) +
+  geom_line()
+
+questions %>%
+  mutate(python)
+
+questions %>%
+  mutate(sql)
+
+ggplot(data = questions, aes(x=python, y= Score)) +
+  geom_line()
+
+ggplot(data = answers, aes(x=sql, y= Score)) +
+  geom_line()
+
+
+```
+
+With my features, I wanted to see wheteher more people had questions about Python or SQL so I added one to my Python and SQL variables everytime the word Python or SQL was in the the question. I did this by using str_count. For answers, I wanted to compare whether people got answers they wanted by counting how many times No or Yes was included in the answers. Overall there were more questions about Python and more answers with the word "No" in them.
+
 ###Brady
 
 ###Rachael
@@ -40,15 +84,5 @@ What features affect the score the most?
 
 ###Rachael
 
-##What features did you create and why did you choose those features?
-##What is the relationship between your features and the scores of questions/answers if any? Provide an explanation for why each relationship does/does not exist.
-
-###William
-
-###Manasi
-
-###Brady
-
-###Rachael
 
 
