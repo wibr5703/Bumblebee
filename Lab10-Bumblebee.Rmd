@@ -5,7 +5,39 @@ date: "3/21/2019"
 output: html_document
 ---
 
-```{r}
+#Lab 10
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+answers <- read_csv("Answers_trunc.csv")
+questions <- read_csv("Questions_trunc.csv")
 ```
+
+##Team Part
+What features affect the score the most?
+
+#Team Plots
+
+##Individual Findings
+
+###William
+
+###Manasi
+
+###Brady
+
+###Rachael
+
+
+## Who did what
+
+###William
+
+###Manasi
+
+###Brady
+
+###Rachael
+
 
