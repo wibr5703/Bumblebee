@@ -9,3 +9,53 @@ output: html_document
 
 ```
 
+###Individual Plots of Your Name's popularity over time
+
+##Rachael
+
+##Manasi
+
+##Brady
+
+##William
+
+
+###Ariel and Rachel regexs
+
+##Rachael
+
+##Manasi
+
+##Brady
+
+##William
+
+###The Little Mermaid Effect
+
+##Rachael
+
+##Manasi
+
+##Brady
+
+##William
+
+###Individual Name Data
+
+##Rachael
+
+##Manasi
+
+##Brady
+
+##William
+
+###Who Did What
+
+##Rachael
+
+##Manasi
+
+##Brady
+
+##William
