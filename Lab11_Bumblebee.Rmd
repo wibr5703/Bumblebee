@@ -1,0 +1,79 @@
+---
+title: "bumblebeeLab11"
+author: "Manasi Raol"
+date: "4/3/2019"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(babynames)
+```
+
+##Individual Plots of Your Name's popularity over time
+
+
+###Rachael
+
+###Manasi
+
+###Brady
+
+###William
+
+
+
+
+
+##Ariel and Rachel regexs
+
+
+###Rachael
+
+###Manasi
+
+###Brady
+
+###William
+
+
+
+##The Little Mermaid Effect
+
+
+###Rachael
+
+###Manasi
+
+###Brady
+
+###William
+
+
+
+
+
+##Individual Name Data
+
+
+###Rachael
+
+###Manasi
+
+###Brady
+
+###William
+
+
+
+
+##Who Did What
+
+###Rachael
+
+###Manasi
+
+###Brady
+
+###William
