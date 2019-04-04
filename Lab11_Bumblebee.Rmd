@@ -16,6 +16,36 @@ library(babynames)
 
 ###Rachael
 
+
+```{r}
+library(tidyverse)
+library(babynames)
+datababy <- babynames::babynames
+
+datababy_begin <- datababy %>%
+  filter(str_detect(name, "^Rac")) %>%
+  group_by(year) %>%
+  mutate(totalprop = sum(prop))
+
+datababy_full <- datababy %>%
+  filter(str_detect(name, "^R[aey]+ch[ae]+l$")) %>%
+  group_by(year) %>%
+  mutate(totalprop = sum(prop))
+
+ggplot() +
+  geom_line(data = datababy_begin, mapping = aes(x= year, y=totalprop, color = "Rac")) +
+  geom_line(data = datababy_full, mapping = aes(x=year, y= totalprop, color = "Rachael/variations")) +
+  labs(title = "Time series of popularity of names that start with 'Rac' and the name Rachael", x = "Year", y = "Popularity Proportion", color = "Name match")
+  
+```
+
+The regular expression I used to match the variations of my name in the data set was "^R[eay]+ch[ae]+l$".
+
+I was born in the year 1998. According to the graph, this looks like the end of the peak popularity for the name "Rachael" and it's variations. In 1998, "Rachael" and it's variations had a popularity proportion of about 0.0095. After the year 2000, the graph shows a sharp decline in the popularity of my name, approaching a popularity proportion of about 0.001. Thus, my name is significantly less popular now than it was when I was born.
+
+The graph shows a strong relationship between names that start with "Rac" and "Rachael", indicating that it is rare for a name to start with the letters "Rac" and not end up being "Rachael" or a variation. This is corroborated by observation in the data set. Due to this relationship, names that start with "Rac" and the name "Rachael" are approximately equal in popularity now, according to the graph.
+
+
 ###Manasi
 
 ###Brady
@@ -64,6 +94,7 @@ library(babynames)
 ###Brady
 
 ###William
+
 
 
 ##Which of your teams’ names show a “significant” change over the years?
