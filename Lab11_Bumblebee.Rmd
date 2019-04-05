@@ -200,6 +200,15 @@ Therefore, there is a 0.0026 chance of a baby girl being named "Rachel", "Ariel"
 
 ##The Little Mermaid Effect
 
+###Considering all the changes in female names starting with a vowel from 1988 to 1990, what percentile is the change in Ariel names?
+
+Code
+
+
+Analysis
+
+
+###Graphing the change in proportion
 
 ```{r}
 datababy_change_ariel <- datababy %>%
