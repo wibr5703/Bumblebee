@@ -375,7 +375,7 @@ From the plot above, it's clear that the name "Ariel" and it's variations rose i
 
 ###Rachael
 
-
+For this lab, I first completed the individual portion, and plotted the time series of my names popularity over time. This required me to find variations on the spelling of my name, and develop a regular expression. Further along, I created plots for all the sections of the lab, and provided my code for the first two plots, and first computation section. In addition, I wrote the analysis for the Little Mermaid plot. Finally, I helped my group troubleshoot their code and work through the logics of the last several questions.
 
 ###Manasi
 
