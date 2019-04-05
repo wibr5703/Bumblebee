@@ -1,6 +1,6 @@
 ---
-title: "bumblebeeLab11"
-author: "Manasi Raol"
+title: "Bumblebee Lab 11"
+author: "Manasi Raol, William Brickowski, Rachael Robinson, Brady Kiesling"
 date: "4/3/2019"
 output: html_document
 ---
@@ -10,6 +10,8 @@ knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(babynames)
 ```
+
+#Lab 11
 
 ##Individual Plots of Your Name's popularity over time
 
@@ -48,9 +50,18 @@ The graph shows a strong relationship between names that start with "Rac" and "R
 
 ###Manasi
 
+
+
+
 ###Brady
 
+
+
+
 ###William
+
+
+
 
 
 
@@ -86,11 +97,13 @@ datababy_rachel_90 <- datababy_rachel %>%
 
 ```
 
+
 How many versions of the female name “Ariel” were there in 1973? 1988? 1990?
 
 ```{r}
 print(datababy_ariel_73)
 ```
+
 
 In this dataset, there were 2 versions of the female name Ariel in 1973.
 
@@ -98,13 +111,16 @@ In this dataset, there were 2 versions of the female name Ariel in 1973.
 print(datababy_ariel_88)
 ```
 
+
 In 1988, there were 15 variations on "Ariel" for female babies in the dataset.
 
 ```{r}
 print(datababy_ariel_90)
 ```
 
+
 By 1990 in the dataset, there are 22 recorded variations on the name "Ariel" for female babies.
+
 
 
 
@@ -115,6 +131,7 @@ How many versions for the female name “Rachel” for those years?
 print(datababy_rachel_73)
 ```
 
+
 In 1973, there were 6 variations on "Rachel" for the female babies in the dataset.
 
 
@@ -122,20 +139,25 @@ In 1973, there were 6 variations on "Rachel" for the female babies in the datase
 print(datababy_rachel_88)
 ```
 
+
 1988 shows one more variation for the female babies named "Rachel", with 7 total variations in the dataset.
 
 ```{r}
 print(datababy_rachel_90)
 ```
 
+
 Again, 1990 shows female babies with 7 variations on the name "Rachel".
+
 
 
 
 
 What are the chances a girl born in 1973 would be named either Rachel or Ariel (including various versions)? In 1988? In 1990? In 2017?
 
+
 1973:
+
 
 ```{r}
 datababy_73 <- datababy %>%
@@ -150,7 +172,9 @@ prop_73 <- sum(datababy_73$prop)
 print(prop_73)
 ```
 
+
 Thus, there is a 0.0047 chance that a baby girl born in 1973 will be named "Ariel", "Rachel", or variations.
+
 
 1988:
 
@@ -165,7 +189,9 @@ prop_88 <- sum(datababy_88$prop)
 print(prop_88)
 ```
 
+
 Thus, there is a 0.011 chance of female being named "Ariel", "Rachel", or their variations in 1988.
+
 
 1990:
 
@@ -180,7 +206,9 @@ prop_90 <- sum(datababy_90$prop)
 print(prop_90)
 ```
 
+
 Thus, there is a 0.012 chance of a girl being named "Ariel", "Rachel", or a variation on those names in 1990.
+
 
 2017:
 
@@ -195,6 +223,8 @@ prop_17 <- sum(datababy_17$prop)
 print(prop_17)
 ```
 
+
+
 Therefore, there is a 0.0026 chance of a baby girl being named "Rachel", "Ariel", or a variation in 2017.
 
 
@@ -202,12 +232,22 @@ Therefore, there is a 0.0026 chance of a baby girl being named "Rachel", "Ariel"
 
 ###What was the change in proportion in female Ariel baby names?
 
+
+
+
+
 ###Considering all the changes in female names starting with a vowel from 1988 to 1990, what percentile is the change in Ariel names?
+
 
 Code
 
 
+
+
 Analysis
+
+
+
 
 
 ###Graphing the change in proportion
@@ -243,6 +283,7 @@ ggplot() +
   theme_classic()
 ```
 
+
 The plot above is a time series, which demonstrates the relative popularity of certain names in the babynames dataset. The years observed in particular were 1988-1990, which is related to the release of the movie "The Little Mermaid". The blue line depicts the change in proportion of female names that begin with a vowel over this time period, whereas the red line shows the relatively change in proportion of "Ariel" and it's variations. Because of the nature of the dataset, to see the changes more clearly, the popularity proportion of these names were standardized by multiplicative and logarithmic scaling. Thus, the change in popularity is standardized, and it's clearly observed there is a stronger rise in popularity in the name Ariel over this time period.
 
 From the plot above, it's clear that the name "Ariel" and it's variations rose in popularity in the throughout the years 1988 to 1990, as observed in this dataset. Looking at the base comparison, which is the female names which start with a vowel, it's clear the popularity proportion remained nearly constant throughout the target years. Due to this constancy, the relative change in popularity of the name Ariel is significant, and substantively large. Therefore, it's reasonable to conclude from this visualisation and analysis that "The Little Mermaid" did indeed have a relatively large effect on the popularity of the name "Ariel", as reflected in this dataset.
@@ -263,10 +304,18 @@ From the plot above, it's clear that the name "Ariel" and it's variations rose i
 
 ##Who Did What
 
+
 ###Rachael
+
+
 
 ###Manasi
 
+
+
 ###Brady
 
+
+
 ###William
+
