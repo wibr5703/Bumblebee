@@ -83,8 +83,6 @@ There aren't many Manasi's or variations because it is not as common of a name i
 
 
 ```{r}
-data(babynames)
-
 #creating a Tibble of names starting with "Wil"
 babynames_Wil = babynames %>%  filter(str_detect(name, "^Wil"))
 
@@ -137,7 +135,7 @@ ggplot(data = prop_per_year, aes(x = year)) +
 a = prop_per_year %>% filter(year=="1997-01-01")
 b = prop_per_year %>% filter(year=="2017-01-01")
 
-l[6]*100
+a[6]*100
 b[6]*100
 b[4]*100
 ```
