@@ -400,6 +400,7 @@ For this lab, I first completed the individual portion, and plotted the time ser
 
 ###Manasi
 
+For this lab I looked at data relating to my name and created a plot to show my analysis. I looked over and discuessed with my teammates portions of the team part of the lab such as the ariel part.
 
 
 ###Brady
