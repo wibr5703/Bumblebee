@@ -50,7 +50,28 @@ The graph shows a strong relationship between names that start with "Rac" and "R
 
 ###Manasi
 
+library(tidyverse)
+library(babynames)
+baby <- babynames::babynames
 
+baby1 <- baby %>%
+  filter(str_detect(name, "^Man")) %>%
+  group_by(year) %>%
+  mutate(totalprop = sum(prop))
+
+baby2 <- baby %>%
+  filter(str_detect(name, "^Man[a]+s[ei]$")) %>%
+  group_by(year) %>%
+  mutate(totalprop = sum(prop))
+
+ggplot() +
+  geom_line(data = baby1, mapping = aes(x= year, y=totalprop, color = "Man")) +
+  geom_line(data = baby2, mapping = aes(x=year, y= totalprop, color = "Manasi/variations")) +
+  labs(title = "Popularity of names that start with 'Man' and the name Manasi", x = "Year", y = "Popularity Proportion", color = "Matches with Name")
+
+
+The regular expression I used to match the variations of my name in the data set was "^R[eay]+ch[ae]+l$". The peak of names starting with "Man" is in the 1970s. I was born in 2000. In 2000, they were at a middle proportion. After the 1970s, the plot shows a sharp decline in the popularity it's significantly less popular now than it was when I was born.
+There aren't many Manasi's or variations because it is not as common of a name in India so there isn't much of a correlation with Man vs Manasi.
 
 
 ###Brady
