@@ -241,7 +241,11 @@ ggplot() +
   theme_classic()
 ```
 
-Analysis
+The plot above is a time series, which demonstrates the relative popularity of certain names in the babynames dataset. The years observed in particular were 1988-1990, which is related to the release of the movie "The Little Mermaid". The blue line depicts the change in proportion of female names that begin with a vowel over this time period, whereas the red line shows the relatively change in proportion of "Ariel" and it's variations. Because of the nature of the dataset, to see the changes more clearly, the popularity proportion of these names were standardized by multiplicative and logarithmic scaling. Thus, the change in popularity is standardized, and it's clearly observed there is a stronger rise in popularity in the name Ariel over this time period.
+
+From the plot above, it's clear that the name "Ariel" and it's variations rose in popularity in the throughout the years 1988 to 1990, as observed in this dataset. Looking at the base comparison, which is the female names which start with a vowel, it's clear the popularity proportion remained nearly constant throughout the target years. Due to this constancy, the relative change in popularity of the name Ariel is significant, and substantively large. Therefore, it's reasonable to conclude from this visualisation and analysis that "The Little Mermaid" did indeed have a relatively large effect on the popularity of the name "Ariel", as reflected in this dataset.
+
+
 
 
 ##Histograms of Team Names
