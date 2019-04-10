@@ -1,0 +1,45 @@
+---
+title: "Bumblebee Lab 12"
+author: "Rachael Robinson, Manasi Raol, Brady Kiesling, William Brickowski"
+date: "4/10/2019"
+output: html_document
+---
+
+#Lab 12
+
+
+
+## Two-sample mean permutation test question
+
+## Two-sample mean permutation test plot
+
+## Data-based conclusion for Question 1 (percentiles, summary statistics (max, min), and probabilites (p-values))
+
+
+
+
+## Correlation permutation test question
+
+## Correlation permutation test plot
+
+## Data-based conclusion for Question 2 (percentiles, summary statistics (max, min), and probabilites (p-values))
+
+
+
+
+
+
+##Who did what
+
+
+###William
+
+
+###Brady
+
+
+###Manasi
+
+
+###Rachael
+
