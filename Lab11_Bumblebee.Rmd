@@ -50,7 +50,28 @@ The graph shows a strong relationship between names that start with "Rac" and "R
 
 ###Manasi
 
+library(tidyverse)
+library(babynames)
+baby <- babynames::babynames
 
+baby1 <- baby %>%
+  filter(str_detect(name, "^Man")) %>%
+  group_by(year) %>%
+  mutate(totalprop = sum(prop))
+
+baby2 <- baby %>%
+  filter(str_detect(name, "^Man[a]+s[ei]$")) %>%
+  group_by(year) %>%
+  mutate(totalprop = sum(prop))
+
+ggplot() +
+  geom_line(data = baby1, mapping = aes(x= year, y=totalprop, color = "Man")) +
+  geom_line(data = baby2, mapping = aes(x=year, y= totalprop, color = "Manasi/variations")) +
+  labs(title = "Popularity of names that start with 'Man' and the name Manasi", x = "Year", y = "Popularity Proportion", color = "Matches with Name")
+
+
+The regular expression I used to match the variations of my name in the data set was "^R[eay]+ch[ae]+l$". The peak of names starting with "Man" is in the 1970s. I was born in 2000. In 2000, they were at a middle proportion. After the 1970s, the plot shows a sharp decline in the popularity it's significantly less popular now than it was when I was born.
+There aren't many Manasi's or variations because it is not as common of a name in India so there isn't much of a correlation with Man vs Manasi.
 
 
 ###Brady
@@ -62,8 +83,6 @@ The graph shows a strong relationship between names that start with "Rac" and "R
 
 
 ```{r}
-data(babynames)
-
 #creating a Tibble of names starting with "Wil"
 babynames_Wil = babynames %>%  filter(str_detect(name, "^Wil"))
 
@@ -116,7 +135,7 @@ ggplot(data = prop_per_year, aes(x = year)) +
 a = prop_per_year %>% filter(year=="1997-01-01")
 b = prop_per_year %>% filter(year=="2017-01-01")
 
-l[6]*100
+a[6]*100
 b[6]*100
 b[4]*100
 ```
@@ -228,7 +247,7 @@ datababy_73 <- datababy %>%
   filter(sex == "F") %>%
   filter(str_detect(name, "^A[aei]*[r]+[iael]+l[e]*$") | str_detect(name, "^R[eay]+ch[ae]+l$"))
 
-view(datababy_73)
+head(datababy_73)
 
 prop_73 <- sum(datababy_73$prop)
 
@@ -379,6 +398,7 @@ For this lab, I first completed the individual portion, and plotted the time ser
 
 ###Manasi
 
+For this lab I looked at data relating to my name and created a plot to show my analysis. I looked over and discuessed with my teammates portions of the team part of the lab such as the ariel part.
 
 
 ###Brady
@@ -389,4 +409,4 @@ For this lab, I first completed the individual portion, and plotted the time ser
 
 The first part of the lab tasked us with individually determining how the proportion of various ways of spelling our name changed with time. Additionally, how the proportion of names starting with the first three letters of our names changed over time. I chose to implement this manually as opposed to looking at the proportion column of the babynames tibble. I began by creating a tibble which was a filtered version of the babynames tibble based on those names that started with "Wil". I then used parse_date to change the date column to type date. Then, I created another tibble which took the filtered tible based on the first three letters of my name, grouped them by year, and counted so that I could have a total number of names starting with "Wil" by year. I also needed a total number of names by year so that I could derive proportions so I created one. I then merged the tibbles of total number of names starting with "Wil" and total number of names by year based on the date key. With mutate, I created a prop_Wil column which was the proportion of names starting with "Wil" over time. I followed a similar logic and added a column of total number of William-type spellings into this aggregated tibble so that I could also come up with a proportion of total number of William's by year. I used the regex: "^Will[iye]+am". After I had everything I needed in the same tibble, I used ggplot to show how the respective proportions changed over time. Because I was using to geom_line function calls, I ran into some difficultly figuring out how to label the key, howver, find a solution which can be viewed in my code implemented above. To end the individual section, I answered the respective questions. How popular is your name now compared to when you were born? To answer this question, I filtered my aggregated tibble by date twice, once for my birth year of 1997 and once for the most recent year in the data of 2017. I muliplied the prop_William column in both of the aforementioned filtered data frames by 100 to get the answers in a percent and reported them to show what the percentage change in proportion of William names was between 1997 and 2017. How popular is your name now relative to the other names that start with the same three letters? To answer this, I, like above, computed a percentage for the proportion of names starting with "Will" in 2017 and compared that with the percentage for the proportion of names speled like "William" in 2017.
 
-For the group part, I contributed by answering the following questions. What was the change in proportion in female Ariel baby names? Considering all the changes in female names starting with a vowel from 1988 to 1990, what percentile is the change in Ariel names? To answer the first question, I began by creating a new tibble which filtered the babynames tibble for female names starting with vowels in 1988. I created another tibble which filtered for female names starting with vowels in 1990. I joined these two tibbles and dropped the NA values. Then, using the mutate function, I came up with a change in proportion column which was calculated by taking the difference between the proportion of a respective name in 1990 and the proportion of that same name in 1988. I arranged the tibble based on this newly created column in ascending order. Then, from this tibble, I created a new tibble which filtered for names that followed this regex: "^[AEIOU]*[r]+[iael]+l[e]*$". I summed the change in proportion columns of this new tibble to get the total change in proportion for Ariel-type spellings between 1988 and 1990. I got a value of 0.00178573. I then compared this value to the preceding tibble which sorted the change in proportion of female names starting with vowels between 1988 and 1990 by ascending order. The largest change in proporiton was 0.00177086 which was smaller than the previously computed value so I concluded that the change in Ariel names was in the 100th percentile.
+For the group part, I contributed by answering the following questions. What was the change in proportion in female Ariel baby names? Considering all the changes in female names starting with a vowel from 1988 to 1990, what percentile is the change in Ariel names? To answer the first question, I began by creating a new tibble which filtered the babynames tibble for female names starting with vowels in 1988. I created another tibble which filtered for female names starting with vowels in 1990. I joined these two tibbles and dropped the NA values. Then, using the mutate function, I came up with a change in proportion column which was calculated by taking the difference between the proportion of a respective name in 1990 and the proportion of that same name in 1988. I arranged the tibble based on this newly created column in ascending order. Then, from this tibble, I created a new tibble which filtered for names that followed the appropriate regex. I summed the change in proportion columns of this new tibble to get the total change in proportion for Ariel-type spellings between 1988 and 1990. I got a value of 0.00178573. I then compared this value to the preceding tibble which sorted the change in proportion of female names starting with vowels between 1988 and 1990 by ascending order. The largest change in proporiton was 0.00177086 which was smaller than the previously computed value so I concluded that the change in Ariel names was in the 100th percentile.
