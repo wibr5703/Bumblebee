@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
 ```
 
 #Lab 12
@@ -14,6 +15,8 @@ knitr::opts_chunk$set(echo = FALSE)
 
 
 ## Two-sample mean permutation test question
+
+### Why is this question important?
 
 ## Two-sample mean permutation test plot
 
@@ -23,6 +26,8 @@ knitr::opts_chunk$set(echo = FALSE)
 
 
 ## Correlation permutation test question
+
+### Why is this question important?
 
 ## Correlation permutation test plot
 
