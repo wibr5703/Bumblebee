@@ -105,10 +105,31 @@ ggplot() +
 The histogram above shows the distribution of the results of the 1000 permutations of the two mean hypothesis test. The curve peaks around 0, suggesting that on average, the differences of the sample means (regardless of label mixing) are 0, as expected. This is then our test distribution. We then calculated a difference in means between Asia and Afria in the actual dataset to be greater than 10, meaning our actual dataset is representative of a rare result. This suggests that that labels do matter, and in fact we may reject the null and assume there is a statistically significant difference between Asia and Africa's life expectancies over the time frame.
 
 
-## Data-based conclusion for Question 1 (percentiles, summary statistics (max, min), and probabilites (p-values))
+## Data-based conclusion for Question 1 (percentiles, summary statistics, and probabilites (p-values))
 
+Below is the computed value for the mean difference between the life expectancies of Asia and Africa across our entire original dataset. At over -13, this seems significant compared to our distribution of the permuted and mixed label sampling centered at 0. We can confirm this suspicioun and gather further evidence with a p-test.
 
+```{r}
 
+print(mean_line)
+
+```
+
+Below are the percentiles of the permuted and scrambled dataset:
+
+```{r}
+print(quantile(mean_difference))
+```
+
+In the 0th-percentile, we show a mean difference of 2.24. The mean difference for Asia and Africa's life expectencies we calculated is roughly 5 times more than that, also putting it in the 0th percentile of the scrambled dataset. This is very strong evidence to reject the null as it would be unlikely to score of test statistic of over -13 due to chance alone. Ultimately, this is evidence to suggest that there has been a significant difference in the life expectancies of Asia and Africa in our dataset.
+
+Finally, to conclude the analysis of our results, I included a two sample t-test between our two groups, Asia and Africa. Instead of using a default distribution to calculate the p-value from, we implemented the distribution we found from our permutations. This allows us to compare our test statistic to the distribution we were able to create.
+
+```{r}
+print(t.test(mean_africa$lifeExp,mean_asia$lifeExp, mu = mean(mean_difference), sd = sd(mean_difference)))
+```
+
+Looking at the results of this test, we can see a significantly small p value, far less than assumed significance of 0.05. Therefore, with all the evidence presented, we can conclude that we should reject the null hypothesis and assume the difference in means in life expectancy of Asia and Africa are significantly different.
 
 ## Correlation permutation test question
 
@@ -175,3 +196,4 @@ I also filled in the "Why is this question important?" section for our first res
 
 ###Rachael
 
+For this lab, I created both function skeletons to be implemented in this lab, and we used my code for the function in the second question. In addition, for this lab I did a lot of the statistical reasoning and analysis. This included adapting the histogram in the first question to add our test statistic, and the subsequent analysis of the histogram. Finally, I calculated summary statistics, percentiles, and p-values from our calculated distribution in question 1. I analyzed those results and reported about them to crafted the conclusion for question 1.
