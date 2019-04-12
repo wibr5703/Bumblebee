@@ -13,10 +13,60 @@ library(tidyverse)
 #Lab 12
 
 
-
 ## Two-sample mean permutation test question
 
 ### Why is this question important?
+
+## Function Implementation 
+```{r}
+perm_mean <- function(perms = 1000, values, n1)
+{
+  ## Variables ##
+  # perms: The number of permutations 
+  # values (num): 
+  # n1 (int): Size of group 1
+  ###############
+  
+  # Step 1:
+  # Create vector of zeroes of length "perms" to store
+  # permuted mean differnces
+    
+    v = rep(0, perms)
+  
+  # Loop through the number of permutations
+  for (i in c(1:perms))
+  {
+    # Step 2:
+    # Randomly separate vector "values" into disjoint 
+    # groups of size "n1" and "length(values) - n1" respectively
+    
+    randomize <- sample(x = 1:length(values),size = length(values),replace = FALSE)
+    groupA_index = randomize[1:n1]
+    groupB_index = randomize[(n1+1):length(values)]
+      
+    groupA = values[groupA_index]
+    groupB = values[groupB_index]
+      
+    # Step 3:
+    # Compute the sample means for the two groups from 
+    # step 2
+      
+    meanA = mean(groupA)
+    meanB = mean(groupB)
+    
+    # Step 4: 
+    # Compute the difference in sample means, store the
+    # value in the vector from step 1
+    
+    diff = meanA - meanB
+    v[i] = diff
+  }
+  
+  # Step 5:
+  # Return new updated vector, created in step 1
+  return(v)
+}
+```
 
 ## Two-sample mean permutation test plot
 
@@ -28,6 +78,11 @@ library(tidyverse)
 ## Correlation permutation test question
 
 ### Why is this question important?
+
+## Function Implementation 
+```{r}
+
+```
 
 ## Correlation permutation test plot
 
@@ -42,6 +97,7 @@ library(tidyverse)
 
 
 ###William
+For my portion of this lab, I implemented the perm_mean function used to perform the Two-Sample Permutation Test. To implement the function, I started by creating a vector of length equality to the number of perms which will always be 1000 in this case, and I filled it with 0s temporarily. The function then loops from 1 through the number of perms using a for loop. Within the for loop, I use the sample function to randomly sample numbers between 1 and the length of the values vector which is a parameter of the function. I call the sample function with a size parameter equal to the length of the values vector and set the replace paramter to false because these samplings are going to be used to subset the values vector to generate random sampling. In order to obtain two samples of size n1 and length(values)-n1, respectively, I subset the previously saved vector of randomly sampled numbers from 1 to n1 for the indeces of groupA and from n1+1 to length(values) for the indeces of groupB. I use these vectors of indeces to subset the original values vector to create two vectors called groupA and groupB. I take the mean of these respective groups and then the difference. I save the difference in the previously created vector filled with 0s at the index associated with i which is the variable that the for loop iterates through. After the for loop fills the vector of 0s with differences, I return that vector.
 
 
 ###Brady
