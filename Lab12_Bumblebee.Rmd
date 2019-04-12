@@ -18,7 +18,7 @@ library(tidyverse)
 
 This question is a very important question in order to understand what factors contribute to life expectancy. Asian and African countries face vary different variables such as average GDP among the countries in these respective continents, access to food and water, geographical features, and more. If in our analysis we determine that there is a significant difference in the mean life expectancy between these two continents then that will lead to further investigations surrounding the underlying factors that lead to lower or higher life expectancies. With this type of knowledge, we can better understand our world and the forces that contribute to life and death. We can also begin to target aid better toward countries with lower life expectancies because we will better understand the underlying factors that contribute to it.
 
-## Function Implementation 
+
 ```{r}
 perm_mean <- function(perms = 1000, values, n1)
 {
@@ -70,6 +70,7 @@ perm_mean <- function(perms = 1000, values, n1)
 ```
 
 ## Two-sample mean permutation test plot
+
 ```{r}
 library(gapminder)
 data(gapminder_unfiltered)
@@ -92,12 +93,43 @@ hist(data)
 
 ## Correlation permutation test question
 
-### Why is this question important?
-
-## Function Implementation 
 ```{r}
-
+perm_cor <- function(perms = 1000, x, y)
+{
+  ## Variables ##
+  # perms: The number of permutations 
+  # x: Vector 1 - for computing correlation
+  # y: Vector 2 - for computing correlation
+  ###############
+  
+  # Step 1:
+  # Create vector of zeroes of length "perms" to store
+  # permuted mean differnces
+  
+  corr_vec <- vector("double", length = perms)
+  
+  # Loop throught number of permutations
+  for (i in c(1:perms))
+  {
+    # Step 2:
+    # Randomly mix up the values in the vector "y"
+    
+    y <- sample(y)
+    
+    # Step 3:
+    # Compute the correlation between x and the randomly mixed
+    # up y-vector. Store this value in the vector from step 1.
+    corr_vec[i] <- cor(x,y)
+  }
+  
+  # Step 4:
+  # Return new updated vector, created in step 1
+  return(corr_vec)
+  
+}
 ```
+
+### Why is this question important?
 
 ## Correlation permutation test plot
 
