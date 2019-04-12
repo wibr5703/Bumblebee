@@ -12,10 +12,11 @@ library(tidyverse)
 
 #Lab 12
 
-
-## Two-sample mean permutation test question
+## Is there a significant difference in the mean life expectancy between Asian countries and African countries?
 
 ### Why is this question important?
+
+This question is a very important question in order to understand what factors contribute to life expectancy. Asian and African countries face vary different variables such as average GDP among the countries in these respective continents, access to food and water, geographical features, and more. If in our analysis we determine that there is a significant difference in the mean life expectancy between these two continents then that will lead to further investigations surrounding the underlying factors that lead to lower or higher life expectancies. With this type of knowledge, we can better understand our world and the forces that contribute to life and death. We can also begin to target aid better toward countries with lower life expectancies because we will better understand the underlying factors that contribute to it.
 
 ## Function Implementation 
 ```{r}
@@ -69,6 +70,20 @@ perm_mean <- function(perms = 1000, values, n1)
 ```
 
 ## Two-sample mean permutation test plot
+```{r}
+library(gapminder)
+data(gapminder_unfiltered)
+gapminder = gapminder_unfiltered 
+
+test_gapminder = gapminder %>% filter(continent == "Asia" | continent == "Africa")
+length_A = length(gapminder$continent[gapminder$continent=="Asia"])
+length_B = length(gapminder$continent[gapminder$continent=="Africa"])
+vv=test_gapminder$lifeExp
+
+data=perm_mean(perms = 1000,vv, length_A)
+
+hist(data)
+```
 
 ## Data-based conclusion for Question 1 (percentiles, summary statistics (max, min), and probabilites (p-values))
 
@@ -99,6 +114,7 @@ perm_mean <- function(perms = 1000, values, n1)
 ###William
 For my portion of this lab, I implemented the perm_mean function used to perform the Two-Sample Permutation Test. To implement the function, I started by creating a vector of length equality to the number of perms which will always be 1000 in this case, and I filled it with 0s temporarily. The function then loops from 1 through the number of perms using a for loop. Within the for loop, I use the sample function to randomly sample numbers between 1 and the length of the values vector which is a parameter of the function. I call the sample function with a size parameter equal to the length of the values vector and set the replace paramter to false because these samplings are going to be used to subset the values vector to generate random sampling. In order to obtain two samples of size n1 and length(values)-n1, respectively, I subset the previously saved vector of randomly sampled numbers from 1 to n1 for the indeces of groupA and from n1+1 to length(values) for the indeces of groupB. I use these vectors of indeces to subset the original values vector to create two vectors called groupA and groupB. I take the mean of these respective groups and then the difference. I save the difference in the previously created vector filled with 0s at the index associated with i which is the variable that the for loop iterates through. After the for loop fills the vector of 0s with differences, I return that vector.
 
+I also filled in the "Why is this question important?" section for our first research question which is: "Is there a significant difference in the mean life expectancy between Asian countries and African countries?". I then generated a histogram that is an integral part of answering the question. To generate the histogram, I used the %>% to filter the gapminder_unfiltered data frame to continents of Asia and Africa only. I then found the number of rows associated with only those countries that are in Asia and saved this value in the variable length_A. I also created a variable called vv which is the life expectancy column of the data frame reduced to ony countries in Asia and Africa. I called my perm_mean function with perms=1000, vv for values, and length_A as n1. I plotted a histogram of the resulting vector of differences in means. The histogram shows a normal distributions centered at 0. This suggests that based on the Two-Sample Permutation Test, we confirm the null hypothesis which says that the means of groupA and groupB, in this case Asia and Africa, respectively are not signficinatly different from each other. Or, in otherwords, their difference is equal to zero. This information can be used to answer our research question and suggests that there is not a signficant difference in life expectancy between Asian and African countries.
 
 ###Brady
 
