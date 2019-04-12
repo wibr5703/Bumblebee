@@ -81,10 +81,29 @@ length_A = length(gapminder$continent[gapminder$continent=="Asia"])
 length_B = length(gapminder$continent[gapminder$continent=="Africa"])
 vv=test_gapminder$lifeExp
 
-data=perm_mean(perms = 1000,vv, length_A)
+mean_difference <- perm_mean(perms = 1000,vv, length_A)
 
-hist(data)
+mean_africa <- test_gapminder %>%
+  filter(continent == "Africa")
+
+mean_A <- mean(mean_africa$lifeExp)
+
+mean_asia <- test_gapminder %>%
+  filter(continent == "Asia")
+
+mean_B <- mean(mean_asia$lifeExp)
+
+mean_line <- mean_A - mean_B
+
+ggplot() +
+  geom_histogram(mapping = aes(x=mean_difference)) +
+  geom_vline(mapping = aes(xintercept = mean_line, color = "red"))
+
+  
 ```
+
+The histogram above shows the distribution of the results of the 1000 permutations of the two mean hypothesis test. The curve peaks around 0, suggesting that on average, the differences of the sample means (regardless of label mixing) are 0, as expected. This is then our test distribution. We then calculated a difference in means between Asia and Afria in the actual dataset to be greater than 10, meaning our actual dataset is representative of a rare result. This suggests that that labels do matter, and in fact we may reject the null and assume there is a statistically significant difference between Asia and Africa's life expectancies over the time frame.
+
 
 ## Data-based conclusion for Question 1 (percentiles, summary statistics (max, min), and probabilites (p-values))
 
