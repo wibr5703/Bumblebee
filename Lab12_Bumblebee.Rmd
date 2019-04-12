@@ -97,7 +97,7 @@ mean_line <- mean_A - mean_B
 
 ggplot() +
   geom_histogram(mapping = aes(x=mean_difference)) +
-  geom_vline(mapping = aes(xintercept = mean_line, color = "red"))
+  geom_vline(mapping = aes(xintercept = mean_line, color = "Original sample mean difference"))
 
   
 ```
