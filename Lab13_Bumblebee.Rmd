@@ -1,0 +1,53 @@
+---
+title: "Bumblebee Lab 13"
+author: "Rachael Robinson, Manasi Raol, Brady Kiesling, William Brickowski"
+date: "4/16/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Lab 13
+
+
+
+
+## What is the overall research question and why is it interesting/important?
+
+
+
+## Brief description of the dataset(s) that you are using and any preprocessing of the data
+
+
+
+## Summary/Conclusion/Answer to Question w/ Reasoning
+
+
+
+
+
+## Individual Subquestions
+
+
+
+### William
+
+
+
+
+### Brady
+
+
+
+
+### Manasi
+
+
+
+
+### Rachael
+
+
+
