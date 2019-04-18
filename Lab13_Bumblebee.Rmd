@@ -16,9 +16,16 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## What is the overall research question and why is it interesting/important?
 
+Research question: How does debt to foreign countries compare to other economic indicators/factors?
+
+This question is important because understanding debt in various parts of the world can help us better make predictions about how it will impact or be affected by other economic factors. Foreign markets are unpredictable, but having some well-known consequences of and by-products of debt could help mitigate their negative effects. Understanding how debt becomes problematic could also help illuminate behaviors and methods to reduce foreign debt and it's byproducts.
 
 
 ## Brief description of the dataset(s) that you are using and any preprocessing of the data
+
+The first dataset we are using is the debt dataset from the World Bank. This dataset encompasses public and private debt, and reports the percentage of a countries GNI which the debt makes up. The dataset shows all the countries evaluated, and the perentage GNI debt for every year. This dataset was tidied by gathering the years into their own column, where the percentage GNI for each country and year became the observation. This dataset was further tidied by parsing the years to represent numbers.
+
+Another dataset used was aid recieved as an economic indicator. This dataset came from the World Bank and represents the aid recieved in current US dollars per person, per year, per country. The data is found by dividing the Net Official Development Assistance by the population. This dataset was tidied in an identical fashion to the debt dataset.
 
 
 
