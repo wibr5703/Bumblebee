@@ -49,5 +49,196 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ### Rachael
 
+Subquestion to address: Is there a difference in the mean foreign debt between countries that recieve a high amount of foreign aid versus a low amount?
+
+This subquestion contributes to the group question, because it is a relevant economic question to the developing world. Intuitions suggests that if a country recieves a high amount of foreign aid, it's foreign debt should be mitigated, or maybe nonexistent altogether. However, literature has indicated that the opposite is actually true, and foreign aid initiatives often correlate to higher amounts of debt owed to the same foreign entities. In this way, this subquestion tackles some of the more subtle ways in which debt can play a role in the developing world. It contributes to the team question because it shows a factor which can change the economies of the world.
+
+```{r, results = 'hide'}
+
+# setting up libraries, reading in datasets
+
+library(tidyverse)
+
+debt <- read.csv("debt.csv")
+aid <- read.csv("aid.csv")
+
+
+# tidying datasets
+
+aid_edit <- aid %>%
+  select(-country)
+
+debt_edit <- debt %>%
+  select(-country)
+
+aid <- aid %>%
+  gather(colnames(aid_edit), key = "year", value = "dollars_per_person")
+
+debt <- debt %>%
+  gather(colnames(debt_edit), key = "year", value = "percent_GNI")
+
+aid$year <- parse_number(aid$year)
+debt$year <- parse_number(debt$year)
+
+# joining aid and debt datasets
+
+capital <- inner_join(aid,debt, by = "country")
+
+# cleaning capital dataset to be conducive to analysis
+# removed negative aid figures from debt data due to ambiguity in meaning
+
+capital <- capital %>%
+  filter(year.x == year.y) %>%
+  mutate("year" = year.x) %>%
+  select(-year.x,-year.y) %>%
+  drop_na() %>%
+  filter(dollars_per_person >= 0)
+
+```
+
+```{r}
+# perm function
+
+perm_mean <- function(perms = 1000, values, n1)
+{
+  ## Variables ##
+  # perms: The number of permutations 
+  # values (num): 
+  # n1 (int): Size of group 1
+  ###############
+  
+  # Step 1:
+  # Create vector of zeroes of length "perms" to store
+  # permuted mean differnces
+  
+  mean_diff <- vector("double", length = perms)
+  
+  # Loop throught number of permutations
+  for (i in c(1:perms))
+  {
+    # Step 2:
+    # Randomly separate vector "values" into disjoint 
+    # groups of size "n1" and "length(values) - n1" respectively
+    
+    mean_sep1 <- sample(values, n1, replace = T)
+    mean_sep2 <- setdiff(values, mean_sep1)
+    
+    
+    # Step 3:
+    # Compute the sample means for the two groups from 
+    # step 2
+    
+    mean_value1 <- mean(mean_sep1)
+    mean_value2 <- mean(mean_sep2)
+    
+    # Step 4: 
+    # Compute the difference in sample means, store the
+    # value in the vector from step 1
+    
+    mean_diff[i] <- mean_value1 - mean_value2
+  }
+  # Step 5:
+  # Return new updated vector, created in step 1
+    
+  return(mean_diff)
+  
+}
+```
+
+The code for my unique function and my map function implementation are shown below. In order to satisfy the requirement of passing a function into another function, I did so by passing my unique function into the map function.
+
+```{r, include=TRUE}
+
+#unique function
+
+high_low <- function(value, median){
+  result = ""
+  if(value >= median){
+    result = "high"
+  }
+  else{
+    result = "low"
+  }
+  return(result)
+}
+
+#map function
+
+aid_level <- map(capital$dollars_per_person,high_low,median(capital$dollars_per_person))
+```
+
+My unique function takes in a value and a median. The function then performs a comparison to see where the value falls in terms of the median. The function then saves into it's output list whether the value is "high" or "low". Low would be below the median, where high would be equal to or above.
+
+My map function then implements my unique function to help me create my testing groups for the permutation test. My map function takes all the values of aid recieved in the data set, along with the median of that same variable. The map function calls the high_low function for each value in the vector, and creates a list, aid_level, which shows whether the aid recieved by each country, each year, is considered "high" aid or "low" aid.
+
+After incorporating the list created by the map function back into my main dataframe, I could then perform my permutation test with the two groups I created, high aid and low aid.
+
+```{r}
+
+# adding groups to dataset
+
+capital <- capital %>%
+  mutate(aid_groups = as.character(aid_level))
+
+# creating dataset to test
+
+testing_capital <- capital %>%
+  select(aid_groups,percent_GNI)
+
+#datasets to determine size and means of groups
+
+size_test <- testing_capital %>%
+  filter(aid_groups == "high")
+
+aid_low <- testing_capital %>%
+  filter(aid_groups == "low")
+
+#results of the permutation test
+
+perm_result <- perm_mean(perms = 1000, testing_capital$percent_GNI, nrow(size_test))
+
+#calculating true mean difference for testing sake
+
+mean_low <- mean(aid_low$percent_GNI)
+mean_high <- mean(size_test$percent_GNI)
+
+
+mean_diff <- mean_high - mean_low
+```
+
+
+Permutation testing:
+
+1- The null hypothesis in this case is that the average debt of low aid recievers will be equal to that of high aid recievers. The alternative is two-sided and assumes that there is a difference in mean debt between the two groups.
+
+2- The test statistic I am using is the true difference in mean debt between the two groups: high aid recieved and low aid recieved.
+
+3- Histogram of distribution of test statistic, and real test statistic
+
+```{r}
+ggplot() +
+  geom_histogram(mapping = aes(x=perm_result)) +
+  geom_vline(mapping = aes(xintercept = mean_diff, color = "Original sample mean difference")) +
+  labs(title = "Two mean permutation test for debt difference in countries w/ high aid vs low aid recieved", subtitle = "1000 permutation test, red line represents true difference in foregin debt", x = "Mean difference")
+```
+
+4- Percentile calculation
+
+```{r}
+percentile.data <- sum(perm_result<mean_diff)/1000
+
+print(percentile.data)
+```
+
+7- Conclusion: Because our test statistic is in the 100th percentile, and is so far away from the distribution of the test statistic, I can safely reject the null and assume that there is a statistically significant difference in debt owed from places where foreign aid is high versus places where foreign aid is low.
+
+
+Data-based conclusion: Due to the results of the permutation test, as well as the calculated percentiles, I will conclude that there is a signficant difference in the foreign debt between countries with high and low foreign aid. Looking at the datasets at hand, we were also able to calculate the true difference between the debts of the two groups.
+
+```{r}
+print(mean_diff)
+```
+
+The above caluclation shows that in the years and places where there is high aid, the debt is on average, 25.2% more of the GNI. This, compared to the distribution of the test statistic, shows that countries with high aid are more likely to also have more debt to foreign countries.
 
 
