@@ -41,8 +41,135 @@ Another dataset used was aid recieved as an economic indicator. This dataset cam
 
 ### William
 
+Subquestion to address: Does the data suggest there there was a significant difference in the mean foreign debt among various countries in the years preceding The Great Recession (2002-2006) and the years of The Great Recession (2006-2011). If there is a significant difference in foreign debt among various countries between these two time periods, can high or low levels of foreign debt be a usefull indicator in predicting a coming recession? Additionally, can we perform regression to predict when other economic factors lead to higher levels or lower levels of debt so that we can avoid whichever (high or low levels of debt) contribute to economic recessions?
 
+```{r}
+library(tidyverse)
 
+debt=read.csv("debt_to_foreigners_by_public_and_private_percent_of_gni.csv")
+debt_edit = debt %>% select(-country) 
+debt = debt %>% gather(colnames(debt_edit),key = "year", value = "debt_percent_GNI")
+debt$year = parse_number(debt$year)
+
+discount=read.csv("central_bank_discount_rate_annual_percent.csv")
+discount_edit = discount %>% select(-country) 
+discount = discount %>% gather(colnames(discount_edit),key = "year", value = "discount_rate")
+discount$year = parse_number(discount$year)
+
+exports=read.csv("exports_percent_of_gdp.csv")
+exports_edit = exports %>% select(-country) 
+exports = exports %>% gather(colnames(exports_edit),key = "year", value = "exports")
+exports$year = parse_number(exports$year)
+
+imports=read.csv("imports_percent_of_gdp.csv")
+imports_edit = imports %>% select(-country) 
+imports = imports %>% gather(colnames(imports_edit),key = "year", value = "imports")
+imports$year = parse_number(imports$year)
+
+inflation=read.csv("inflation_annual_percent.csv")
+inflation_edit = inflation %>% select(-country) 
+inflation = inflation %>% gather(colnames(inflation_edit),key = "year", value = "inflation")
+inflation$year = parse_number(inflation$year)
+
+primaryCompletion=read.csv("primary_completion_rate_total_percent_of_relevant_age_group.csv")
+primaryCompletion_edit = primaryCompletion %>% select(-country) 
+primaryCompletion = primaryCompletion %>% gather(colnames(primaryCompletion_edit),key = "year", value = "primary_completion")
+primaryCompletion$year = parse_number(primaryCompletion$year)
+```
+
+In the above code, I read in all of the appropriate data that I will be using for analysis in my portion of the lab. I tidy the data which is read in based on chronological order and must be made into a tibble using the gather function. The data that I load here for many countries across quite a few years includes: foreign debt as a percentage of GNI, discount rates, exports, imports, rate of inflation, and primary school completion.
+
+```{r}
+boom = debt %>% filter(year == 2006 | year == 2005 | year == 2004 | year == 2003 | year == 2002)
+recession = debt %>% filter(year == 2007 | year == 2008 | year == 2009 | year == 2010 | year == 2011)
+both = debt %>% filter(year == 2006 | year == 2005 | year == 2004 | year == 2003 | year == 2002 | year == 2007 | year == 2008 | year == 2009 | year == 2010 | year == 2011)
+boom = boom %>% na.omit()
+recession = recession  %>% na.omit()
+both = both %>% na.omit()
+```
+
+Here, I filter my data based on the year column so that I can seperate the data by the years preceding The Great Recession (2002-2006) and the years of The Great Recession (2006-2011). I also create a tibble with for all of the years between 2002-2011, as it is the debt as a percentage of GNI of this tibble that will be passed into my function that I implement for Permutation-Testing.
+
+```{r}
+perm_mean1 <- function(perms = 1000, values, n1)
+{
+    v = rep(0, perms)
+  
+  for (i in c(1:perms))
+  {
+    randomize <- sample(x = 1:length(values),size = length(values),replace = FALSE)
+    groupA_index = randomize[1:n1]
+    groupB_index = randomize[(n1+1):length(values)]
+      
+    groupA = values[groupA_index]
+    groupB = values[groupB_index]
+      
+    meanA = mean(groupA)
+    meanB = mean(groupB)
+    
+    diff = meanA - meanB
+    v[i] = diff
+  }
+  return(v)
+}
+```
+
+Above is the implementation of my function that will be used for Permutation-Testing.
+
+```{r}
+values=both$debt_percent_GNI
+n1=length(boom$debt_percent_GNI)
+data=perm_mean1(perms = 1000,values, n1)
+
+hist(data, xlim = c(-30, 30))
+boom_mean_debt=mean(boom$debt_percent_GNI)
+recession_mean_debt=mean(recession$debt_percent_GNI)
+test_statistic=boom_mean_debt-recession_mean_debt
+abline(v=test_statistic)
+```
+
+Here, I call my Permutation-Testing function with the foreign debt values between 2002-2011 as well as the number of data entries for just the years preceding The Great Recession which are from 2002-2006. I then generate a histogram with the returned vector of means from the Permutation-Testing function to examine its distribution. I also add an abline line corresponding to the value of our test statistic which is the difference in the sample mean for foreign debt between the following two time periods: 2002-2006 and 2006-2011. 
+
+Based on the above histogram, it is clear that the test statistic for the mean debt as a percentage of GNI during  preceding The Great Recession is significantly different than the mean debt during the ensuing recession called The Great Recession. Debt was significantly higher during the preceding boom, according to the test statistic of the mean difference in debt between the two time periods. This makes sense because The Great Recession was an economic meltdown that was caused by high leverage in the United States and around the word. After The Great Recession, much debt went into default which reduced the amount of debt around the world. Additionally, many financial institutions around the world became far more strict about giving out easy credit.
+
+Because our test statistic is in the 100th percentile of the data, for it lies beyond the largest value on the histogram, we can reject the Null Hypothesis of our mean permutation test which states that the means between the two test groups are the same. In this case, the two test groups were the levels of foreign debt in the previously describe two time periods. Because we rejected the null, it is clear that the levels of debt between these two time periods were in fact different.
+
+```{r}
+aggregate = inner_join(debt, discount, by=c("country"="country","year"="year"))
+aggregate = inner_join(aggregate, exports, by=c("country"="country","year"="year"))
+aggregate = inner_join(aggregate, imports, by=c("country"="country","year"="year"))
+aggregate = inner_join(aggregate, inflation, by=c("country"="country","year"="year"))
+aggregate = inner_join(aggregate, primaryCompletion, by=c("country"="country","year"="year"))
+aggregate = aggregate %>% na.omit()
+
+normalize <- function(value, mean, sd)
+{
+    z = (value-mean)/sd
+    return (z)
+}
+
+aggregate$debt_percent_GNI = map_dbl(aggregate$debt_percent_GNI,normalize,mean(aggregate$debt_percent_GNI),sd(aggregate$debt_percent_GNI))
+
+aggregate$discount_rate = map_dbl(aggregate$discount_rate,normalize,mean(aggregate$discount_rate),sd(aggregate$discount_rate))
+
+aggregate$exports = map_dbl(aggregate$exports,normalize,mean(aggregate$exports),sd(aggregate$exports))
+
+aggregate$imports = map_dbl(aggregate$imports,normalize,mean(aggregate$imports),sd(aggregate$imports))
+
+aggregate$inflation = map_dbl(aggregate$inflation,normalize,mean(aggregate$inflation),sd(aggregate$inflation))
+
+aggregate$primary_completion = map_dbl(aggregate$primary_completion,normalize,mean(aggregate$primary_completion),sd(aggregate$primary_completion))
+
+lmod = lm(debt_percent_GNI ~ discount_rate + exports + imports + inflation + primary_completion, data=aggregate)
+
+summary(lmod)
+```
+
+Based on our understanding that debt was significantly higher preceding The Great Recession, I would like to regress various marco economic factors against debt as the response so that countries and institutions world wide can better predict what factors lead to high levels of debt so as to be able to predict recessions that may ensue as occured with The Great Recession.
+
+Above, I join all of my data sets using inner_join and then remove all rows that contain NA values using the na.omit() function. I then create a function called normalize, for I want to normalize my data prior to regressing it. Using the map function, I apply the normalize function to all columns of the aggregated data frame the will be used in regression and update the values to their respectively normalized counterpart. I then perform multi-variable linear regression with debt as the response and discount_rate, exports, imports, inflation, and primary_completion as the predictors. According to the summary of the linear regression, the signficant predictors are imports, inflation, and primary completion. Increases in imports and inflation increase debt hence they have a positive relationship. This tends to make sense as inflation is a sign of economic growth and growth normally requires debt. Countries that import a lot might also be heavily indebted to fund imports. Primary completion is negatively related to debt. This may be a sign that more developed countries take on less debt.
+
+Based on these results, we can better understand that factors the impact foreign debt. Foreign debt was clearly at different levels during and preceding The Great Recession. Foreign debt levels were significantly higher preceding The Great Recession. The may suggest that increased levels of foreign debt may be a good way to predict a coming recession. To prevent recessions, we may be able to mitigate debt by understanding the predictors that result in heightened levels of foreign debt that we derived in our regression analysis.
 
 ### Brady
 
