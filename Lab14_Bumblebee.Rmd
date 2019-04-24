@@ -50,8 +50,23 @@ babies = na.omit(babies)
 ### Recommendation for Q2
 
 
+## New techniques used/comparison to first answer
+
+
 
 ## Individual Plots
+
+### William
+
+### Brady
+
+### Manasi
+
+### Rachael
+
+
+
+### Who did what
 
 ### William
 
