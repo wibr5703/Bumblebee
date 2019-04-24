@@ -1,0 +1,62 @@
+---
+title: "Bumblebee Lab 14"
+author: "Rachael Robinson, Manasi Raol, Brady Kiesling, William Brickowski"
+date: "4/24/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lab 14 (Lab 4 Redo)
+
+## Team Questions:
+  * Does smoking lead to babies born prematurely?
+  * Does smoking lead to low birth weight? 
+
+## Why are these questions important?
+Reason: These questions are important because health behaviors during pregnancy are often a topic of interest. Determining what behaviors are more or less likely to result in healthy babies is important because it can inform women and families to improve health outcomes. Smoking in particular is an important question of interest due to the number of smokers during the 1960s, in which this data was collected.
+  * This reason is important because it has wide-reaching impacts on generational health. Widespread habits can result in health affects on entire populations of babies, which could lead to consequences as this population of babies grows into adulthood. Trends in low birth weights or premature births could eventually impact the quality of life, labor, and health of larger populations.
+
+
+```{r include=FALSE}
+library(tidyverse)
+babies <- read_csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
+babies <- rename(babies, bwtoz = `bwt/oz`) 
+babies = na.omit(babies)
+```
+
+
+## Preliminary Team Questions:
+  * Which variables are similar between smokers and nonsmokers? Which are different?
+
+## Team Plots for Prelimary Questions:
+
+
+## Conclusions for Prelimary Questions:
+
+
+## Question 1
+
+## Question 2
+
+## Conclusion
+
+## Recommendations:
+
+### Recommendation for Q1
+
+### Recommendation for Q2
+
+
+
+## Individual Plots
+
+### William
+
+### Brady
+
+### Manasi
+
+### Rachael
