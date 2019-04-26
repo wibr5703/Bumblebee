@@ -233,11 +233,19 @@ This is a scatter plot whose x variable is the gestation period in days and whos
 ### Brady
 
 ### Manasi
+```{r}
+library(tidyverse)
+babies <- read_csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
+babies <- rename(babies, bwtoz = `bwt/oz`)
+babies <- na.omit(babies) #removes NAs from list of values 
+
+
+ggplot(data = babies, aes(x = bwtoz, fill = factor(Premature))) +
+  geom_dotplot(binwidth = 0.1) +
+  ggtitle("Premature vs Non-premature babies For Specific Birth weights")
+```
 
 ### Rachael
-
-
-
 
 Subquestions: What is the relationship between education level and smoking habits? Is there a significant relationship between birthweights and the mother's education level?
 
@@ -332,6 +340,7 @@ Within this lab, I generated the preliminary graphs. I had originally written se
 ### Brady
 
 ### Manasi
+For this lab I contributed to question two by making a plot to show the ratio of premature verus non premature babies in a range of different birth weights.
 
 ### Rachael
 
