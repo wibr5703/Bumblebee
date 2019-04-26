@@ -238,6 +238,91 @@ This is a scatter plot whose x variable is the gestation period in days and whos
 
 
 
+
+Subquestions: What is the relationship between education level and smoking habits? Is there a significant relationship between birthweights and the mother's education level?
+
+Why is this question important: This question is important because it extends from the information we learned in the last lab. As a team, we determined that in this data, there isn't a relationship between smoking and birthweight. So, this question attempts to understand why that may be the case. This relates to the team question because it is good to definitively conclude what is not related in the data, but even more insightful to then say what is related in the data. To answer this question, I used our new programming tools of writing functions and employing them to answer statistical questions. I also used new functions to calculate 
+
+Below is the correlation between mother's smoking habits and education level. This indicates a weakly negative relationship between the two, and thus that the more the mother smokes, the less her education level is likely to be. This correlation isn't significant on it's own, so further testing would need to be done to show more significance. From this figure, I can conclude a casual relationship between the two, but possibly not significant enough to confound results.
+
+```{r}
+babyed <- babies %>%
+  filter(smoke == 0 | smoke == 1) %>%
+  filter(med != 9, med != 7)
+cor(babyed$smoke, babyed$med)
+```
+
+Below is the correlation between mother's education level and birthweight. This will be tested against a 1000 permutation correlation plot and percentile.
+
+```{r}
+realcor <- cor(babyed$med, babyed$bwtoz)
+realcor
+```
+
+```{r}
+perm_cor <- function(perms = 1000, x, y)
+{
+  ## Variables ##
+  # perms: The number of permutations 
+  # x: Vector 1 - for computing correlation
+  # y: Vector 2 - for computing correlation
+  ###############
+  
+  # Step 1:
+  # Create vector of zeroes of length "perms" to store
+  # permuted mean differnces
+  
+  corr_result <- vector("double", length = perms)
+  
+  # Loop throught number of permutations
+  for (i in c(1:perms))
+  {
+    # Step 2:
+    # Randomly mix up the values in the vector "y"
+    
+    y <- sample(y)
+    
+    # Step 3:
+    # Compute the correlation between x and the randomly mixed
+    # up y-vector. Store this value in the vector from step 1.
+    
+    corr_result[i] <- cor(x,y)
+  }
+  
+  # Step 4:
+  # Return new updated vector, created in step 1
+  return(corr_result)
+}
+
+
+
+permuted <- perm_cor(perms = 1000, babyed$med, babyed$bwtoz)
+
+ggplot() +
+  geom_histogram(mapping = aes(x=permuted)) +
+  geom_vline(mapping = aes(xintercept = realcor, color = "Original sample correlation")) +
+  labs(title = "Correlation permutation test for birth weight difference and education levels", subtitle = "1000 correlation test, red line represents true correlation between birth weight and education", x = "Correlation")
+
+```
+
+
+
+Percentile calculation: 
+
+```{r}
+percentite <- sum(permuted<realcor)/1000
+
+print(percentite)
+```
+
+From the histogram and subsequent percentile calculation, it's clear that we can likely reject the null and assume that the correlation between birthweight and education level. The true correlation we calculated was in the tail of the histogram, suggesting there is a correlation, and there is a weakly positive relationship between education level and birthweight. With smoking as a possible confounder, this is an interesting and significant result.
+
+Overall, we reject the null and assume that the correlation between education and birthweight is nonzero.
+
+
+
+
+
 ### Who did what
 
 ### William
@@ -249,3 +334,6 @@ Within this lab, I generated the preliminary graphs. I had originally written se
 ### Manasi
 
 ### Rachael
+
+
+For this lab, I developed my own subquestion and answered it with new techniques. I did some analysis and created a plot to demonstrate my findings. Additionally, for this lab I developed the preliminary analysis and subsequent discussion, the team plot for question 2, and following analysis, conclusions, and recommendations.
