@@ -33,15 +33,145 @@ babies = na.omit(babies)
 
 ## Team Plots for Prelimary Questions:
 
+```{r}
+corr_test <- function(value1, value2, n){
+  test1 <- sample(value1, n, replace = TRUE)
+  test2 <- sample(value2, n, replace = TRUE)
+  relate <- cor(test1,test2)
+  return(relate)
+}
+
+corr_parity <- corr_test(smoke$parity,nosmoke$parity,n=200)
+corr_mrace <- corr_test(smoke$mrace,nosmoke$mrace,n=200)
+corr_mage <- corr_test(smoke$mage,nosmoke$mage,n=200)
+corr_med <- corr_test(smoke$med,nosmoke$med,n=200)
+corr_mht <- corr_test(smoke$mht,nosmoke$mht,n=200)
+corr_mpregwt <- corr_test(smoke$mpregwt,nosmoke$mpregwt,n=200)
+corr_drace <- corr_test(smoke$drace,nosmoke$drace,n=200)
+corr_dage <- corr_test(smoke$dage,nosmoke$dage,n=200)
+corr_ded <- corr_test(smoke$ded,nosmoke$ded,n=200)
+corr_dht <- corr_test(smoke$dht,nosmoke$dht,n=200)
+corr_dwt <- corr_test(smoke$dwt,nosmoke$dwt,n=200)
+corr_marital <- corr_test(smoke$marital,nosmoke$marital,n=200)
+corr_inc <- corr_test(smoke$inc,nosmoke$inc,n=200)
+
+correlations <- c(corr_parity,corr_mrace,corr_mage,corr_med,corr_mht,corr_mpregwt,corr_drace,corr_dage,corr_ded,corr_dht, corr_dwt,corr_marital,corr_inc)
+
+babyname <- babies %>%
+  select(parity, mrace, mage, med,mht,mpregwt,drace,dage,ded,dht,dwt,marital,inc)
+
+varnames <- colnames(babyname)
+
+ggplot() +
+  geom_point(mapping = aes(x=varnames,y=correlations)) +
+  labs(title = "Variable correlation between smokers and nonsmokers", x = "Variable")
+```
+
+
 
 ## Conclusions for Prelimary Questions:
+
+Looking at the areas where the correlations are strong between the two variables, we can see the differences and similarities between smokers and nonsmokers in the dataset. Overall, most of the correlations are low, meaning we have low prediction power in between groups. For instance, knowing about the mother ages of the smokers does little to tell us about the ages of the nonsmokers, since they are nearly uncorrelated. Thus, high positive correlation means the variables are similar in behavior, and high negative correlation means the variables are similar in behavior but in opposite directions. From these generalizations, we can conclude from this plot that in our dataset, the race of the dad, the age of the mother, the marital status of the mother, are all very different in the dataset between the smokers and the nonsmokers. The rest of the variables are either non-generalizable or similar in both groups.
 
 
 ## Question 1
 
+
+
+
+
 ## Question 2
 
+
+```{r}
+# perm function
+
+perm_mean <- function(perms = 1000, values, n1)
+{
+  ## Variables ##
+  # perms: The number of permutations 
+  # values (num): 
+  # n1 (int): Size of group 1
+  ###############
+  
+  # Step 1:
+  # Create vector of zeroes of length "perms" to store
+  # permuted mean differnces
+  
+  mean_diff <- vector("double", length = perms)
+  
+  # Loop throught number of permutations
+  for (i in c(1:perms))
+  {
+    # Step 2:
+    # Randomly separate vector "values" into disjoint 
+    # groups of size "n1" and "length(values) - n1" respectively
+    
+    mean_sep1 <- sample(values, n1, replace = T)
+    mean_sep2 <- setdiff(values, mean_sep1)
+    
+    
+    # Step 3:
+    # Compute the sample means for the two groups from 
+    # step 2
+    
+    mean_value1 <- mean(mean_sep1)
+    mean_value2 <- mean(mean_sep2)
+    
+    # Step 4: 
+    # Compute the difference in sample means, store the
+    # value in the vector from step 1
+    
+    mean_diff[i] <- mean_value1 - mean_value2
+  }
+  # Step 5:
+  # Return new updated vector, created in step 1
+    
+  return(mean_diff)
+  
+}
+
+
+smoke_test <- babies %>%
+  filter(smoke == 1) %>%
+  filter(Premature == 0) %>%
+  select(bwtoz)
+
+
+nosmoke_test <- babies %>%
+  filter(smoke == 0) %>%
+  filter(Premature == 0) %>%
+  select(bwtoz)
+
+
+permute <- perm_mean(perms = 1000, babies$bwtoz, length(nosmoke_test))
+
+mean_smoke <- mean(smoke_test$bwtoz)
+mean_nosmoke <- mean(nosmoke_test$bwtoz)
+
+meandifference <- mean_nosmoke - mean_smoke
+
+
+ggplot() +
+  geom_histogram(mapping = aes(x=permute)) +
+  geom_vline(mapping = aes(xintercept = meandifference, color = "Original sample mean difference")) +
+  labs(title = "Two mean permutation test for birth weight difference in smoking vs non-smoking mothers", subtitle = "1000 permutation test, red line represents true difference in mean birth weight", x = "Mean difference")
+```
+
+Percentile for question 2:
+
+```{r}
+percentile.data <- sum(permute<meandifference)/1000
+
+print(percentile.data)
+```
+
 ## Conclusion
+
+Question 1 - 
+
+
+Question 2 - According to our permutation test, we did not see a significant difference in the true means for the birthweights of smoking versus non-smoking mothers. On completion of the two-mean permutation test and plotting, we saw that our test statistic (difference in mean birth weights) fell almost directly in the middle of the distribution. This suggests that statistically, there is no significant difference in this dataset between smoking and nonsmoking mothers.
 
 ## Recommendations:
 
@@ -49,10 +179,13 @@ babies = na.omit(babies)
 
 ### Recommendation for Q2
 
+Because our testing showed a non-significant difference in birth weight due to smoking, we recommend that data collection should be furthered in order to gain more insight into this issue. Furthermore, we suggest that additional statistical tests be run with control for other variables in order to tease out if there is a significant difference being confounded by another variable in the dataset. On the question of birthweight, at this moment we cannot make a specific recommendation on behavior changes based on this data.
 
 ## New techniques used/comparison to first answer
 
+Question 1 -
 
+Question 2 - On our original lab we created a scatterplot to look at birthweights across different gestational ages to determine whether smoking had an impact. When controlling for gestational age, we saw a weak relationship between smoking and birth weight. In this lab, instead of plotting and making conclusions based on visualisations, we employed a statistical test to try to identify a difference in birthweights. Still controlling for premature birth, we saw zero statistical significance to suggest a difference in the two groups. This technique is much more precise, and allowed us to come to a stronger conclusion than the first time around. In comparison to our first answer, we concluded that there is no clear statistical relationship between birthweight and smoking mothers.
 
 ## Individual Plots
 
