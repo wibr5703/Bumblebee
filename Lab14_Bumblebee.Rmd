@@ -67,7 +67,22 @@ ggplot() +
   labs(title = "Variable correlation between smokers and nonsmokers", x = "Variable")
 ```
 
+```{r}
+babies$smoke <- as.factor(babies$smoke)
 
+map_plot <- function(Y_VAR)
+{
+    ggplot(data=babies,aes(x=smoke,y=Y_VAR,fill=smoke)) +
+    geom_bar(aes(y=..count../sum(..count..),fill=smoke),position="dodge")+
+    xlab('Smoke: 0 "never" and 1"smokes now"')+
+    ylab('Normalized Count')+
+    ggtitle(paste(Y_VAR,'by smokers and non-smokers', sep = " ", collapse = NULL))
+}
+
+vector=c('gestation','bwtoz','parity','mage','med','mht','mpregwt','dage','ded','dht','dwt','marital','inc','time','Premature')
+
+map(vector,map_plot)
+```
 
 ## Conclusions for Prelimary Questions:
 
@@ -76,7 +91,17 @@ Looking at the areas where the correlations are strong between the two variables
 
 ## Question 1
 
+```{r}
+babies_smoke = babies %>% filter(smoke == 1)
+babies_notSmoke = babies %>% filter(smoke == 0)
 
+lmod_smoke = lm(gestation ~ bwtoz+parity+mage+med+mht+mpregwt+dage+ded+dht+dwt+marital+inc+time+Premature, data = babies_smoke )
+
+lmod_notSmoke = lm(gestation ~ bwtoz+parity+mage+med+mht+mpregwt+dage+ded+dht+dwt+marital+inc+time+Premature, data = babies_notSmoke)
+
+summary(lmod_smoke)
+summary(lmod_notSmoke)
+```
 
 
 
@@ -168,14 +193,14 @@ print(percentile.data)
 
 ## Conclusion
 
-Question 1 - 
-
+Question 1 - According to regression analysis among the following variables as the predictors bwtoz+parity+mage+med+mht+mpregwt+dage+ded+dht+dwt+marital+inc+time+Premature and gestation as the response, sepeated by smokers and non-smokers, the intercept term suggests that gestation is longer for non-smokers. This shows that more babies are likely to be born premature when that babies mother smokes. Additionally, the regression analysis shows what predictors contribution to longer or shorter periods of gestation for babies coming from a mother who smokes or a mother who does not. The significant predictors of gestation period for smokers are bwtoz and mht. If mht increases by 1 unit on average for a smoker, gestation period is reduced by 1.04 units. If bwtoz increases by 1 unit on average for a smoker, gestation period increases by 0.24 units. For non-smokers, the significant predictors are bwtoz, parity, and marital. For non-smokers, if marital is 1 then gestation increases on average by 6.66 units. If parity increases by 1 unit on average, then gestation is reduced by 1.63 units. If btwoz is increased by 1 unit on average then gestation is increased by 0.11 units.
 
 Question 2 - According to our permutation test, we did not see a significant difference in the true means for the birthweights of smoking versus non-smoking mothers. On completion of the two-mean permutation test and plotting, we saw that our test statistic (difference in mean birth weights) fell almost directly in the middle of the distribution. This suggests that statistically, there is no significant difference in this dataset between smoking and nonsmoking mothers.
 
 ## Recommendations:
 
 ### Recommendation for Q1
+Because many of the predictors were not significant, I believe further multi-variable regression models should be built by removing all predictors at a particular significance level in order to more accurately depict the relationship between the respective predictors (for both smokers and non-smokers) and gestation period. An F test can be used in to compare full linear models and reduced ones to determine which model is better.
 
 ### Recommendation for Q2
 
@@ -183,13 +208,27 @@ Because our testing showed a non-significant difference in birth weight due to s
 
 ## New techniques used/comparison to first answer
 
-Question 1 -
+Question 1 - In order to answer this question, we originally concluded that there is no significant relationship between whether the mother smokes and premature births by looking at the boxplots, the distibution is roughly the same, even though the median gestational time for smokers is lower, the values for the first and 3rd quartiles are roughly the same. However, in order to answer this question with newer techniques, I performed regression for smokers and non-smokers, respectively, with gestation as the response. I then looked at the intercept term of the regerssion summary which represents the average gestation period in our data. While the intercept term was slightly higher for non-smokers, it was not significantly different. Hence, by regression analysis, there is no real difference in gestation period between smokers and non-smokers. This affirms our original conclusion on the question.
 
 Question 2 - On our original lab we created a scatterplot to look at birthweights across different gestational ages to determine whether smoking had an impact. When controlling for gestational age, we saw a weak relationship between smoking and birth weight. In this lab, instead of plotting and making conclusions based on visualisations, we employed a statistical test to try to identify a difference in birthweights. Still controlling for premature birth, we saw zero statistical significance to suggest a difference in the two groups. This technique is much more precise, and allowed us to come to a stronger conclusion than the first time around. In comparison to our first answer, we concluded that there is no clear statistical relationship between birthweight and smoking mothers.
 
 ## Individual Plots
 
 ### William
+
+```{r}
+babies$smoke <- as.factor(babies$smoke)
+  
+  ggplot(data = babies, aes(x = bwtoz, y = gestation, color = smoke)) +  
+  geom_point() +                                                     
+  ggtitle('Length of gestation in days verses the pre-pregnancy weight of the mother') +                         
+  xlab('Pre-pregnancy weight') +                                              
+  ylab('Gestation') +                                              
+  scale_color_discrete(name = 'Smoke:',                              
+                       labels = c('Never Smokes', 'Smokes Now')) +
+  geom_smooth()
+```
+This is a scatter plot whose x variable is the gestation period in days and whose y value is the bwtoz. The graph shows data for mothers who have never smoked and those who smoke. For both smokers and non-smokers, their is a quite clear linear trend in which a larger bwtoz corresponds to a larger gestation period. This relationship makes sense because the longer a baby is in the womb the larger it can get. Using regression analysis to drive my further research and graphing was a great way to do it for it shows the relationship between many predictors and gestation for our respective groups.
 
 ### Brady
 
@@ -202,6 +241,8 @@ Question 2 - On our original lab we created a scatterplot to look at birthweight
 ### Who did what
 
 ### William
+
+Within this lab, I generated the preliminary graphs. I had originally written seperate code for each of the box plots generated, however, in this lab, I imlemented this using new techniques that we had learned. I wrote a generic function to create a boxplot with smoking as the x variable and an arbitraty variable for the y variable. I then applied the map function to a vector of all the possible y variables which produced all of the same plots in many less lines of code. I also performed regression analysis for smokers and non-smokers, respectively, using gestation as the response and various other variables as the predictors. I used this analysis to answer our first subquestion.I also graphed a scatter plot relating bwtoz and gestation period for both smokers and non-smokers because this was a significant predictor in the regression analysis for both of the groups - smokers and non-smokers. The regression analysis can be used to better understand what causes variations in gestation period for the two respective groups. Bwtoz clearly is linearly related to gestation period. There are also other predictors which are uniquely predictive for smokers or non-smokers.
 
 ### Brady
 
