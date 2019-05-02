@@ -1,0 +1,203 @@
+---
+title: "Lab15_Bumblebee"
+author: "William Brickowski, Rachael Robinson, Manasi Raol, Brady Kiesling"
+date: "5/1/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lab 15
+
+## Data Links:
+  * Kenneth French Data: http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html#Research
+  * Gapminder: 
+https://www.gapminder.org/data/
+  
+  
+## Team Question:
+  * How do various industry portfolio returns related to various financial and macroeconomic factors?
+
+## Why is this question important:
+Reason: The factors that contribute to returns throughout various industries are something of hot debate within the financial industry; better understanding what leads to respective returns throught various industries will better allow economists understand the booms and busts within the economy and provides insight for asset managers who are tasked with asset allocation throughout different industries
+
+## Individual Investigation:
+
+```{r include=FALSE}
+library(tidyverse)
+industry_returns=read_csv("10_Industry_Portfolios.csv")
+```
+
+### William
+
+What is the question: visualizing historical industry returns & investigating the 3 factor Fama French regression analysis
+
+Why is it important/interesting: Being able to visualize historical returns throughout various industries is an essential way to recognize patterns in the market so as to understand how various events within particular time periods may effect returns throughout different industries. The Fama French nobel prize winning 3 factor model is the current model used in finance academia to predict industry returns. Returns are the response in the regression anaylsis and there are three predictors. The three predictors in the model are market returns minus the risk free rate, a size premium, and a value premium. Being able to build a predictive model is very benefical as it can be used to forecast future returns. The model can also be explanatory to explain what factors are related to the returns in various industries.
+
+```{r}
+factor_returns=read_csv("5_Factor_Returns.csv")
+aggregate = left_join(industry_returns, factor_returns, by="Year")
+aggregate = aggregate %>% na.omit()
+
+aggregate$Year = parse_date(aggregate$Year,format="%Y%m")
+
+ggplot(data = aggregate) + 
+  geom_line(aes(x = Year, y = NoDur, color='skyblue')) +                         
+  xlab('Years') +                                              
+  ylab('NoDur industry return') 
+
+ggplot(data = aggregate) + 
+  geom_line(aes(x = Year, y = Durbl, color='skyblue')) +                         
+  xlab('Years') +                                              
+  ylab('Durbl industry returns') 
+
+ggplot(data = aggregate) + 
+  geom_line(aes(x = Year, y = Manuf, color='skyblue')) +                         
+  xlab('Years') +                                              
+  ylab('Manuf industry returns') 
+
+ggplot(data = aggregate) + 
+  geom_line(aes(x = Year, y = Enrgy, color='skyblue')) +                         
+  xlab('Years') +                                              
+  ylab('Enrgy industry returns') 
+
+ggplot(data = aggregate) + 
+  geom_line(aes(x = Year, y = HiTec, color='skyblue')) +                         
+  xlab('Years') +                                              
+  ylab('HiTec industry returns')
+
+ggplot(data = aggregate) + 
+  geom_line(aes(x = Year, y = Telcm, color='skyblue')) +                         
+  xlab('Years') +                                              
+  ylab('Telcm industry returns')
+
+ggplot(data = aggregate) + 
+  geom_line(aes(x = Year, y = Shops, color='skyblue')) +                         
+  xlab('Years') +                                              
+  ylab('Shops industry returns')
+
+ggplot(data = aggregate) + 
+  geom_line(aes(x = Year, y = Hlth, color='skyblue')) +                         
+  xlab('Years') +                                              
+  ylab('Hlth industry returns')
+
+ggplot(data = aggregate) + 
+  geom_line(aes(x = Year, y = Utils, color='skyblue')) +                         
+  xlab('Years') +                                              
+  ylab('Utils industry returns')
+
+ggplot(data = aggregate) + 
+  geom_line(aes(x = Year, y = Other, color='skyblue')) +                         
+  xlab('Years') +                                              
+  ylab('Other industry returns')
+
+lmod_NoDur = lm(NoDur ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=aggregate)
+lmod_Durbl = lm(Durbl ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=aggregate)
+lmod_Manuf = lm(Manuf ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=aggregate)
+lmod_Enrgy = lm(Enrgy ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=aggregate)
+lmod_HiTec = lm(HiTec ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=aggregate)
+lmod_Telcm = lm(Telcm ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=aggregate)
+lmod_Shops = lm(Shops ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=aggregate)
+lmod_Hlth = lm(Hlth ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=aggregate)
+lmod_Utils = lm(Utils ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=aggregate)
+lmod_Other = lm(Other ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=aggregate)
+
+summary(lmod_NoDur)
+summary(lmod_Durbl)
+summary(lmod_Manuf)
+summary(lmod_Enrgy)
+summary(lmod_HiTec)
+summary(lmod_Telcm)
+summary(lmod_Shops)
+summary(lmod_Hlth)
+summary(lmod_Utils)
+summary(lmod_Other)
+
+aggregate = aggregate %>% mutate(year_only = format(aggregate$Year,"%Y"))
+pre2013 = aggregate %>% filter(year_only<2013)
+post2013 = aggregate %>% filter(year_only>=2013)
+
+lmod_NoDur_pre2013 = lm(NoDur ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=pre2013)
+lmod_Durbl_pre2013 = lm(Durbl ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=pre2013)
+lmod_Manuf_pre2013 = lm(Manuf ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=pre2013)
+lmod_Enrgy_pre2013 = lm(Enrgy ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=pre2013)
+lmod_HiTec_pre2013 = lm(HiTec ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=pre2013)
+lmod_Telcm_pre2013 = lm(Telcm ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=pre2013)
+lmod_Shops_pre2013 = lm(Shops ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=pre2013)
+lmod_Hlth_pre2013 = lm(Hlth ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=pre2013)
+lmod_Utils_pre2013 = lm(Utils ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=pre2013)
+lmod_Other_pre2013 = lm(Other ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=pre2013)
+
+lmod_NoDur_post2013 = lm(NoDur ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=post2013)
+lmod_Durbl_post2013 = lm(Durbl ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=post2013)
+lmod_Manuf_post2013 = lm(Manuf ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=post2013)
+lmod_Enrgy_post2013 = lm(Enrgy ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=post2013)
+lmod_HiTec_post2013 = lm(HiTec ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=post2013)
+lmod_Telcm_post2013 = lm(Telcm ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=post2013)
+lmod_Shops_post2013 = lm(Shops ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=post2013)
+lmod_Hlth_post2013 = lm(Hlth ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=post2013)
+lmod_Utils_post2013 = lm(Utils ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=post2013)
+lmod_Other_post2013 = lm(Other ~ `Mkt-RF`+`SMB`+`HML`+`RMW`+`CMA`, data=post2013)
+
+cat("The difference in R-Squared for NoDur pre2013 linear model and post 2013 is:", summary(lmod_NoDur_pre2013)$r.squared-summary(lmod_NoDur_post2013)$r.squared)
+
+cat("The difference in R-Squared for Durbl pre2013 linear model and post 2013 is:",
+summary(lmod_Durbl_pre2013)$r.squared-summary(lmod_Durbl_post2013)$r.squared)
+
+cat("The difference in R-Squared for Manuf pre2013 linear model and post 2013 is:",
+summary(lmod_Manuf_pre2013)$r.squared-summary(lmod_Manuf_post2013)$r.squared)
+
+cat("The difference in R-Squared for Enrgy pre2013 linear model and post 2013 is:",
+summary(lmod_Enrgy_pre2013)$r.squared-summary(lmod_Enrgy_post2013)$r.squared)
+
+cat("The difference in R-Squared for HiTec pre2013 linear model and post 2013 is:",
+summary(lmod_HiTec_pre2013)$r.squared-summary(lmod_HiTec_post2013)$r.squared)
+
+cat("The difference in R-Squared for Telcm pre2013 linear model and post 2013 is:",
+summary(lmod_Telcm_pre2013)$r.squared-summary(lmod_Telcm_post2013)$r.squared)
+
+cat("The difference in R-Squared for Shops pre2013 linear model and post 2013 is:",
+summary(lmod_Shops_pre2013)$r.squared-summary(lmod_Shops_post2013)$r.squared)
+
+cat("The difference in R-Squared for Hlth pre2013 linear model and post 2013 is:",
+summary(lmod_Hlth_pre2013)$r.squared-summary(lmod_Hlth_post2013)$r.squared)
+
+cat("The difference in R-Squared for Utils pre2013 linear model and post 2013 is:",
+summary(lmod_Utils_pre2013)$r.squared-summary(lmod_Utils_post2013)$r.squared)
+
+cat("The difference in R-Squared for Other pre2013 linear model and post 2013 is:",
+summary(lmod_Other_pre2013)$r.squared-summary(lmod_Other_post2013)$r.squared)
+
+```
+
+What new tools did you use, what is the answer to the question, how does this relate to the overall question: In order to perform my research, I had to my two data sets which were historical industry returns as well as the three factors of the fama french model historically, as well. I used the left_join function to join my two tibbles nd then used the na.omit() function to remove any rows that contain NA values. I then use the parse_date function to convert the year column to date type so that it can be graphed as a time series. This is followed with the ggplot function being called to show the historical returns throughout all of the industries graphically. I then apply what we learned about models to build a linear model for each industries returns using the three predictors laid out by Fama and French in there 2013 nobel prize winning paper. I call the summary of the linear model objects to better understand which predictors are significant and at what level as well as understanding how a unit change in the predictor changes the returns in a respective industry. In the final part of my section, I use the mutate function to create a new column which extract just the year from the date column. I do this so that I can use the pip to filter my data into two new tibbles: one for the years preceding 2013 and one for the years after it. I do this because I wanted to see if 2013 which is when Fama and French recieved their nobel prize, effects the prediction success of the linear models. I build out a model using the pre and post 2013 data for all industries and then take the difference in R-Squared. In no case was the R-Squared value larger after 2013 which suggests that the releasing of the paper did not have an effect on describing returns meaning the market wasn't biased towards this paper. This is a good result and indicates that the work of Fama and French truly did describe a relationship inherent in the market, regardless of how widely accepted their academic work was. From the original graphs that were generated it is clear that all market returns have grown over time. Now, using the Fama French Model, we can better predict market returns and even potentially predict economic cycles.
+
+### Rachael
+
+### Manasi
+
+### Brady
+
+
+## Reflection on Lab 2:
+
+### Team’s goals
+
+### How well they were achieved
+
+### One thing you would tell your team to keep doing? Stop doing? Start doing? 
+
+
+## Individual Reflections:
+
+### William
+
+Over the course of this semester, I believe some of my goals have become ever more prominent in my life while I have realized past directions may not be where I actually want to go at this point. I set out to learn R in this course and my expectations of succeeding at this goal were surpassed. I have used much of what I have learned in this class to model math problems in other courses such as Markov Processes as well as build out linear models in my Applied Regression course. I also wanted to learn data science techniques and in reading along with this courses text, applying what we learned in projects and on in class exercises, I believe I have a good overall understanding of the process from data exploration to data tyding to building models and making conclusions. Going into this classes, if you had asked me, I would have told you that I would have liked to apply these skills into the financial sectors - trading in particular. However, after watching the gapminder TED talk, I have realized that there are so many other amazing applications of data science. This course has sparked my interest in exploring all possible paths. Some advice that I would tell myself would be that completing the coding exercises in the reading is very helpful. Also working out a good system with your team in the beginning, which we did, is essential. Also to prevent merge conflicts set up strict protocal with your team. Great semester overall.
+
+### Rachael
+
+### Manasi
+
+### Brady 
