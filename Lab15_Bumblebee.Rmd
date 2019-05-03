@@ -19,9 +19,18 @@ https://www.gapminder.org/data/
   
 ## Team Question:
   * How do various industry portfolio returns related to various financial and macroeconomic factors?
+  
+## Domain expert
 
 ## Why is this question important:
 Reason: The factors that contribute to returns throughout various industries are something of hot debate within the financial industry; better understanding what leads to respective returns throught various industries will better allow economists understand the booms and busts within the economy and provides insight for asset managers who are tasked with asset allocation throughout different industries
+
+## Team plot, answering question:
+
+## Conclusions
+
+## Recommendations
+
 
 ## Individual Investigation:
 
@@ -201,3 +210,14 @@ Over the course of this semester, I believe some of my goals have become ever mo
 ### Manasi
 
 ### Brady 
+
+
+## Who did what:
+
+### William
+
+### Brady
+
+### Manasi
+
+### Rachael
