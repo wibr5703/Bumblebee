@@ -18,7 +18,7 @@ https://www.gapminder.org/data/
   
   
 ## Team Question:
-  * How do various industry portfolio returns related to various financial and macroeconomic factors?
+  * How are various industry portfolio returns related to various financial and macroeconomic factors?
   
 ## Domain expert
 

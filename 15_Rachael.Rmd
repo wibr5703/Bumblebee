@@ -10,6 +10,161 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-industry <- read.csv("")
+# reading in data
+library(tidyverse)
+industry <- read.csv("10_Industry_Portfolios.csv", stringsAsFactors=FALSE)
+patents <- read.csv("patents_granted_total.csv")
 ```
+
+```{r}
+# tidying the patent dataset
+
+patents <- patents %>%
+  filter(country == "United States")
+
+gathernames <- patents %>%
+  select(-country) %>%
+  colnames()
+
+patents <- patents %>%
+  gather(gathernames, key = "year", value = patent_count)
+
+patents <- patents %>%
+  select(-country)
+
+patents$year <- parse_number(patents$year)
+
+# patent dataset tidy
+```
+
+
+```{r}
+# tidying the industry dataset
+
+# note that the industry dataset is actually several different datasets
+
+# The data set I will need is Average Value Weighted Returns - Annual, because my patent data is annual as well
+
+# These are rows 2235-2326 in dataset
+
+industry <- industry[c(2235:2326),]
+
+industry <- industry %>%
+  rename(year = Year)
+
+# dataset is as needed now
+```
+
+
+```{r}
+industry$year <- parse_number(industry$year)
+```
+
+
+```{r}
+# joining the industry and patent datasets
+patently <- inner_join(industry, patents, by = "year")
+
+# patently is dataset from which visualizations and inferences will come
+```
+
+
+
+```{r}
+# preliminary visualisations
+
+ggplot(data = patently) +
+  geom_line(mapping = aes(x=year, y=patent_count)) +
+  geom_point(mapping = aes(x=year, y=HiTec))
+```
+
+
+```{r}
+patently[, c(2:11)] <- sapply(patently[, c(2:11)], as.numeric)
+```
+
+
+```{r}
+ggplot(data = patently) +
+  geom_line(mapping = aes(x=year, y=patent_count)) +
+  geom_point(mapping = aes(x=year, y=HiTec))
+```
+```{r}
+ggplot(data = patently) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=HiTec, color = "HiTec")) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=NoDur, color = "NoDur")) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=Durbl, color = "Durbl")) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=Manuf, color = "Manuf")) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=Enrgy, color = "Enrgy")) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=Telcm, color = "Telcm")) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=Shops, color = "Shops")) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=Hlth, color = "Hlth")) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=Utils, color = "Utils")) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=Other, color = "Other"))
+  
+```
+
+```{r}
+view(patently)
+```
+
+Using a permutation test to answer a question about these industries
+
+```{r}
+perm_mean <- function(perms = 1000, values, n1)
+{
+  ## Variables ##
+  # perms: The number of permutations 
+  # values (num): 
+  # n1 (int): Size of group 1
+  ###############
+  
+  # Step 1:
+  # Create vector of zeroes of length "perms" to store
+  # permuted mean differnces
+  
+  mean_diff <- vector("double", length = perms)
+  
+  # Loop throught number of permutations
+  for (i in c(1:perms))
+  {
+    # Step 2:
+    # Randomly separate vector "values" into disjoint 
+    # groups of size "n1" and "length(values) - n1" respectively
+    
+    mean_sep1 <- sample(values, n1, replace = T)
+    mean_sep2 <- setdiff(values, mean_sep1)
+    
+    
+    # Step 3:
+    # Compute the sample means for the two groups from 
+    # step 2
+    
+    mean_value1 <- mean(mean_sep1)
+    mean_value2 <- mean(mean_sep2)
+    
+    # Step 4: 
+    # Compute the difference in sample means, store the
+    # value in the vector from step 1
+    
+    mean_diff[i] <- mean_value1 - mean_value2
+  }
+  # Step 5:
+  # Return new updated vector, created in step 1
+    
+  return(mean_diff)
+  
+}
+```
+
+```{r}
+#correlation
+
+correlation_data <- patently %>%
+  select(-year)
+
+
+cor(correlation_data)[,11]
+```
+The graph indicates that
 
