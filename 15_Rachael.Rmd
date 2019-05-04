@@ -166,5 +166,235 @@ correlation_data <- patently %>%
 
 cor(correlation_data)[,11]
 ```
-The graph indicates that
+The graph indicates that the more extreme cases may be in the HiTec and NoDur industries, with the HiTec showing growth in increasing patent numbers, and the NoDur showing decay with increasing patent numbers. We will now employ two correlation tests: one for the correlation between patents and consumer Non-durables returns, and one for correlation between patents and high tech returns.
 
+```{r}
+perm_cor <- function(perms = 1000, x, y)
+{
+  ## Variables ##
+  # perms: The number of permutations 
+  # x: Vector 1 - for computing correlation
+  # y: Vector 2 - for computing correlation
+  ###############
+  
+  # Step 1:
+  # Create vector of zeroes of length "perms" to store
+  # permuted mean differnces
+  
+  corr_result <- vector("double", length = perms)
+  
+  # Loop throught number of permutations
+  for (i in c(1:perms))
+  {
+    # Step 2:
+    # Randomly mix up the values in the vector "y"
+    
+    y <- sample(y)
+    
+    # Step 3:
+    # Compute the correlation between x and the randomly mixed
+    # up y-vector. Store this value in the vector from step 1.
+    
+    corr_result[i] <- cor(x,y)
+  }
+  
+  # Step 4:
+  # Return new updated vector, created in step 1
+  return(corr_result)
+}
+```
+
+
+```{r}
+corr_hitec <- perm_cor(perms = 1000, patently$patent_count, patently$HiTec)
+
+corr_nodur <- perm_cor(perms = 1000, patently$patent_count, patently$NoDur)
+
+
+```
+
+```{r}
+hitec_corr <- cor(patently$patent_count, patently$HiTec)
+nodur_corr <- cor(patently$patent_count, patently$NoDur)
+ggplot() +
+  geom_histogram(mapping = aes(x=corr_hitec)) +
+  geom_vline(mapping = aes(xintercept = hitec_corr, color = "Original sample correlation")) +
+  labs(title = "Correlation permutation test for patents and high tech returns", subtitle = "1000 correlation test, red line represents true correlation between patents and high tech returns", x = "Correlation")
+```
+```{r}
+percentite_hitec <- sum(corr_hitec<hitec_corr)/1000
+
+print(percentite_hitec)
+```
+
+
+
+
+```{r}
+ggplot() +
+  geom_histogram(mapping = aes(x=corr_nodur)) +
+  geom_vline(mapping = aes(xintercept = nodur_corr, color = "Original sample correlation")) +
+  labs(title = "Correlation permutation test for patents and Non-durables", subtitle = "1000 correlation test, red line represents true correlation between patents and non-durables", x = "Correlation")
+```
+```{r}
+percentite_nodur <- sum(corr_nodur<nodur_corr)/1000
+
+print(percentite_nodur)
+```
+
+
+
+
+Question: How do the number of total patents correlate to growth/decay in returns for different industry sectors?
+
+Why this questions is important/interesting: In this lab, we are attempting to understand the factors which affect industry returns. From the gapminder dataset, we are able to access the patent counts across the years. Patents are typically associated with tech and new inventions, so it would be interesting to determine how returns actually correlate to number of patents. Intuitively, we would expect more patents to result in higher returns, but discovering where the discrepencies lie can help understand if patent counts are an important factor in industry returns.
+
+To answer this question, I tidied the datasets and plotted all the industry sectors as a function of patent counts.
+
+```{r}
+# reading in data
+library(tidyverse)
+industry <- read.csv("10_Industry_Portfolios.csv", stringsAsFactors=FALSE)
+patents <- read.csv("patents_granted_total.csv")
+
+# tidying the patent dataset
+
+patents <- patents %>%
+  filter(country == "United States")
+
+gathernames <- patents %>%
+  select(-country) %>%
+  colnames()
+
+patents <- patents %>%
+  gather(gathernames, key = "year", value = patent_count)
+
+patents <- patents %>%
+  select(-country)
+
+patents$year <- parse_number(patents$year)
+
+# patent dataset tidy
+
+
+# tidying the industry dataset
+
+# note that the industry dataset is actually several different datasets
+
+# The data set I will need is Average Value Weighted Returns - Annual, because my patent data is annual as well
+
+# These are rows 2235-2326 in dataset
+
+industry <- industry[c(2235:2326),]
+
+industry <- industry %>%
+  rename(year = Year)
+
+industry$year <- parse_number(industry$year)
+
+# dataset is as needed now
+
+
+# joining the industry and patent datasets
+patently <- inner_join(industry, patents, by = "year")
+
+# patently is dataset from which visualizations and inferences will come
+
+patently[, c(2:11)] <- sapply(patently[, c(2:11)], as.numeric)
+
+
+ggplot(data = patently) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=HiTec, color = "HiTec")) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=NoDur, color = "NoDur")) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=Durbl, color = "Durbl")) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=Manuf, color = "Manuf")) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=Enrgy, color = "Enrgy")) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=Telcm, color = "Telcm")) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=Shops, color = "Shops")) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=Hlth, color = "Hlth")) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=Utils, color = "Utils")) +
+  geom_smooth(se = FALSE, mapping = aes(x=patent_count, y=Other, color = "Other")) +
+  labs(title = "Industry sector returns across patent count", x = "Patent count", y = "Returns")
+```
+
+The graph indicates that the more extreme cases may be in the HiTec and NoDur industries, with the HiTec showing growth in increasing patent numbers, and the NoDur showing decay with increasing patent numbers. We will now employ two correlation tests: one for the correlation between patents and consumer Non-durables returns, and one for correlation between patents and high tech returns.
+
+
+```{r}
+perm_cor <- function(perms = 1000, x, y)
+{
+  ## Variables ##
+  # perms: The number of permutations 
+  # x: Vector 1 - for computing correlation
+  # y: Vector 2 - for computing correlation
+  ###############
+  
+  # Step 1:
+  # Create vector of zeroes of length "perms" to store
+  # permuted mean differnces
+  
+  corr_result <- vector("double", length = perms)
+  
+  # Loop throught number of permutations
+  for (i in c(1:perms))
+  {
+    # Step 2:
+    # Randomly mix up the values in the vector "y"
+    
+    y <- sample(y)
+    
+    # Step 3:
+    # Compute the correlation between x and the randomly mixed
+    # up y-vector. Store this value in the vector from step 1.
+    
+    corr_result[i] <- cor(x,y)
+  }
+  
+  # Step 4:
+  # Return new updated vector, created in step 1
+  return(corr_result)
+}
+
+corr_hitec <- perm_cor(perms = 1000, patently$patent_count, patently$HiTec)
+
+corr_nodur <- perm_cor(perms = 1000, patently$patent_count, patently$NoDur)
+
+hitec_corr <- cor(patently$patent_count, patently$HiTec)
+nodur_corr <- cor(patently$patent_count, patently$NoDur)
+ggplot() +
+  geom_histogram(mapping = aes(x=corr_hitec)) +
+  geom_vline(mapping = aes(xintercept = hitec_corr, color = "Original sample correlation")) +
+  labs(title = "Correlation permutation test for patents and high tech returns", subtitle = "1000 correlation test, red line represents true correlation between patents and high tech returns", x = "Correlation")
+
+```
+
+The preceeding plot shows the correlation distribution and true correlation of patent counts and high tech returns. According the plot, the true correlation is near zero and falls nearly in the middle of the bell curve, indicating that we fail to reject the null hypothesis that the correlation between patent counts and high tech returns is near 0. The following percentile calculation affirms this notion.
+
+```{r}
+percentite_hitec <- sum(corr_hitec<hitec_corr)/1000
+
+print(percentite_hitec)
+```
+
+```{r}
+ggplot() +
+  geom_histogram(mapping = aes(x=corr_nodur)) +
+  geom_vline(mapping = aes(xintercept = nodur_corr, color = "Original sample correlation")) +
+  labs(title = "Correlation permutation test for patents and Non-durables", subtitle = "1000 correlation test, red line represents true correlation between patents and non-durables", x = "Correlation")
+```
+
+The plot above shows the correlation distribution between number of patents and returns on non-durables. In this case, we see that the true correlation in the dataset is far on the tails of the distribution, indicating that the true correlation between number of patents and non-durable returns is non-zero, and we reject the null hypothesis. This, again, can be affirmed at the 0.05 significance level with a percentile calculation.
+
+```{r}
+percentite_nodur <- sum(corr_nodur<nodur_corr)/1000
+
+print(percentite_nodur)
+```
+
+This calculation shows statistical significance at the 0.05 level, so we reject the null hypothesis and assume that the true correlation between non-durables and patent counts in non-zero, and the graph indicates this correlation is negative.
+
+New tools to answer questions: To answer this question, I first had to manipulate and tidy the data to make sure I had the observations necessary to answer this questions. In order to do this, I had to use the sapply function to cast the returns as numeric values. In addition, to answer the statistical questions at hand, I used the new technique of the permuted correlation test, as well as percentiles to justify my answers and conclusions.
+
+Answer to question: Through this analysis, we observe a non-significant relationship between patent counts and high tech industry returns, but a significant and negative correlation between patent counts and non-durable industry returns. This answer seems intuitively reasonable because patents are typically not associated with the non-durable industry like food, tobacco, etc. Thus, over time, the more patents granted would presumably benefit other industries, leaving returns on non-durables lower. However, the data did not show directly that patents are associated with high returns in tech. We could not find a significant relationship between patent count and high tech returns, indicating that other variables and industry sectors may be at play.
+
+How does this relate to overall question: Patents are a crucial part of innovation and development in many industries observed in this dataset. Understanding how patents can influence returns could allow us to make recommendations on their use to improve returns. Understanding patents as an economic indicator can help us further tease out the relationship between macroeconomic factors and industry returns.
